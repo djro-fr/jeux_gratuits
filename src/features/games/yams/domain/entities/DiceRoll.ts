@@ -22,7 +22,7 @@ export class DiceRoll {
 
   reroll(indices : number[]) : DiceRoll {
     const newDices = this.dices.map((dice, i) => 
-      (indices.includes(i) && !dice.isKept) ? Dice.generateRandom() : dice    
+      (indices.includes(i) && !dice.isKeptDice()) ? Dice.generateRandom() : dice    
     )    
     return new DiceRoll(newDices)
   }

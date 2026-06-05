@@ -1,8 +1,8 @@
 import { InvalidDiceValueError } from "../errors/YamsErrors"
 
 export class Dice {
-  readonly value: number
-  readonly isKept: boolean
+  private readonly value: number
+  private readonly isKept: boolean
 
   constructor(value: number, isKept: boolean = false) {
     if (value < 1 || value > 6) {
@@ -10,6 +10,14 @@ export class Dice {
     }
     this.value = value
     this.isKept = isKept
+  }
+  
+  getValue(): number {
+    return this.value
+  }
+  
+  isKeptDice(): boolean {
+    return this.isKept
   }
 
   static generateRandom(): Dice {

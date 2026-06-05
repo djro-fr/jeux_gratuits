@@ -9,14 +9,14 @@ describe("Domain unit tests (DiceRoll entity)", () => {
     })
     it.each([1, 2, 3, 4, 5])("1.2) Dice %i have a 1-6 value ", (value) => {
       const diceRoll = new DiceRoll()
-      const dices = diceRoll.getDices();
+      const dices = diceRoll.getDices()
       const dice = dices[value-1]
-      expect(dice.getValue()).toBeGreaterThanOrEqual(1);
-      expect(dice.getValue()).toBeLessThanOrEqual(6);
+      expect(dice.getValue()).toBeGreaterThanOrEqual(1)
+      expect(dice.getValue()).toBeLessThanOrEqual(6)
     })
     it("1.3) with dice parameter ", () => {
       const diceRoll1 = new DiceRoll()
-      const dices1 = diceRoll1.getDices();
+      const dices1 = diceRoll1.getDices()
       const diceRoll2 = new DiceRoll(dices1)   
       expect(diceRoll2).not.toBe(diceRoll1)
       expect(diceRoll2.getDices()).not.toBe(dices1)

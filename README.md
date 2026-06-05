@@ -11,6 +11,7 @@ Free mini-games built with modern web technologies
 
 - **Frontend:** React 19 + TypeScript + Vite
 - **Styling:** Tailwind CSS v4
+- **Testing:** Unit testing with Vitest (Domain test OK)
 - **Internationalization:** react-i18next (FR/EN)
 - **Architecture:** Clean Architecture with Domain-Driven Design
 - **State Management:** React Hooks + Custom Context

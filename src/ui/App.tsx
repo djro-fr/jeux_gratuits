@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { DefaultLayout } from "./layouts/DefaultLayout"
-import HomePage from "./pages/HomePage"
-import GamePage from "./pages/GamePage"
+import { HomePage } from "./pages/HomePage"
+import { GamePage } from "./pages/GamePage"
 
-function App() {
+export const App = () => {
   return (
     <BrowserRouter>
       <DefaultLayout>
@@ -15,5 +15,3 @@ function App() {
     </BrowserRouter>
   )
 }
-
-export default App

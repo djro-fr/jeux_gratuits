@@ -5,7 +5,7 @@ interface DefaultLayoutProps {
   readonly children: ReactNode
 }
 
-export function DefaultLayout( { children }: DefaultLayoutProps) {
+export const DefaultLayout = ( { children }: DefaultLayoutProps) => {
   return (
     <div className="h-screen flex flex-col">
       <Navbar />

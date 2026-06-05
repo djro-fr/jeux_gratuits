@@ -1,20 +1,22 @@
+import { InvalidDiceValueError } from "../errors/YamsErrors"
+
 export class Dice {
   readonly value: number
   readonly isKept: boolean
 
   constructor(value: number, isKept: boolean = false) {
     if (value < 1 || value > 6) {
-      throw new Error('INVALID_DICE_VALUE')
+      throw new InvalidDiceValueError()
     }
     this.value = value
     this.isKept = isKept
   }
 
-  keep(): Dice {
-    return new Dice(this.value, true)
+  static generateRandom(): Dice {
+    return new Dice(Math.round(Math.random()*5+1))
   }
 
-  release(): Dice {
-    return new Dice(this.value, false)
+  toggleKeep(): Dice {
+    return new Dice(this.value, !this.isKept)
   }
 }

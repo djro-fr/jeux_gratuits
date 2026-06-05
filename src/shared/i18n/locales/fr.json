@@ -1,0 +1,14 @@
+{
+  "yams": {
+    "title": "Yam's",
+    "errors": {
+      "invalidDiceValue": "Valeur de dé invalide : doit être entre 1 et 6",
+      "MaxTurnsReachedError": "Plus de lancers disponibles"
+    },
+    "ui": {
+      "roll": "Lancer",
+      "keep": "Garder",
+      "rollsLeft": "Lancers restants"
+    }
+  }
+}

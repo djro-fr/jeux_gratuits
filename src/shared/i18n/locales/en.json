@@ -1,0 +1,14 @@
+{
+  "yams": {
+    "title": "Yam's",
+    "errors": {
+      "invalidDiceValue": "Invalid Dice Value : must be between 1 and 6",
+      "MaxTurnsReachedError": "No more rolls available"
+    },
+    "ui": {
+      "roll": "Roll",
+      "keep": "Keep",
+      "rollsLeft": "rolls left"
+    }
+  }
+}

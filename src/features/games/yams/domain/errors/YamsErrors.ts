@@ -1,7 +1,7 @@
-export class InvalidDiceValueError extends Error {
+export class InvalidDieValueError extends Error {
   constructor() {
-    super('INVALID_DICE_VALUE')
-    this.name = 'invalidDiceValueError'
+    super('INVALID_DIE_VALUE')
+    this.name = 'invalidDieValueError'
   }
 }
 export class MaxTurnsReachedError extends Error {

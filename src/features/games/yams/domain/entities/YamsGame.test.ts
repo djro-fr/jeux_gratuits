@@ -20,7 +20,7 @@ describe("Domain unit tests (YamsGame entity)", () => {
     it("1.3) Constructor with custom turn and validated turn", () => {      
       const roll = new DiceRoll()
       const turn = new YamsTurn(2, roll)   
-      const validTurns = [{ turn: turn, finalDice: roll.getDices() }]
+      const validTurns = [{ turn: turn, finalDice: roll.getDice() }]
       const game = new YamsGame(turn, 2, validTurns)
       expect(game.getCurrentTurn()).toBe(turn)
       expect(game.getValidatedTurns()).toHaveLength(1)
@@ -35,7 +35,7 @@ describe("Domain unit tests (YamsGame entity)", () => {
 
       const turn2 = turn1.nextRoll([0,2])
       const turn3 = turn2.nextRoll([1])
-      const finalDice = turn3.getDiceRoll().getDices()
+      const finalDice = turn3.getDiceRoll().getDice()
       
       const game2 = game1.validateTurn(finalDice)
       
@@ -50,11 +50,11 @@ describe("Domain unit tests (YamsGame entity)", () => {
     })
     it("2.2) Error if game finished", () => {
       const turn = new YamsTurn(1)
-      const dice = turn.getDiceRoll().getDices()
+      const dice = turn.getDiceRoll().getDice()
       let game = new YamsGame(turn)
 
       for (let i = 0; i < 13; i++) {
-        const newDice = new DiceRoll().getDices() 
+        const newDice = new DiceRoll().getDice() 
         game = game.validateTurn(newDice)
       }
       
@@ -67,7 +67,7 @@ describe("Domain unit tests (YamsGame entity)", () => {
       let game = new YamsGame(turn)
 
       for (let i = 0; i < 13; i++) {
-        const newDice = new DiceRoll().getDices() 
+        const newDice = new DiceRoll().getDice() 
         game = game.validateTurn(newDice)
       }      
       expect(game.getValidatedTurns()).toHaveLength(13)

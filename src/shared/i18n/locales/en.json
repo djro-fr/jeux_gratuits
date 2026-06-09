@@ -2,7 +2,7 @@
   "yams": {
     "title": "Yam's",
     "errors": {
-      "invalidDiceValueError": "Invalid Dice Value : must be between 1 and 6",
+      "invalidDieValueError": "Invalid Die Value : must be between 1 and 6",
       "maxTurnsReachedError": "No more rolls available",
       "gameAlreadyFinishedError" : "The game is already finished "
     },

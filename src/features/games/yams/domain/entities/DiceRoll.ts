@@ -1,30 +1,30 @@
-import { Dice } from "./Dice";
+import { Die } from "./Die";
 
 export class DiceRoll {
 
-  private readonly dices: Dice[] = []  
+  private readonly dice: Die[] = []  
 
-  constructor(dices?: Dice[]){
-    this.dices = dices || Array.from({ length: 5}, () => Dice.generateRandom())
+  constructor(dice?: Die[]){
+    this.dice = dice || Array.from({ length: 5}, () => Die.generateRandom())
   }
 
-  getDices(): Dice[]{
+  getDice(): Die[]{
     // immutable, copy
-    return [...this.dices]
+    return [...this.dice]
   }
 
   toggleKeep(index: number): DiceRoll {    
-    const newDices = this.dices.map((dice, i) => 
-      i === index ? dice.toggleKeep() : dice
+    const newDice = this.dice.map((die, i) => 
+      i === index ? die.toggleKeep() : die
     )    
-    return new DiceRoll(newDices)
+    return new DiceRoll(newDice)
   }
 
   reroll(indices : number[]) : DiceRoll {
-    const newDices = this.dices.map((dice, i) => 
-      (indices.includes(i) && !dice.isKeptDice()) ? Dice.generateRandom() : dice    
+    const newDice = this.dice.map((die, i) => 
+      (indices.includes(i) && !die.isKeptDie()) ? Die.generateRandom() : die    
     )    
-    return new DiceRoll(newDices)
+    return new DiceRoll(newDice)
   }
 
 }

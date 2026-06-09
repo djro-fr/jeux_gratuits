@@ -1,12 +1,12 @@
-import { InvalidDiceValueError } from "../errors/YamsErrors"
+import { InvalidDieValueError } from "../errors/YamsErrors"
 
-export class Dice {
+export class Die {
   private readonly value: number
   private readonly isKept: boolean
 
   constructor(value: number, isKept: boolean = false) {
     if (value < 1 || value > 6) {
-      throw new InvalidDiceValueError()
+      throw new InvalidDieValueError()
     }
     this.value = value
     this.isKept = isKept
@@ -16,15 +16,15 @@ export class Dice {
     return this.value
   }
   
-  isKeptDice(): boolean {
+  isKeptDie(): boolean {
     return this.isKept
   }
 
-  static generateRandom(): Dice {
-    return new Dice(Math.round(Math.random()*5+1))
+  static generateRandom(): Die {
+    return new Die(Math.round(Math.random()*5+1))
   }
 
-  toggleKeep(): Dice {
-    return new Dice(this.value, !this.isKept)
+  toggleKeep(): Die {
+    return new Die(this.value, !this.isKept)
   }
 }

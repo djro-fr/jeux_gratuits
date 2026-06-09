@@ -50,11 +50,11 @@ describe("Domain unit tests (YamsTurn entity)", () => {
       const turnB = turnA.nextRoll([0])
       expect (turnB.getRollNumber()).toBe(1)      
       
-      expect (turnB.getDiceRoll().getDices()[0]).not.toBe(turnA.getDiceRoll().getDices()[0])
+      expect (turnB.getDiceRoll().getDice()[0]).not.toBe(turnA.getDiceRoll().getDice()[0])
       
       for (let index = 1; index <= 4; index++) {
-        const diceB = turnB.getDiceRoll().getDices()[index]
-        const diceA = turnA.getDiceRoll().getDices()[index]
+        const diceB = turnB.getDiceRoll().getDice()[index]
+        const diceA = turnA.getDiceRoll().getDice()[index]
         expect(diceB).toBe(diceA)
       }
     })
@@ -67,13 +67,13 @@ describe("Domain unit tests (YamsTurn entity)", () => {
       expect (turnB.getRollNumber()).toBe(1)      
             
       for (let index = 0; index <= 2; index++) {
-        const diceB = turnB.getDiceRoll().getDices()[index]
-        const diceA = turnA.getDiceRoll().getDices()[index]
+        const diceB = turnB.getDiceRoll().getDice()[index]
+        const diceA = turnA.getDiceRoll().getDice()[index]
         expect(diceB).not.toBe(diceA)
       }
       for (let index = 3; index <= 4; index++) {
-        const diceB = turnB.getDiceRoll().getDices()[index]
-        const diceA = turnA.getDiceRoll().getDices()[index]
+        const diceB = turnB.getDiceRoll().getDice()[index]
+        const diceA = turnA.getDiceRoll().getDice()[index]
         expect(diceB).toBe(diceA)
       }
     })

@@ -2,8 +2,9 @@
   "yams": {
     "title": "Yam's",
     "errors": {
-      "invalidDiceValue": "Valeur de dé invalide : doit être entre 1 et 6",
-      "MaxTurnsReachedError": "Plus de lancers disponibles"
+      "invalidDiceValueError": "Valeur de dé invalide : doit être entre 1 et 6",
+      "maxTurnsReachedError": "Plus de lancers disponibles",      
+      "gameAlreadyFinishedError" : "Le jeu est déjà fini"
     },
     "ui": {
       "roll": "Lancer",

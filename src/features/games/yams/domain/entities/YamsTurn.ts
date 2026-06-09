@@ -2,16 +2,16 @@ import { DiceRoll } from "./DiceRoll";
 import { MaxTurnsReachedError } from "../errors/YamsErrors";
 
 export class YamsTurn {
-  private readonly turnNumber: number;
+  private readonly rollNumber: number;
   private readonly diceRoll: DiceRoll;
 
-  constructor(turnNumber: number = 1, diceRoll?: DiceRoll) {
-    this.turnNumber = turnNumber;
+  constructor(rollNumber: number = 1, diceRoll?: DiceRoll) {
+    this.rollNumber = rollNumber;
     this.diceRoll = diceRoll || new DiceRoll();
   }
 
-  getTurnNumber() : number {
-    return this.turnNumber
+  getRollNumber() : number {
+    return this.rollNumber
   }
 
   getDiceRoll(): DiceRoll {
@@ -19,15 +19,15 @@ export class YamsTurn {
   }
   
   canRoll(): boolean {
-    return this.turnNumber < 3        
+    return this.rollNumber < 3        
   }
 
   nextRoll(indices?: number[]): YamsTurn {
     if (this.canRoll()) {
       if (indices) {
-        return new YamsTurn(this.turnNumber, this.diceRoll.reroll(indices));
+        return new YamsTurn(this.rollNumber, this.diceRoll.reroll(indices));
       }else{
-        return new YamsTurn(this.turnNumber + 1);
+        return new YamsTurn(this.rollNumber + 1);
       }
     }
     throw new MaxTurnsReachedError();

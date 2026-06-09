@@ -61,6 +61,59 @@ ui/components/   ←----------- Pure display (dumb components)
 5. **Container** updates React state → re-renders
 6. **Component** displays new dices
 
+## Core Principles
+
+### Immutability
+
+All domain entities are **immutable**. Methods never modify internal state (`this`), they return new instances instead.
+
+**Example:**
+
+```typescript
+// ❌ WRONG
+turn.toggleKeep(0)  // Modifies turn in place
+console.log(turn.getDiceRoll())  // turn has changed
+
+// ✅ RIGHT
+const newTurn = turn.toggleKeep(0)  // Returns new instance
+console.log(turn.getDiceRoll())  // turn is unchanged
+console.log(newTurn.getDiceRoll())  // newTurn has the change
+```
+
+**Benefits:**
+
+- Predictable state (no side effects)
+- Easy to track changes
+- React state management simplified
+- Thread-safe (relevant for Node.js backend later)
+
+### Single Responsibility
+
+Each class has one reason to change.
+
+- `Dice` = one die (value, kept state)
+- `DiceRoll` = 5 dice collection
+- `YamsTurn` = turn logic (max 3 rolls)
+- `YamsGame` = game progression (13 turns)
+
+## Testing
+
+### Test Strategy
+
+- **Domain Layer:** Full unit test coverage (44 tests)
+  - Entities: Dice (12), DiceRoll (20), YamsTurn (6), YamsGame (6)
+  - Error handling: invalidDiceValueError, maxTurnsReachedError, gameAlreadyFinishedError
+  - Focus: Business rules, immuability, edge cases
+
+- **Application Layer:** Use Cases + integration tests (TODO)
+- **Presentation Layer:** Component tests (TODO)
+
+## Doc
+
+### Yams
+
+- [Flow for usecases](./docs/yams-flow.md)
+
 ## Status
 
 In development

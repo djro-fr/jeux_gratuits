@@ -6,15 +6,15 @@ describe("Domain unit tests (YamsTurn entity)", () => {
   describe("1) Valid YamsTurn ", () => {
     it("1.1) Default constructor ", () => {
       const turn = new YamsTurn()
-      expect(turn.getTurnNumber()).toBe(1)
+      expect(turn.getRollNumber()).toBe(1)
       expect(turn.getDiceRoll()).toBeTruthy()
     })
     it("1.2) Constructor with parameters ", () => {
       const turn1 = new YamsTurn(2)
-      expect(turn1.getTurnNumber()).toBe(2)
+      expect(turn1.getRollNumber()).toBe(2)
       const existingDiceRoll = new DiceRoll()
       const turn2 = new YamsTurn(2, existingDiceRoll)      
-      expect(turn2.getTurnNumber()).toBe(2)
+      expect(turn2.getRollNumber()).toBe(2)
       expect(turn2.getDiceRoll()).toBe(existingDiceRoll)
     })
   })
@@ -31,24 +31,24 @@ describe("Domain unit tests (YamsTurn entity)", () => {
   describe("3) nextRoll() ", () => {
     it("3.1) nextRoll no index parameter ", () => {      
       const turnA = new YamsTurn()
-      expect (turnA.getTurnNumber()).toBe(1)
+      expect (turnA.getRollNumber()).toBe(1)
 
       const turnB = turnA.nextRoll()
-      expect (turnB.getTurnNumber()).toBe(2)
+      expect (turnB.getRollNumber()).toBe(2)
       expect (turnA.getDiceRoll()).not.toBe(turnB.getDiceRoll())
 
       const turnC = turnB.nextRoll()
-      expect (turnC.getTurnNumber()).toBe(3)
+      expect (turnC.getRollNumber()).toBe(3)
       
       expect (() => turnC.nextRoll()).toThrow(MaxTurnsReachedError)
     })
     
     it("3.2) nextRoll one index parameter ", () => {      
       const turnA = new YamsTurn()
-      expect (turnA.getTurnNumber()).toBe(1)
+      expect (turnA.getRollNumber()).toBe(1)
 
       const turnB = turnA.nextRoll([0])
-      expect (turnB.getTurnNumber()).toBe(1)      
+      expect (turnB.getRollNumber()).toBe(1)      
       
       expect (turnB.getDiceRoll().getDices()[0]).not.toBe(turnA.getDiceRoll().getDices()[0])
       
@@ -61,10 +61,10 @@ describe("Domain unit tests (YamsTurn entity)", () => {
 
     it("3.3) nextRoll several index parameter ", () => {      
       const turnA = new YamsTurn()
-      expect (turnA.getTurnNumber()).toBe(1)
+      expect (turnA.getRollNumber()).toBe(1)
 
       const turnB = turnA.nextRoll([0, 1 ,2])
-      expect (turnB.getTurnNumber()).toBe(1)      
+      expect (turnB.getRollNumber()).toBe(1)      
             
       for (let index = 0; index <= 2; index++) {
         const diceB = turnB.getDiceRoll().getDices()[index]

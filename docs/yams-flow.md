@@ -17,10 +17,18 @@ The **lower section** contains a number of poker-themed categories with specific
 - Chance (Any combination) : sum of all dice
 - Three of a Kind (At least three dice the same) : sum of all dice
 - Four of a Kind (At least four dice the same) : sum of all dice
-- Full House (three of one number and two of another) : 25 points
+- Full House (three of one number and two of another, no yahtzee) : 25 points
 - Small Straight (Four sequential dice) : 30 points
 - Large Straight (Five sequential dice) : 40 points
 - Yahtzee (or Yam's, All five dice the same) : 50 points
+
+### Yahtzee bonus
+
+A Yahtzee occurs when all five dice are the same. If the player throws a Yahtzee and has already filled the Yahtzee box with a score of 50, they score a Yahtzee bonus and get an extra 100 points. However, if they throw a Yahtzee and have filled the Yahtzee category with a score of 0, they do not get a Yahtzee bonus.
+
+### Joker rule
+
+In either case they then select a category, as usual. Scoring is the same as normal except that, if the Upper Section box corresponding to the Yahtzee has been used, the Full House, Small Straight and Large Straight categories can be used to score 25, 30 or 40 (respectively) even though the dice do not meet the normal requirement for those categories. In this case, the Yahtzee is said to act as a "Joker"
 
 ## Flows
 

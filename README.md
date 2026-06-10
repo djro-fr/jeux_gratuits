@@ -101,7 +101,7 @@ Each class has one reason to change.
 ### Test Strategy
 
 - **Domain Layer:** Full unit test coverage (44 tests)
-  - Entities: Dice (12), DiceRoll (20), YamsTurn (6), YamsGame (6)
+  - Entities: Die (12), DiceRoll (20), YamsTurn (6), YamsGame (6)
   - Error handling: invalidDiceValueError, maxTurnsReachedError, gameAlreadyFinishedError
   - Focus: Business rules, immuability, edge cases
 

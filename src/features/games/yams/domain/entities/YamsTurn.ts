@@ -25,7 +25,7 @@ export class YamsTurn {
   nextRoll(indices?: number[]): YamsTurn {
     if (this.canRoll()) {
       if (indices) {
-        return new YamsTurn(this.rollNumber, this.diceRoll.reroll(indices));
+        return new YamsTurn(this.rollNumber + 1 , this.diceRoll.reroll(indices));
       }else{
         return new YamsTurn(this.rollNumber + 1);
       }

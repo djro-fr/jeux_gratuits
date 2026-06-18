@@ -48,7 +48,7 @@ describe("Domain unit tests (YamsTurn entity)", () => {
       expect (turnA.getRollNumber()).toBe(1)
 
       const turnB = turnA.nextRoll([0])
-      expect (turnB.getRollNumber()).toBe(1)      
+      expect (turnB.getRollNumber()).toBe(2)      
       
       expect (turnB.getDiceRoll().getDice()[0]).not.toBe(turnA.getDiceRoll().getDice()[0])
       
@@ -64,7 +64,7 @@ describe("Domain unit tests (YamsTurn entity)", () => {
       expect (turnA.getRollNumber()).toBe(1)
 
       const turnB = turnA.nextRoll([0, 1 ,2])
-      expect (turnB.getRollNumber()).toBe(1)      
+      expect (turnB.getRollNumber()).toBe(2)      
             
       for (let index = 0; index <= 2; index++) {
         const diceB = turnB.getDiceRoll().getDice()[index]

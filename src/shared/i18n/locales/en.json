@@ -4,7 +4,12 @@
     "errors": {
       "invalidDieValueError": "Invalid Die Value : must be between 1 and 6",
       "maxTurnsReachedError": "No more rolls available",
-      "gameAlreadyFinishedError" : "The game is already finished "
+      "gameAlreadyFinishedError" : "The game is already finished ",
+      "wrongNumberOfDice" : "Number of dice must be between 1 and 5, got {count}",
+      "duplicateDiceIndicesError": "Duplicate indices in keep selection",      
+      "tooManyDiceKeptError": "Max 4 dice can be kept, got {count}",      
+      "invalidDiceIndicesError": "Invalid dice indices",      
+      "cantRollError": "Cannot roll anymore"
     },
     "ui": {
       "roll": "Roll",

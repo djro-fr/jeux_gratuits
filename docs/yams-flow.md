@@ -1,6 +1,6 @@
 # Yam's - Flow
 
-Flow for usecases, based on rules described in Wikipedia : https://en.wikipedia.org/wiki/Yahtzee
+Flow for usecases, based on [rules described in Wikipedia](https://en.wikipedia.org/wiki/Yahtzee)
 
 ## Rules
 

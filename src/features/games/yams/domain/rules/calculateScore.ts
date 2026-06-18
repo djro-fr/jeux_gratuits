@@ -63,7 +63,7 @@ function isSequential(values: number[], minLength: number): boolean {
   return consecutiveCount >= minLength
 }
 
-type ScoreCalculator = (dice: Die[]) => number
+type ScoreCalculator = (dice: Die[]) => number | null
 
 const scoreStrategies: Record<YamsCategory, ScoreCalculator> = {
   [YamsCategory.Ones]: (dice) => sumDiceByValue(dice, 1),
@@ -74,24 +74,24 @@ const scoreStrategies: Record<YamsCategory, ScoreCalculator> = {
   [YamsCategory.Sixes]: (dice) => sumDiceByValue(dice, 6),
   [YamsCategory.Chance]: (dice) => dice.reduce((sum, die) => sum + die.getValue(), 0),
   [YamsCategory.ThreeOfAKind]: (dice) => 
-    hasOccurrences(3, dice) ? dice.reduce((sum, die) => sum + die.getValue(), 0) : 0,
+    hasOccurrences(3, dice) ? dice.reduce((sum, die) => sum + die.getValue(), 0) : null,
   [YamsCategory.FourOfAKind]: (dice) => 
-    hasOccurrences(4, dice) ? dice.reduce((sum, die) => sum + die.getValue(), 0) : 0,
+    hasOccurrences(4, dice) ? dice.reduce((sum, die) => sum + die.getValue(), 0) : null,
   [YamsCategory.FullHouse]: (dice) => 
-    (!hasExactOccurrences(3, dice) || !hasExactOccurrences(2, dice) || hasOccurrences(5, dice)) ? 0 : 25,
+    (hasExactOccurrences(3, dice) && hasExactOccurrences(2, dice) && !hasOccurrences(5, dice)) ? 25 : null,
   [YamsCategory.SmallStraight]: (dice) => 
-    isSequential(dice.map(die => die.getValue()), 4) ? 30 : 0,
+    isSequential(dice.map(die => die.getValue()), 4) ? 30 : null,
   [YamsCategory.LargeStraight]: (dice) => 
-    isSequential(dice.map(die => die.getValue()), 5) ? 40 : 0,
+    isSequential(dice.map(die => die.getValue()), 5) ? 40 : null,
   [YamsCategory.Yahtzee]: (dice) => 
-    hasOccurrences(5, dice) ? 50 : 0,
+    hasOccurrences(5, dice) ? 50 : null,
 }
 
 export function calculateScoreByCategory(
   category: YamsCategory, 
   dice: Die[], 
   yahtzeeBoxFilled?: boolean
-): number {
+): number | null {
   // Joker Rule
   if (hasOccurrences(5, dice) && yahtzeeBoxFilled) {
     if (category === YamsCategory.FullHouse) return 25
@@ -112,7 +112,9 @@ export function calculateYahtzeeBonus(
   return 0
 }
 
-export function calculateTotalScore(scores : Record<YamsCategory, number>,
+export function calculateTotalScore(scores : Record<YamsCategory, number | null>,
   totalYahtzeeBonus: number = 0) : number{  
-  return Object.values(scores).reduce((sum,score) => sum + score, 0) + totalYahtzeeBonus
+  return Object.values(scores)
+    .filter((score) => score !== null)
+    .reduce((sum,score) => sum + score, 0) + totalYahtzeeBonus
 }

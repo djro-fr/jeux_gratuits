@@ -74,7 +74,7 @@ describe("5) isSequential(values: number[], minLength: number)", () => {
 
     it("should return false when 4 sequential dice", () => {
       const smallStraight = [new Die(6), new Die(2), new Die(3), new Die(4), new Die(1)]
-      expect(calculateScoreByCategory(YamsCategory.LargeStraight, smallStraight)).toBe(0)
+      expect(calculateScoreByCategory(YamsCategory.LargeStraight, smallStraight)).toBe(null)
     })
   })
 })
@@ -141,7 +141,7 @@ describe("6) calculateScoreByCategory", () => {
       const FH = [new Die(2), new Die(2), new Die(2), new Die(6), new Die(6)]
       expect(calculateScoreByCategory(YamsCategory.FullHouse, FH)).toBe(25)
     })
-    it("should return 0 when 5 identical dice without yahtzeeBoxFilled", () => {
+    it("should return null when 5 identical dice without yahtzeeBoxFilled", () => {
       const yahtzee = [
         new Die(2),
         new Die(2),
@@ -149,7 +149,7 @@ describe("6) calculateScoreByCategory", () => {
         new Die(2),
         new Die(2),
       ]
-      expect(calculateScoreByCategory(YamsCategory.FullHouse, yahtzee)).toBe(0)
+      expect(calculateScoreByCategory(YamsCategory.FullHouse, yahtzee)).toBe(null)
     })
     
     it("should return 25 as Joker when Yahtzee and yahtzeeBoxFilled", () => {
@@ -163,7 +163,7 @@ describe("6) calculateScoreByCategory", () => {
       expect(calculateScoreByCategory(YamsCategory.FullHouse, yahtzee, true)).toBe(25)
     })
 
-    it("should return 0 when not a full house", () => {
+    it("should return null when not a full house", () => {
       const yahtzee = [
         new Die(2),
         new Die(2),
@@ -171,7 +171,7 @@ describe("6) calculateScoreByCategory", () => {
         new Die(2),
         new Die(6),
       ]
-      expect(calculateScoreByCategory(YamsCategory.FullHouse, yahtzee)).toBe(0)
+      expect(calculateScoreByCategory(YamsCategory.FullHouse, yahtzee)).toBe(null)
     })
   })
 
@@ -193,7 +193,7 @@ describe("6) calculateScoreByCategory", () => {
       expect(calculateScoreByCategory(YamsCategory.SmallStraight, yahtzee, true)).toBe(30)
     })
     
-    it("should return 0 when Yahtzee without yahtzeeBoxFilled", () => {
+    it("should return null when Yahtzee without yahtzeeBoxFilled", () => {
       const yahtzee = [
         new Die(2),
         new Die(2),
@@ -201,7 +201,7 @@ describe("6) calculateScoreByCategory", () => {
         new Die(2),
         new Die(2),
       ]
-      expect(calculateScoreByCategory(YamsCategory.SmallStraight, yahtzee)).toBe(0)
+      expect(calculateScoreByCategory(YamsCategory.SmallStraight, yahtzee)).toBe(null)
     })
   })
 
@@ -222,12 +222,12 @@ describe("6) calculateScoreByCategory", () => {
       expect(calculateScoreByCategory(YamsCategory.LargeStraight, yahtzee, true)).toBe(40)
     })
 
-    it("should return 0 when 4 sequential dice", () => {
+    it("should return null when 4 sequential dice", () => {
       const smallStraight = [new Die(6), new Die(2), new Die(3), new Die(4), new Die(1)]
-      expect(calculateScoreByCategory(YamsCategory.LargeStraight, smallStraight)).toBe(0)
+      expect(calculateScoreByCategory(YamsCategory.LargeStraight, smallStraight)).toBe(null)
     })
     
-    it("should return 0 when Yahtzee without yahtzeeBoxFilled", () => {
+    it("should return null when Yahtzee without yahtzeeBoxFilled", () => {
       const yahtzee = [
         new Die(2),
         new Die(2),
@@ -235,7 +235,7 @@ describe("6) calculateScoreByCategory", () => {
         new Die(2),
         new Die(2),
       ]
-      expect(calculateScoreByCategory(YamsCategory.LargeStraight, yahtzee)).toBe(0)
+      expect(calculateScoreByCategory(YamsCategory.LargeStraight, yahtzee)).toBe(null)
     })
 
   })
@@ -251,9 +251,9 @@ describe("6) calculateScoreByCategory", () => {
       ]
       expect(calculateScoreByCategory(YamsCategory.Yahtzee, yahtzee)).toBe(50)
     })
-    it("should return 0 when no Yahtzee", () => {
+    it("should return null when no Yahtzee", () => {
       const FH = [new Die(2), new Die(2), new Die(2), new Die(6), new Die(6)]
-      expect(calculateScoreByCategory(YamsCategory.Yahtzee, FH)).toBe(0)
+      expect(calculateScoreByCategory(YamsCategory.Yahtzee, FH)).toBe(null)
     })
   })
 
@@ -270,7 +270,7 @@ describe("8) calculateYahtzeeBonus", () => {
     ]
     expect(calculateYahtzeeBonus(yahtzee,50)).toBe(100)
   })
-  it("should add nothing when yahtzee filled with 0", () => {
+  it("should add nothing when yahtzee filled with null", () => {
     const yahtzee = [
       new Die(2),
       new Die(2),

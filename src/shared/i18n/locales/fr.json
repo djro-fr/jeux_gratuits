@@ -9,7 +9,9 @@
       "duplicateDiceIndicesError": "Indices dupliqués dans la sélection gardée",      
       "tooManyDiceKeptError": "4 dés gardés au maximum, reçu {count}",      
       "invalidDiceIndicesError": "Indices de dés invalides",      
-      "cantRollError": "Vous ne pouvez plus relancer"
+      "cantRollError": "Vous ne pouvez plus relancer",      
+      "categoryAlreadyScoredError": "La catégorie ${category} a déjà un score marqué",
+      "impossibleScoreError": "Vous ne pouvez marquer des points pour la catégorie ${category} avec ces dés"
     },
     "ui": {
       "roll": "Lancer",

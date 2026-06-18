@@ -38,19 +38,28 @@ You start a turn
 
 ### Start Turn
 
-1. Check if we **can roll** (if the turn number if less than 3) => YamsTurn.canroll()
-2. If not, end of turn
-3. Roll the 5 dice at the same time, or some of the dice from the previous turn. => YamsTurn.nextRoll(?indices)
-4. After the dice are rolled, you can chose to keep aside some of the dice and roll the others for another turn...
-5. ...or decide to end the turn and score right now
+1. **Can we roll ?** Check if rollNumber < 3
+   - If NO → go to "End Turn" (must score)
+   - If YES → continue
+
+2. **Roll dice**
+   - If rollNumber = 1 → Roll 5 new dice
+   - If rollNumber > 1 → Reroll selected dice (from previous roll)
+
+3. **After rolling**
+   - Choose to keep some dice and reroll others → back to step 2
+   - OR decide to end turn and score → go to "End Turn"
 
 ### End Turn
 
-1. If you can't roll (because turn number  >= 3), you have to end the turn. Or if you chose to end the turn and score.
-2. When you score, you decide to check one of the 13 boxes of the score sheet and add the points according to the rules. When a box is checked, it is definitive.
+1. Choose which category to score (1 of 13)
+2. Score points according to rules
+3. Mark category as used (permanent)
 
 ### End Game
 
-When 13 turns, the game is finished, you have to add the scores of the 13 cases.
-The app keeps an history of your last score with the date and your name or alias + highest score
-You can post the score to the social media to brag
+When 13 turns done (all 13 categories scored):
+
+1. Calculate total score
+2. Save to history with date + name/alias
+3. Show leaderboard

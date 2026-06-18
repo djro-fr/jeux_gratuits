@@ -1,7 +1,7 @@
 import { YamsCategory } from "../../domain/rules/calculateScore"
 import { YamsScoreBoard } from "./YamsScoreBoard"
 
-describe("Domain unit tests (YamsScoreBoard entity)", () => {
+describe("Application unit tests (YamsScoreBoard entity)", () => {
   describe("1) Valid YamsScoreBoard", () => {
     it("1.1) Default constructor", () => {
       const scoreBoard = YamsScoreBoard.create()      

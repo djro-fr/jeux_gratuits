@@ -1,5 +1,5 @@
 import type { YamsTurn } from "../../domain/entities/YamsTurn";
-import { CantRollError, DuplicateDiceIndicesError, InvalidDiceIndicesError, TooManyDiceKeptError } from "../../domain/errors/YamsErrors";
+import { CantRollError, DuplicateDiceIndicesError, InvalidDiceIndicesError, TooManyDiceKeptError } from "../errors/YamsErrors";
 
 export class KeepDiceUseCase {
   execute(turn: YamsTurn, indicesToKeep: number[]): YamsTurn {

@@ -1,5 +1,5 @@
 import { YamsTurn } from "../../domain/entities/YamsTurn"
-import { CantRollError, DuplicateDiceIndicesError, InvalidDiceIndicesError, TooManyDiceKeptError } from "../../domain/errors/YamsErrors"
+import { CantRollError, DuplicateDiceIndicesError, InvalidDiceIndicesError, TooManyDiceKeptError } from "../errors/YamsErrors"
 import { KeepDiceUseCase } from "./KeepDiceUseCase"
 
 describe("Application unit tests (KeepDiceUseCase)", () => {

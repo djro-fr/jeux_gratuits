@@ -1,3 +1,9 @@
+export class WrongNumberOfDice extends Error {
+  constructor(numberOfDice: number) {
+    super(`WRONG_NUMBER_OF_DICE - ${numberOfDice}`)
+    this.name = 'wrongNumberOfDice'
+  }
+}  
 export class DuplicateDiceIndicesError extends Error {
   constructor() {
     super('DUPLICATE_DICE_INDICES')

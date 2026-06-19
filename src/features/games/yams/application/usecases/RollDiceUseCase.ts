@@ -1,6 +1,6 @@
 import { DiceRoll } from "../../domain/entities/DiceRoll";
 import { Die } from "../../domain/entities/Die";
-import { WrongNumberOfDice } from "../../domain/errors/YamsErrors";
+import { WrongNumberOfDice } from "../errors/YamsErrors";
 
 
 export class RollDiceUseCase {

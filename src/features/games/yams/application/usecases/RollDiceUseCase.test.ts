@@ -1,4 +1,4 @@
-import { WrongNumberOfDice } from "../../domain/errors/YamsErrors"
+import { WrongNumberOfDice } from "../errors/YamsErrors"
 import { RollDiceUseCase } from "./RollDiceUseCase"
 
 describe("Application unit tests (RollDiceUseCase)", () => {

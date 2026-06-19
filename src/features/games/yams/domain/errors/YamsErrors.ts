@@ -16,9 +16,3 @@ export class GameAlreadyFinishedError extends Error {
     this.name = 'gameAlreadyFinishedError'
   }
 }  
-export class WrongNumberOfDice extends Error {
-  constructor(numberOfDice: number) {
-    super(`WRONG_NUMBER_OF_DICE - ${numberOfDice}`)
-    this.name = 'wrongNumberOfDice'
-  }
-}  

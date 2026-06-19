@@ -1,0 +1,36 @@
+{ 
+  "title": "Jouer au Yam's",
+  "errors": {
+    "invalidDieValueError": "Valeur de dé invalide : doit être entre 1 et 6",
+    "maxTurnsReachedError": "Plus de lancers disponibles",      
+    "gameAlreadyFinishedError" : "Le jeu est déjà fini",      
+    "wrongNumberOfDice" : "Le nombre de dés doit être entre 1 et 5, reçu {{count}}",
+    "duplicateDiceIndicesError": "Indices dupliqués dans la sélection gardée",      
+    "tooManyDiceKeptError": "4 dés gardés au maximum, reçu {{count}}",      
+    "invalidDiceIndicesError": "Indices de dés invalides",      
+    "cantRollError": "Vous ne pouvez plus relancer",      
+    "categoryAlreadyScoredError": "La catégorie {{category}} a déjà un score marqué",
+    "impossibleScoreError": "Vous ne pouvez marquer des points pour la catégorie {{category}} avec ces dés"
+  },
+  "categories": {
+    "ones": "Un",
+    "twos": "Deux",
+    "threes": "Trois",
+    "fours": "Quatre",
+    "fives": "Cinq",
+    "sixes": "Six",
+    "chance": "Chance",
+    "threeOfAKind": "Brelan",
+    "fourOfAKind": "Carré",
+    "fullHouse": "Full",
+    "smallStraight": "Petite Suite",
+    "largeStraight": "Grande Suite",
+    "yahtzee": "Yam's"
+  },
+  "ui": {
+    "rollDice": "Lancer",
+    "reroll": "Relancer",
+    "score": "Marquer",
+    "rollNumber" :"Tour"
+  }
+}

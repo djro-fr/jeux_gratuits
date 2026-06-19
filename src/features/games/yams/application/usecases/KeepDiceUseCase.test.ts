@@ -17,7 +17,6 @@ describe("Application unit tests (KeepDiceUseCase)", () => {
       expect(result).toBeInstanceOf(YamsTurn)   
       expect(result).not.toBe(turn)
       expect(result.getRollNumber()).toBe(2)
-
     })
     it("1.2) with duplicate indices throws DuplicateDiceIndicesError", () => {        
       const indices = [0,1,2,1]      
@@ -36,6 +35,20 @@ describe("Application unit tests (KeepDiceUseCase)", () => {
       const turn3 = turn2.nextRoll()
       const indices = [0,1,2,3]   
       expect(() => keepDiceUseCase.execute(turn3, indices)).toThrow(CantRollError)
+    })
+    it("1.6) keeps specified indices and rerolls others", () => {
+      const indices = [0, 1] 
+      const originalDice = turn.getDiceRoll().getDice()
+      
+      const result = keepDiceUseCase.execute(turn, indices)
+      const resultDice = result.getDiceRoll().getDice()
+            
+      expect(resultDice[0]).toBe(originalDice[0])
+      expect(resultDice[1]).toBe(originalDice[1])
+            
+      expect(resultDice[2]).not.toBe(originalDice[2])
+      expect(resultDice[3]).not.toBe(originalDice[3])
+      expect(resultDice[4]).not.toBe(originalDice[4])
     })
   })
 })

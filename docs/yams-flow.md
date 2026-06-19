@@ -50,7 +50,7 @@ You start a turn
    - Choose to keep some dice and reroll others → back to step 2
    - OR decide to end turn and score → go to "End Turn"
 
-### End Turn
+### End Turn / Score Turn
 
 1. Choose which category to score (1 of 13)
 2. Score points according to rules

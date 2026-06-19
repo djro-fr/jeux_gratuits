@@ -12,6 +12,8 @@ export class KeepDiceUseCase {
     if (!validIndices) throw new InvalidDiceIndicesError()
         
     if (!turn.canRoll()) throw new CantRollError()
-    return turn.nextRoll(indicesToKeep)
+
+    const indicesToRoll = [0, 1, 2, 3, 4].filter(i => !indicesToKeep.includes(i))  
+    return turn.nextRoll(indicesToRoll)
   }
 }

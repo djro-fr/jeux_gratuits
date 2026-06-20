@@ -79,7 +79,7 @@
   }
   .scoreboard{
     @apply fixed h-full w-full inset-0 bg-black/50 flex flex-col items-center justify-center z-1;
-    div{
+    div.scores{
       @apply flex flex-col gap-x-3 mt-5 bg-white opacity-100;
       box-shadow: 0 12px 6px rgba(0, 0, 0, 0.15);
       button.category{

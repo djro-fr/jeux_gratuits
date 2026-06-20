@@ -120,6 +120,7 @@ export const YamsGameContainer = () => {
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
           onScore={handleScore}
+          onClose={() => setShowScoreBoard(false)}
           dice={diceRoll?.getDice()}
         />
       )}

@@ -8,6 +8,7 @@ interface ScoreBoardProps {
   selectedCategory: YamsCategory | null
   onSelectCategory: (category: YamsCategory) => void
   onScore: (category: YamsCategory) => void
+  onClose: () => void 
   dice?: Die[]
 }
 
@@ -16,6 +17,7 @@ export const ScoreBoard = ({
   selectedCategory,
   onSelectCategory,
   onScore,
+  onClose,
   dice
 }: ScoreBoardProps) => {
   const { t } = useTranslation('yams')
@@ -31,7 +33,7 @@ export const ScoreBoard = ({
 
   return (
     <div className="scoreboard">
-      <div>
+      <div className="scores">
         {categories.map((category) => {
           const currentScore = scoreBoard.getScore(category)          
           const isScored = currentScore  !== null
@@ -51,13 +53,20 @@ export const ScoreBoard = ({
           )
         })}
       </div>
-      
-      <button 
-        className="action ml-2" 
-        onClick={() => selectedCategory && onScore(selectedCategory)}
-      >
-        {t('ui.score')}
-      </button>
+      <div>
+        <button 
+          className="action" 
+          onClick={() => selectedCategory && onScore(selectedCategory)}
+        >
+          {t('ui.score')}
+        </button>
+        <button 
+          className="action ml-2" 
+          onClick={onClose}
+        >
+          {t('ui.cancel')}
+        </button>
+      </div>
     </div>
   )
 }

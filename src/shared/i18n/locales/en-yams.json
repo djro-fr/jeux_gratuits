@@ -30,7 +30,8 @@
     "rollDice": "Roll Dice",
     "reroll": "Reroll",
     "score": "Score",
-    "rollNumber" :"Roll"
+    "rollNumber" :"Roll",
+    "cancel" :  "Cancel"
   }
 
 }

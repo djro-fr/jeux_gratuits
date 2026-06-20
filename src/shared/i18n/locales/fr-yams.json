@@ -30,6 +30,7 @@
     "rollDice": "Lancer",
     "reroll": "Relancer",
     "score": "Marquer",
-    "rollNumber" :"Tour"
+    "rollNumber" :"Tour",
+    "cancel" :  "Annuler"
   }
 }

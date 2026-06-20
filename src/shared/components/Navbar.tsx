@@ -1,10 +1,12 @@
 
+import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 
 export const Navbar = () => {
   const navigate = useNavigate()
+  const {t} = useTranslation()
 
-  return (
+  return (    
     <nav className="bg-primary text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-2xl font-bold">
@@ -14,7 +16,7 @@ export const Navbar = () => {
         </h1>
         <ul className="flex gap-8">
         <li>
-          <button onClick={() => navigate('/game/yams')}>Yams</button>
+          <button onClick={() => navigate('/game/yams')}>{t("game.yams")}</button>
         </li>
       </ul>
       </div>

@@ -6,7 +6,7 @@ export const HomePage = () => {
   const { t: tYams } = useTranslation('yams')
   return (
     <div>
-      <h1 className='text-bold'>{t('games')}</h1>
+      <h1>{t('games')}</h1>
       
       <Link to="/game/yams">{tYams('title')}</Link>
     </div>

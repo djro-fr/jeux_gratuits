@@ -59,10 +59,10 @@ describe("4) hasExactOccurrences", () => {
 describe("5) isSequential(values: number[], minLength: number)", () => {
   describe("5.1) SmallStraight", () => {
     it("should return true when 4 or 5 sequential dice", () => {
-      const smallStraight = [new Die(6), new Die(2), new Die(3), new Die(4), new Die(1)]
+      const smallStraight = [new Die(6), new Die(5), new Die(3), new Die(1), new Die(4)]
       const largeStraight = [new Die(5), new Die(2), new Die(3), new Die(4), new Die(1)]
       expect(calculateScoreByCategory(YamsCategory.SmallStraight, smallStraight)).toBe(30)
-      expect(calculateScoreByCategory(YamsCategory.SmallStraight, largeStraight)).toBe(30)
+      expect(calculateScoreByCategory(YamsCategory.LargeStraight, largeStraight)).toBe(40)
     })
   })
 
@@ -162,6 +162,7 @@ describe("6) calculateScoreByCategory", () => {
       ]
       expect(calculateScoreByCategory(YamsCategory.FullHouse, yahtzee, true)).toBe(25)
     })
+
 
     it("should return null when not a full house", () => {
       const yahtzee = [

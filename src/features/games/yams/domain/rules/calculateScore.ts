@@ -50,17 +50,17 @@ export function hasExactOccurrences(occurence: number, dice: Die[]): boolean {
 }
 
 function isSequential(values: number[], minLength: number): boolean {
-  const unique = Array.from(new Set(values)).toSorted((a, b) => a - b)
+  const unique = Array.from(new Set(values)).toSorted((a, b) => a - b)    
   let consecutiveCount  = 1
-  for (let i = 0; i < minLength - 1 ; i++) {
+  for (let i = 0; i < unique.length ; i++) {
     if (unique[i + 1] - unique[i] === 1) {
       consecutiveCount++
       if (consecutiveCount >= minLength) return true
-    } else {
+    }else {
       consecutiveCount = 1 
     }
   }
-  return consecutiveCount >= minLength
+  return false
 }
 
 type ScoreCalculator = (dice: Die[]) => number | null

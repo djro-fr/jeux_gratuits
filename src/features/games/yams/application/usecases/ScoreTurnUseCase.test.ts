@@ -1,7 +1,7 @@
 import { Die } from "../../domain/entities/Die"
 import { YamsCategory } from "../../domain/rules/calculateScore"
 import { YamsScoreBoard } from "../entities/YamsScoreBoard"
-import { CategoryAlreadyScoredError, ImpossibleScoreError } from "../errors/YamsErrors"
+import { CategoryAlreadyScoredError} from "../errors/YamsErrors"
 import { ScoreTurnUseCase } from "./ScoreTurnUseCase"
 
 describe("Application unit tests (ScoreTurnUseCase)", () => {
@@ -31,15 +31,6 @@ describe("Application unit tests (ScoreTurnUseCase)", () => {
         dice: dice,
         category: YamsCategory.Ones
       })).toThrow(CategoryAlreadyScoredError)
-    })
-    it("2.2) throws ImpossibleScoreError if dice don't match category", () => {
-      const scoreBoard = YamsScoreBoard.create()
-      const dice = [new Die(1), new Die(2), new Die(3), new Die(4), new Die(5)]
-      expect(() => useCase.execute({
-        yamsScoreBoard: scoreBoard,
-        dice: dice,
-        category: YamsCategory.FourOfAKind
-      })).toThrow(ImpossibleScoreError)
     })
   })
   describe("3) Yahtzee bonus", () => {

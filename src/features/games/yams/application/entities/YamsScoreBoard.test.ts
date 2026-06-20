@@ -6,7 +6,7 @@ import { YamsScoreBoard } from "./YamsScoreBoard"
 describe("Application unit tests (YamsScoreBoard entity)", () => {
   describe("1) Valid YamsScoreBoard", () => {
     it("1.1) Default constructor", () => {
-      const scoreBoard = YamsScoreBoard.create()      
+      const scoreBoard = YamsScoreBoard.create()            
       const scores = scoreBoard.getAllScores()
       Object.values(scores).forEach(score => {
         expect(score).toBe(null)

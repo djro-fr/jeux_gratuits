@@ -22,6 +22,35 @@ export const YamsGameContainer = () => {
   const [error, setError] = useState<string | null>(null)
   const [showScoreBoard, setShowScoreBoard] = useState(false)
 
+  const createTestScoreBoard1 = (): YamsScoreBoard => {
+    let board = YamsScoreBoard.create()
+    const testScores = {
+      ones: 5,
+      twos: 10,
+      threes: 15,
+      fours: 20,
+      fives: 25,
+      sixes: 30,
+      chance: 25,
+      threeOfAKind: 20,
+      fourOfAKind: 25,
+      fullHouse: 25,
+      smallStraight: 30,
+      largeStraight: 40,
+      yahtzee: 50
+    }
+    Object.entries(testScores).forEach(([category, score]) => {
+      board = board.addScore(category as YamsCategory, score)
+    })    
+    return board
+  }
+  const handleFillTestData = () => {
+    setScoreBoard(createTestScoreBoard1())
+    setYamsTurn(null)
+    setDiceRoll(null)
+    setError(null)
+  }
+
   const handleRoll = () => {
     try {
       if (yamsTurn === null) {
@@ -65,6 +94,10 @@ export const YamsGameContainer = () => {
         dice: diceRoll.getDice(),
         category
       })
+      
+      const allScored = Object.values(result.updatedScoreBoard.getAllScores())
+        .every((score: number | null) => score !== null)
+
       setScoreBoard(result.updatedScoreBoard)
       setDiceRoll(null)
       setYamsTurn(null)
@@ -72,6 +105,10 @@ export const YamsGameContainer = () => {
       setSelectedIndices([]) 
       setShowScoreBoard(false)
       setError(null)
+      
+      if (!allScored) {
+        setYamsTurn(null)  
+      }
     } catch (err) {
       const errorKey = err instanceof Error ? err.name : 'unknown'
       if (errorKey === 'categoryAlreadyScoredError') {
@@ -82,7 +119,7 @@ export const YamsGameContainer = () => {
     }
   }
 
-  if (yamsTurn === null) {
+  if (yamsTurn === null && Object.values(scoreBoard.getAllScores()).includes(null)) {
     return (
       <>
         <ErrorModal error={error} onClose={() => setError(null)} />
@@ -91,6 +128,17 @@ export const YamsGameContainer = () => {
         </button>
       </>
     )
+  }else if (yamsTurn === null && !Object.values(scoreBoard.getAllScores()).includes(null)) {
+    return (
+      <div className="game-over">
+        <h2>{t('ui.gameOver')}</h2>
+        <p></p>
+      </div>
+    )
+  }
+  
+  if (!yamsTurn) {
+    throw new Error('Unexpected state: yamsTurn should not be null')
   }
 
   return (
@@ -110,6 +158,14 @@ export const YamsGameContainer = () => {
         </button>
       )}
 
+
+      <button 
+        className="action ml-2"
+        onClick={handleFillTestData}
+      >
+        Fill Test Data (DEV)
+      </button>
+      
       <button 
         className="action ml-2" 
         onClick={() => setShowScoreBoard(!showScoreBoard)}

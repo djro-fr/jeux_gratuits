@@ -31,7 +31,8 @@
     "reroll": "Reroll",
     "score": "Score",
     "rollNumber" :"Roll",
-    "cancel" :  "Cancel"
+    "cancel" :  "Cancel",
+    "gameOver" : "You finished!"
   }
 
 }

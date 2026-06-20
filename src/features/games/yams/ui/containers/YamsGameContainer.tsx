@@ -6,7 +6,7 @@ import { YamsTurn } from "../../domain/entities/YamsTurn"
 import { RollDiceUseCase } from "../../application/usecases/RollDiceUseCase"
 import { KeepDiceUseCase } from "../../application/usecases/KeepDiceUseCase"
 import { ScoreTurnUseCase } from "../../application/usecases/ScoreTurnUseCase"
-import type { YamsCategory } from "../../domain/rules/calculateScore"
+import { calculateTotalScore, YamsCategory } from "../../domain/rules/calculateScore"
 import { DiceDisplay } from "../components/DiceDisplay"
 import { ScoreBoard } from "../components/ScoreBoard"
 import { ErrorModal } from "../components/ErrorModal"
@@ -21,6 +21,8 @@ export const YamsGameContainer = () => {
   const [selectedCategory, setSelectedCategory] = useState<YamsCategory | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showScoreBoard, setShowScoreBoard] = useState(false)
+
+  const categories = Object.values(YamsCategory)
 
   const createTestScoreBoard1 = (): YamsScoreBoard => {
     let board = YamsScoreBoard.create()
@@ -129,12 +131,29 @@ export const YamsGameContainer = () => {
       </>
     )
   }else if (yamsTurn === null && !Object.values(scoreBoard.getAllScores()).includes(null)) {
-    return (
+    return (<>
       <div className="game-over">
-        <h2>{t('ui.gameOver')}</h2>
-        <p></p>
+        <p>{t('ui.gameOver')}</p>
+        <h2>Total</h2>
+        <p className="w-full text-center"> <span className="text-3xl">{calculateTotalScore(scoreBoard.getAllScores())}</span> points</p>
+        <h2>Détail</h2>
       </div>
-    )
+      <div className="scoreboard game-over">
+        <div className="scores">
+          {
+            categories.map((category) => {
+              return (
+                <button key={category} className="category">      
+                  <span className="name">{t(`categories.${category}`)}</span>
+                  <span className="score">{scoreBoard.getScore(category)}</span>
+                </button>
+              )
+            })
+          }        
+        </div>
+      </div>
+      
+    </>)
   }
   
   if (!yamsTurn) {

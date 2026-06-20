@@ -87,10 +87,6 @@
         &.selected{
           @apply bg-gray-light;
         }
-        span.name {
-        }
-        span.score {
-        }
       }  
     }
   }
@@ -104,7 +100,6 @@
       h2{
         @apply text-red-600 font-bold mb-4;
       }
-      button{}
     }
   }
 }

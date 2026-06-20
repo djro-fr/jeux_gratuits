@@ -45,8 +45,7 @@ export const YamsGameContainer = () => {
       const keepUseCase = new KeepDiceUseCase()
       const newTurn = keepUseCase.execute(yamsTurn, indicesToKeep)
       setYamsTurn(newTurn)
-      setDiceRoll(newTurn.getDiceRoll())
-      setSelectedIndices([])
+      setDiceRoll(newTurn.getDiceRoll())      
       setError(null)
     } catch (err) {
       const errorKey = err instanceof Error ? err.name : 'unknown'

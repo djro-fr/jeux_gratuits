@@ -34,9 +34,3 @@ export class CategoryAlreadyScoredError extends Error {
     this.name = 'categoryAlreadyScoredError'
   }
 }
-export class ImpossibleScoreError extends Error {
-  constructor(category: string) {
-    super(`IMPOSSIBLE_SCORE - ${category}`)
-    this.name = 'impossibleScoreError'
-  }
-}

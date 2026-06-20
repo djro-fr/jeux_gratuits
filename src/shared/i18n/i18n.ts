@@ -6,9 +6,6 @@ import frYams from './locales/fr-yams.json'
 import en from './locales/en.json'
 import enYams from './locales/en-yams.json'
 
-console.log('FR loaded:', fr)  
-console.log('EN loaded:', en)  
-
 i18n
   .use(initReactI18next)
   .init({

@@ -9,8 +9,7 @@
     "tooManyDiceKeptError": "Max 4 dice can be kept, got {{count}}",      
     "invalidDiceIndicesError": "Invalid dice indices",      
     "cantRollError": "Cannot roll anymore",
-    "categoryAlreadyScoredError": "Category {{category}} already scored",
-    "impossibleScoreError": "Cannot score {{category}} with these dice"      
+    "categoryAlreadyScoredError": "Category {{category}} already scored" 
   },
   "categories": {
     "ones": "Ones",

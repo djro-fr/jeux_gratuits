@@ -1,7 +1,8 @@
 { 
   "games":"Jeux",
   "game": {
-    "notFound": "Jeu {{gameId}} non trouvé"
+    "notFound": "Jeu {{gameId}} non trouvé",    
+    "yams": "Yam's"
   }
 
 }

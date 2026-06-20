@@ -45,7 +45,10 @@ export const YamsGameContainer = () => {
       const keepUseCase = new KeepDiceUseCase()
       const newTurn = keepUseCase.execute(yamsTurn, indicesToKeep)
       setYamsTurn(newTurn)
-      setDiceRoll(newTurn.getDiceRoll())      
+      setDiceRoll(newTurn.getDiceRoll()) 
+      if (newTurn.getRollNumber() === 3) {
+        setSelectedIndices([])
+      }
       setError(null)
     } catch (err) {
       const errorKey = err instanceof Error ? err.name : 'unknown'
@@ -66,6 +69,7 @@ export const YamsGameContainer = () => {
       setDiceRoll(null)
       setYamsTurn(null)
       setSelectedCategory(null)
+      setSelectedIndices([]) 
       setShowScoreBoard(false)
       setError(null)
     } catch (err) {

@@ -7,7 +7,7 @@ export const Navbar = () => {
   const {t} = useTranslation()
 
   return (    
-    <nav className="bg-primary text-white p-4">
+    <nav id="navbar">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-2xl font-bold">
           <Link to="/" className="hover:opacity-80 transition">

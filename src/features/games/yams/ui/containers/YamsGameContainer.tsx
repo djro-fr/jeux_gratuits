@@ -187,20 +187,21 @@ export const YamsGameContainer = () => {
         </button>
       )}
 
-
-      <button 
-        className="action ml-2"
-        onClick={handleFillTestData}
-      >
-        Fill Test Data (DEV)
-      </button>
-      
+   
       <button 
         className="action ml-2" 
         onClick={() => setShowScoreBoard(!showScoreBoard)}
       >
         {t('ui.score')}
       </button>
+
+      
+      {/* <button 
+        className="action ml-2"
+        onClick={handleFillTestData}
+      >
+        Fill Test Data (DEV)
+      </button> */}
 
       {showScoreBoard && (
         <ScoreBoard

@@ -1,12 +1,17 @@
 @import 'tailwindcss';
 
 @theme{
-  --color-primary: #019da8;
-  --color-secondary: #34536f;
+  --color-primary: #c19233;
+  --color-primary-light: #ffc757;
+  --color-secondary: #663319;
+  --color-tertiary: #073e78;
+  --color-overlay: #21403f;
   --color-gray-light: #f0f0f0;
   --text-base: 1rem;
-  --font-title: 'Arial', sans-serif;
+  --font-title: 'Parisienne', cursive;
   --font-content: 'Georgia', serif;
+  --font-action: 'Monda', sans-serif;
+  --font-script: "Playwrite IS", cursive;
 }
 
 @layer base{
@@ -23,23 +28,28 @@
     @apply h-full w-full;
   }
   main{
-    @apply p-5 w-full ;
+    @apply p-0 w-full;
     font-family: var(--font-content);
   }
   h1, h2, h3 {
     font-family: var(--font-title);
   }
   main h1{
-    @apply text-3xl pb-1;
+    @apply text-5xl pb-1 pt-5;
   }  
+  main>div{
+    @apply px-5;
+  }
   h2{
     @apply text-xl mt-4;
   }
   a {    
-    font-family: var(--font-title);
+    font-family: var(--font-action);
     @apply cursor-pointer font-bold text-primary ;
   }
-  nav{
+  nav#navbar{    
+    font-family: var(--font-action);
+    @apply fixed w-full bottom-0 p-4 rounded-t-3xl bg-primary text-white;
     a{
       @apply text-white;
     }
@@ -53,15 +63,24 @@
 }
 
 @layer components{
+  div.yams-page{
+    @apply h-screen bg-amber-400;
+    h1{      
+      @apply text-white text-5xl;
+    }
+    .dice-display{
+      @apply text-primary-light font-bold;
+    }
+  }
   a.link, button.link {
     @apply pb-1 font-bold cursor-pointer border-primary text-primary border-b;
-    font-family: var(--font-title);
+    font-family: var(--font-action);
     &:hover { opacity: .8;}
   }
   button.action{
-    @apply bg-primary rounded-4xl text-white font-bold py-2 px-4 my-5;    
+    @apply bg-primary rounded-4xl text-white font-bold py-2 px-4 mb-5;    
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    font-family: var(--font-title);
+    font-family: var(--font-action);
     &:hover { opacity: .8;}
   }
   button.action.second{
@@ -74,38 +93,44 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
   .dice-container {
-    @apply grid grid-cols-5 gap-x-2 mb-4 mt-8;
+    @apply grid grid-cols-5 gap-x-2 mb-4 mt-45;
     .die{
       box-shadow: 0 12px 6px rgba(0, 0, 0, 0.15);
       border-radius: 20%;
       &.selected{
         box-shadow: 0 6px 2px rgba(0, 0, 0, 0.2);
-        transform: scale(.85) translateY(-4vh);
+        transform: scale(.85) translateY(40vh);
       }      
     }
   }
   .scoreboard{
-    @apply fixed h-full w-full inset-0 bg-black/70 flex flex-col items-center justify-center z-1;
+    @apply fixed h-full w-full inset-0 bg-overlay/95 flex flex-col items-center justify-center z-1;    
+    div.buttons{
+      @apply w-full max-w-65 flex justify-between;
+    }
     div.scores{
       @apply w-full max-w-65 flex flex-col gap-x-3 bg-white opacity-100 ;
-      box-shadow: 0 12px 6px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 12px 6px rgba(0, 0, 0, 0.15);    
+      div.line-score{
+       @apply relative flex items-center gap-1;       
+       button.help{
+         @apply absolute block right-16 top-2 w-6 h-6 m-0 p-0 text-center rounded-4xl border-gray-300 border text-gray-400 font-action font-bold;
+       }
+      }
       button.category{
         @apply grid grid-cols-2 h-10 px-4 items-center border-t border-x border-gray-light;  
         span.name{
-          @apply text-left;
+          @apply text-left font-script font-normal text-sm;
         }     
         span.score{
-          @apply relative text-right pr-15 ;            
-          button.help{
-            @apply absolute block right-0 top-0 w-6 h-6 m-0 p-0 text-center rounded-4xl bg-gray-300 text-gray-500;
-          }
+          @apply text-right pr-0 font-script font-normal text-sm text-tertiary;   
         }     
         &.selected{
           @apply bg-gray-light;
         }
-      }  
+      }    
       div.explanation{
-        @apply bg-gray-light;
+        @apply bg-gray-light font-script text-sm;
         box-shadow: inset 0 0px 10px rgba(0, 0, 0, 0.2);        
         p{
           @apply  px-2 py-0 max-w-full text-center opacity-60;
@@ -143,5 +168,8 @@
   }
   .glow {
     filter: drop-shadow(0 0 8px var(--color-primary));
+  }
+  .green-carpet{
+    background: url("../../assets/textures/carpet.jpg");
   }
 }

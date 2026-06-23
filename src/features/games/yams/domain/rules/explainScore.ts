@@ -44,13 +44,13 @@ export function explainScore(category: YamsCategory, dice: Die[]): string[] {
 
     case YamsCategory.ThreeOfAKind:
       return [
-        `3 dés identiques ou plus,`, `somme de tous les dés :`,
+        `Si 3 dés identiques ou plus,`, `somme de tous les dés :`,
         `${values.join(" + ")}`,
       ];
 
     case YamsCategory.FourOfAKind:
       return [
-        `4 dés identiques ou plus,`, `somme de tous les dés :`,
+        `Si 4 dés identiques ou plus,`, `somme de tous les dés :`,
         `${values.join(" + ")}`,
       ];
 

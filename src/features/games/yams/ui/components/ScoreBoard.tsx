@@ -42,7 +42,7 @@ export const ScoreBoard = ({
 
   return (
     <div className="scoreboard">
-        <div>        
+        <div className="buttons">        
           <button 
             className="action second" 
             onClick={onClose}
@@ -63,38 +63,41 @@ export const ScoreBoard = ({
           const isScored = currentScore  !== null
           const isSelected = selectedCategory === category
           const previewScore = isSelected ? getScorePreview(category) : "-"
+          const categoryLabel = t(`categories.${category}`)
+          const ariaLabel = `Expliquer ${categoryLabel}`
 
-          return (<>
-            <button
-              key={category}
-              onClick={() => !isScored && onSelectCategory(category)}
-              disabled={isScored}
-              className={`category ${isSelected ? 'selected' : ''} ${isScored ? 'scored' : ''}`}
-            >
-              <span className="name">{t(`categories.${category}`)}</span>
-              <span className="score">{isScored ? (<strong>{currentScore}</strong>) : (<em>{previewScore}</em>)} 
-                <button className="help" onClick={() => setShowExplanation(!showExplanation)}>
-                ?
+          return (
+            <div key={category}>
+              <div className="line-score">                
+                <button
+                  onClick={() => !isScored && onSelectCategory(category)}
+                  disabled={isScored}
+                  className={`category flex-1 ${isSelected ? 'selected' : ''} ${isScored ? 'scored' : ''}`}
+                >
+                  <span className="name">{t(`categories.${category}`)}</span>
+                  <span className="score">
+                    {isScored ? (<strong>{currentScore}</strong>) : (<em>{previewScore}</em>)}
+                  </span>
+                </button>                
+                
+                {isSelected && <button
+                  className="help"
+                  onClick={() => setShowExplanation(!showExplanation)}
+                  aria-label={ariaLabel}
+                >
+                  ?
                 </button>
-              </span>
+                }
+              </div>
               
-            </button>                        
-            {isSelected && showExplanation && (              
-              <div className="explanation">              
-                <p>{getScoreExplanation()[0]}</p> 
-                {getScoreExplanation()[1] && (              
-                  <p>
-                    {getScoreExplanation()[1]}
-                  </p>
-                )}    
-                {getScoreExplanation()[2] && (              
-                  <p>
-                    {getScoreExplanation()[2]}
-                  </p>
-                )}   
-              </div>              
-            )}
-            </>
+              {isSelected && showExplanation && (              
+                <div className="explanation">              
+                  <p>{getScoreExplanation()[0]}</p> 
+                  {getScoreExplanation()[1] && <p>{getScoreExplanation()[1]}</p>}    
+                  {getScoreExplanation()[2] && <p>{getScoreExplanation()[2]}</p>}   
+                </div>              
+              )}
+            </div>
           )
           
 

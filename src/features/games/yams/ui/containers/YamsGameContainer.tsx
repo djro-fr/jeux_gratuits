@@ -44,6 +44,8 @@ export const YamsGameContainer = () => {
     Object.entries(testScores).forEach(([category, score]) => {
       board = board.addScore(category as YamsCategory, score)
     })    
+    board = board.addYahtzeeBonus(100) 
+    board = board.addYahtzeeBonus(100) 
     return board
   }
   const handleFillTestData = () => {
@@ -131,11 +133,19 @@ export const YamsGameContainer = () => {
       </>
     )
   }else if (yamsTurn === null && !Object.values(scoreBoard.getAllScores()).includes(null)) {
+    const totalYahtzeeBonus = scoreBoard.getTotalYahtzeeBonus()
+    const totalScore = calculateTotalScore(scoreBoard.getAllScores()) + totalYahtzeeBonus
+  
     return (<>
       <div className="game-over">
         <p>{t('ui.gameOver')}</p>
         <h2>Total</h2>
-        <p className="w-full text-center"> <span className="text-3xl">{calculateTotalScore(scoreBoard.getAllScores())}</span> points</p>
+        <p className="w-full text-center"> <span className="text-3xl">{totalScore}</span> points</p>
+        {totalYahtzeeBonus > 0 && (
+        <p className="w-full text-center">
+          ({calculateTotalScore(scoreBoard.getAllScores())} + {totalYahtzeeBonus} bonus Yahtzee)
+        </p>
+      )}
         <h2>Détail</h2>
       </div>
       <div className="scoreboard game-over">

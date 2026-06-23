@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next"
 import { YamsScoreBoard } from "../../application/entities/YamsScoreBoard"
 import { calculateScoreByCategory, YamsCategory } from "../../domain/rules/calculateScore"
 import type { Die } from "../../domain/entities/Die"
+import { explainScore } from "../../domain/rules/explainScore"
+import { useState } from "react"
 
 interface ScoreBoardProps {
   scoreBoard: YamsScoreBoard
@@ -31,8 +33,30 @@ export const ScoreBoard = ({
     return score === null ? '-' : score.toString()
   }
 
+  const [showExplanation, setShowExplanation] = useState(false)
+
+  const getScoreExplanation = (): string[] => {
+    if (!selectedCategory || !dice) return ['']
+    return explainScore(selectedCategory, dice)
+  }
+
   return (
     <div className="scoreboard">
+        <div>        
+          <button 
+            className="action second" 
+            onClick={onClose}
+          >
+            &lt; { t('ui.cancel')}
+          </button>
+
+          <button 
+            className="action ml-5" 
+            onClick={() => selectedCategory && onScore(selectedCategory)}
+          >
+            + { t('ui.score')}
+          </button>
+      </div>
       <div className="scores">
         {categories.map((category) => {
           const currentScore = scoreBoard.getScore(category)          
@@ -40,7 +64,7 @@ export const ScoreBoard = ({
           const isSelected = selectedCategory === category
           const previewScore = isSelected ? getScorePreview(category) : "-"
 
-          return (
+          return (<>
             <button
               key={category}
               onClick={() => !isScored && onSelectCategory(category)}
@@ -48,25 +72,35 @@ export const ScoreBoard = ({
               className={`category ${isSelected ? 'selected' : ''} ${isScored ? 'scored' : ''}`}
             >
               <span className="name">{t(`categories.${category}`)}</span>
-              <span className="score">{isScored ? (<strong>{currentScore}</strong>) : (<em>{previewScore}</em>)}</span>
-            </button>
+              <span className="score">{isScored ? (<strong>{currentScore}</strong>) : (<em>{previewScore}</em>)} 
+                <button className="help" onClick={() => setShowExplanation(!showExplanation)}>
+                ?
+                </button>
+              </span>
+              
+            </button>                        
+            {isSelected && showExplanation && (              
+              <div className="explanation">              
+                <p>{getScoreExplanation()[0]}</p> 
+                {getScoreExplanation()[1] && (              
+                  <p>
+                    {getScoreExplanation()[1]}
+                  </p>
+                )}    
+                {getScoreExplanation()[2] && (              
+                  <p>
+                    {getScoreExplanation()[2]}
+                  </p>
+                )}   
+              </div>              
+            )}
+            </>
           )
+          
+
         })}
       </div>
-      <div>
-        <button 
-          className="action" 
-          onClick={() => selectedCategory && onScore(selectedCategory)}
-        >
-          {t('ui.score')}
-        </button>
-        <button 
-          className="action ml-2" 
-          onClick={onClose}
-        >
-          {t('ui.cancel')}
-        </button>
-      </div>
+
     </div>
   )
 }

@@ -2,7 +2,8 @@
 
 @theme{
   --color-primary: #019da8;
-  --color-gray-light: #eeeeee;
+  --color-secondary: #34536f;
+  --color-gray-light: #f0f0f0;
   --text-base: 1rem;
   --font-title: 'Arial', sans-serif;
   --font-content: 'Georgia', serif;
@@ -63,6 +64,9 @@
     font-family: var(--font-title);
     &:hover { opacity: .8;}
   }
+  button.action.second{
+    @apply bg-secondary;
+  }
   .card {
     background: white;
     border-radius: 8px;
@@ -76,21 +80,44 @@
       border-radius: 20%;
       &.selected{
         box-shadow: 0 6px 2px rgba(0, 0, 0, 0.2);
-        transform: scale(.85);
+        transform: scale(.85) translateY(-4vh);
       }      
     }
   }
   .scoreboard{
-    @apply fixed h-full w-full inset-0 bg-black/50 flex flex-col items-center justify-center z-1;
+    @apply fixed h-full w-full inset-0 bg-black/70 flex flex-col items-center justify-center z-1;
     div.scores{
-      @apply flex flex-col gap-x-3 mt-5 bg-white opacity-100;
+      @apply w-full max-w-65 flex flex-col gap-x-3 bg-white opacity-100 ;
       box-shadow: 0 12px 6px rgba(0, 0, 0, 0.15);
       button.category{
-        @apply grid grid-cols-2 h-10 px-4 place-items-center border-t border-x border-gray-light;
+        @apply grid grid-cols-2 h-10 px-4 items-center border-t border-x border-gray-light;  
+        span.name{
+          @apply text-left;
+        }     
+        span.score{
+          @apply relative text-right pr-15 ;            
+          button.help{
+            @apply absolute block right-0 top-0 w-6 h-6 m-0 p-0 text-center rounded-4xl bg-gray-300 text-gray-500;
+          }
+        }     
         &.selected{
           @apply bg-gray-light;
         }
       }  
+      div.explanation{
+        @apply bg-gray-light;
+        box-shadow: inset 0 0px 10px rgba(0, 0, 0, 0.2);        
+        p{
+          @apply  px-2 py-0 max-w-full text-center opacity-60;
+        }
+        p:first-of-type{
+          @apply pt-3;
+        }
+        p:last-of-type{
+          @apply pb-3;
+        }
+      
+      }
     }
     &.game-over{
       @apply relative h-auto w-full inset-0 bg-white flex flex-col items-center justify-center z-0;

@@ -39,8 +39,7 @@ describe("Application unit tests (YamsScoreBoard entity)", () => {
       expect(scoreBoard2.getScore(YamsCategory.Ones)).toBe(50)   
       expect(scoreBoard1.getScore(YamsCategory.Ones)).toBe(null)
     })        
-    it("3.3) throws CategoryAlreadyScoredError", () => {
-      console.log('CategoryAlreadyScoredError:', CategoryAlreadyScoredError) 
+    it("3.3) throws CategoryAlreadyScoredError", () => {      
       const scoreBoard1 = YamsScoreBoard.create()  
       const scoreBoard2 = scoreBoard1.addScore(YamsCategory.Ones, 50)                    
       expect(() => scoreBoard2.addScore(YamsCategory.Ones, 50)).toThrow(CategoryAlreadyScoredError)

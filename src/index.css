@@ -70,6 +70,12 @@
     }
     .dice-display{
       @apply text-primary-light font-bold;
+    }    
+    button.action.icon{    
+      @apply relative pl-11;
+      svg{
+        @apply absolute left-3 h-6 fill-white;
+      }
     }
   }
   a.link, button.link {

@@ -10,6 +10,7 @@ import { calculateTotalScore, YamsCategory } from "../../domain/rules/calculateS
 import { DiceDisplay } from "../components/DiceDisplay"
 import { ScoreBoard } from "../components/ScoreBoard"
 import { ErrorModal } from "../components/ErrorModal"
+import { IconsSprite } from "@/shared/components/IconsSprite"
 
 export const YamsGameContainer = () => {
   const { t } = useTranslation("yams")
@@ -24,36 +25,36 @@ export const YamsGameContainer = () => {
 
   const categories = Object.values(YamsCategory)
 
-  const createTestScoreBoard1 = (): YamsScoreBoard => {
-    let board = YamsScoreBoard.create()
-    const testScores = {
-      ones: 5,
-      twos: 10,
-      threes: 15,
-      fours: 20,
-      fives: 25,
-      sixes: 30,
-      chance: 25,
-      threeOfAKind: 20,
-      fourOfAKind: 25,
-      fullHouse: 25,
-      smallStraight: 30,
-      largeStraight: 40,
-      yahtzee: 50
-    }
-    Object.entries(testScores).forEach(([category, score]) => {
-      board = board.addScore(category as YamsCategory, score)
-    })    
-    board = board.addYahtzeeBonus(100) 
-    board = board.addYahtzeeBonus(100) 
-    return board
-  }
-  const handleFillTestData = () => {
-    setScoreBoard(createTestScoreBoard1())
-    setYamsTurn(null)
-    setDiceRoll(null)
-    setError(null)
-  }
+  // const createTestScoreBoard1 = (): YamsScoreBoard => {
+  //   let board = YamsScoreBoard.create()
+  //   const testScores = {
+  //     ones: 5,
+  //     twos: 10,
+  //     threes: 15,
+  //     fours: 20,
+  //     fives: 25,
+  //     sixes: 30,
+  //     chance: 25,
+  //     threeOfAKind: 20,
+  //     fourOfAKind: 25,
+  //     fullHouse: 25,
+  //     smallStraight: 30,
+  //     largeStraight: 40,
+  //     yahtzee: 50
+  //   }
+  //   Object.entries(testScores).forEach(([category, score]) => {
+  //     board = board.addScore(category as YamsCategory, score)
+  //   })    
+  //   board = board.addYahtzeeBonus(100) 
+  //   board = board.addYahtzeeBonus(100) 
+  //   return board
+  // }
+  // const handleFillTestData = () => {
+  //   setScoreBoard(createTestScoreBoard1())
+  //   setYamsTurn(null)
+  //   setDiceRoll(null)
+  //   setError(null)
+  // }
 
   const handleRoll = () => {
     try {
@@ -127,7 +128,8 @@ export const YamsGameContainer = () => {
     return (
       <>
         <ErrorModal error={error} onClose={() => setError(null)} />
-        <button className="action" onClick={handleRoll}>
+        <button className="action icon" onClick={handleRoll}>
+          <IconsSprite value="roll" />
           {t("ui.rollDice")}
         </button>
       </>
@@ -182,16 +184,19 @@ export const YamsGameContainer = () => {
       />
 
       {yamsTurn.getRollNumber() < 3 && (
-        <button className="action" onClick={() => handleKeepDice(selectedIndices)}>
+        <button className="action icon" onClick={() => handleKeepDice(selectedIndices)}>          
+          <IconsSprite value="reroll" />
           {t('ui.reroll')}
         </button>
       )}
 
    
       <button 
-        className="action ml-2" 
+        className="action icon ml-2" 
         onClick={() => setShowScoreBoard(!showScoreBoard)}
       >
+                  
+          <IconsSprite value="score" />
         {t('ui.score')}
       </button>
 

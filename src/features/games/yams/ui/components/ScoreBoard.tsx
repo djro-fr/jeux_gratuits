@@ -4,6 +4,7 @@ import { calculateScoreByCategory, YamsCategory } from "../../domain/rules/calcu
 import type { Die } from "../../domain/entities/Die"
 import { explainScore } from "../../domain/rules/explainScore"
 import { useState } from "react"
+import { IconsSprite } from "@/shared/components/IconsSprite"
 
 interface ScoreBoardProps {
   scoreBoard: YamsScoreBoard
@@ -44,10 +45,12 @@ export const ScoreBoard = ({
     <div className="scoreboard">
         <div className="buttons">        
           <button 
-            className="action second" 
+            className="action second icon" 
             onClick={onClose}
           >
-            &lt; { t('ui.cancel')}
+                      
+            <IconsSprite value="back" />
+            { t('ui.cancel')}
           </button>
 
           <button 

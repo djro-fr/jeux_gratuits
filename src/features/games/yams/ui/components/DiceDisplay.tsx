@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import type { Die } from '../../domain/entities/Die'
-import { DICE_SVGS } from '../utils/diceAssets'
+import { DiceSprite } from '@/shared/components/DiceSprite'
+
 
 interface DiceDisplayProps {
   dice: Die[] | undefined
@@ -37,10 +38,9 @@ export const DiceDisplay = ({
           onClick={() => handleDiceClick(index)}
           className={`die ${selectedIndices.includes(index) ? 'selected' : ''}`}
         >
-          <img
-            src={DICE_SVGS[die.getValue()]}
-            alt={`die ${die.getValue()}`}
-          />
+        <DiceSprite 
+          value={die.getValue() as 1 | 2 | 3 | 4 | 5 | 6}
+        />
         </button>
         ))}
       </div>

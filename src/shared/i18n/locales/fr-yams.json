@@ -29,9 +29,18 @@
   "ui": {
     "rollDice": "Lancer",
     "reroll": "Relancer",
-    "score": "Marquer",
+    "toScore": "Marquer",
     "rollNumber" :"Tour",
     "cancel" :  "Annuler",
-    "gameOver" : "La partie est terminée !"
+    "gameOver" : "La partie est terminée !",
+    "loading": "Chargement...",
+    "noScores": "Pas encore de score enregistré",
+    "globalLeaderboard": "Classement Mondial",
+    "player": "Joueur",
+    "score": "Score",
+    "enterName": "Quel est ton nom ?",
+    "scoreSaved": "Score sauvegardé !",
+    "save" : "Enregistrer le score",
+    "restart" : "Recommencer"
   }
 }

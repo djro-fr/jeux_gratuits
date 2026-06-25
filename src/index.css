@@ -7,6 +7,8 @@
   --color-secondary: #663319;
   --color-tertiary: #073e78;
   --color-overlay: #21403f;
+  --color-green-carpet: #02783F;  
+  --color-green-carpet-dark: #016535;
   --color-gray-light: #f0f0f0;
   --text-base: 1rem;
   --font-title: 'Parisienne', cursive;
@@ -180,7 +182,7 @@
         }
       }
       &.game-over{
-        @apply relative h-auto overflow-visible w-full inset-0 bg-transparent flex flex-col items-center justify-center z-0 mb-0 pt-1 pb-30;
+        @apply relative h-auto overflow-visible w-full inset-0 bg-transparent flex flex-col items-center justify-center z-0 mb-0 pt-1;
       }
     }
   }
@@ -218,7 +220,7 @@
     filter: drop-shadow(0 0 8px var(--color-primary));
   }
   .green-carpet{
-    background: url("../../assets/textures/carpet.jpg");
+    background-color: #02783F;
   }
   .gold{
     background: #e6a845;

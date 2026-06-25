@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { YamsScoreBoard } from "../../application/entities/YamsScoreBoard"
 import type { DiceRoll } from "../../domain/entities/DiceRoll"
 import { YamsTurn } from "../../domain/entities/YamsTurn"
@@ -11,6 +11,9 @@ import { DiceDisplay } from "../components/DiceDisplay"
 import { ScoreBoard } from "../components/ScoreBoard"
 import { ErrorModal } from "../components/ErrorModal"
 import { IconsSprite } from "@/shared/components/IconsSprite"
+import { SaveGameScoreUseCase } from "../../application/usecases/SaveGameScoreUseCase"
+import { GlobalLeaderboard } from "../components/GlobalLeaderboard"
+
 
 export const YamsGameContainer = () => {
   const { t } = useTranslation("yams")
@@ -134,6 +137,24 @@ export const YamsGameContainer = () => {
     setError(null)
     setShowScoreBoard(false)
   }
+  
+  const totalScore = calculateTotalScore(scoreBoard.getAllScores()) + scoreBoard.getTotalYahtzeeBonus()
+  
+  const handleSaveAndRestart = async () => {
+    const playerName = prompt(t('ui.enterName')) || 'Anonyme'
+    if (playerName === null) return 
+    
+    const saveUseCase = new SaveGameScoreUseCase()
+    const result = await saveUseCase.execute(playerName, totalScore, scoreBoard.getTotalYahtzeeBonus())
+    
+    if (result.success) {
+      alert(t('ui.scoreSaved'))
+      handleRestart()
+    } else {
+      alert(`Erreur: ${result.error}`)
+    }
+  }
+
 
   if (yamsTurn === null && Object.values(scoreBoard.getAllScores()).includes(null)) {
     return (
@@ -155,11 +176,11 @@ export const YamsGameContainer = () => {
   
     return (<>
       <div className="game-over">
-        <p className="mt-4 text-2xl text-primary-light text-center">{t('ui.gameOver')}</p>
+        <p className="mt-4 text-xl font-semibold text-primary-light text-center">{t('ui.gameOver')}</p>
         <h2 className="mt-10">Total</h2>
-        <p className="w-full text-center text-primary-light"> <span className="text-3xl">{totalScore}</span> points</p>
+        <p className="w-full text-center text-primary-light text-2xl"> <span className="text-4xl">{totalScore}</span> points</p>
         {totalYahtzeeBonus > 0 && (
-        <p className="w-full text-center text-white">
+        <p className="w-full text-center text-white text-xl">
           ({calculateTotalScore(scoreBoard.getAllScores())} + {totalYahtzeeBonus} bonus {tGames('game.yams')})
         </p>
       )}
@@ -177,19 +198,27 @@ export const YamsGameContainer = () => {
               )
             })
           } 
-        </div>        
-        <button 
-          className="action gold w-full max-w-65 mt-9" 
-          onClick={() => handleRestart()}
-        >                  
-        <div className="text-xl">
-          Nouvelle partie
-        </div>
-      </button>
+        </div>    
       </div>
+      <div className="flex flex-col gap-3 mb-6 mt-0">
+        <button 
+          className="action gold icon md w-full"
+          onClick={handleSaveAndRestart}
+        >
+          <div>{t('ui.save')}</div>
+        </button>
+        
+        <button 
+          className="action second w-full"
+          onClick={handleRestart}
+        >
+          {t('ui.restart')}
+        </button>
+      </div>        
+      <GlobalLeaderboard />      
 
-      
-    </>)
+        
+      </>)
   }
   
   if (!yamsTurn) {
@@ -223,7 +252,7 @@ export const YamsGameContainer = () => {
         >                  
           <div>
             <IconsSprite value="score" />
-            {t('ui.score')}
+            {t('ui.toScore')}
           </div>
         </button>
 

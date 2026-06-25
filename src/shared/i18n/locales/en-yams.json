@@ -29,10 +29,19 @@
   "ui": {
     "rollDice": "Roll Dice",
     "reroll": "Reroll",
-    "score": "Score",
+    "toScore": "Score",
     "rollNumber" :"Roll",
     "cancel" :  "Cancel",
-    "gameOver" : "You finished!"
+    "gameOver" : "You finished!",    
+    "loading": "Loading...",
+    "noScores": "No scores yet",
+    "globalLeaderboard": "Worldwide leaderboard",
+    "player": "Player",
+    "score": "Score",
+    "enterName": "What's your name?",
+    "scoreSaved": "Score saved!",
+    "save" : "Save score",
+    "restart" : "Restart"
   }
 
 }

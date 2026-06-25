@@ -48,17 +48,12 @@ export const ScoreBoard = ({
             className="action second icon" 
             onClick={onClose}
           >
-                      
-            <IconsSprite value="back" />
-            { t('ui.cancel')}
+            <div>
+              <IconsSprite value="back" />
+              { t('ui.cancel')}
+            </div>          
           </button>
 
-          <button 
-            className="action ml-5" 
-            onClick={() => selectedCategory && onScore(selectedCategory)}
-          >
-            + { t('ui.score')}
-          </button>
       </div>
       <div className="scores">
         {categories.map((category) => {
@@ -71,7 +66,7 @@ export const ScoreBoard = ({
 
           return (
             <div key={category}>
-              <div className="line-score">                
+              <div className="line-score relative">                
                 <button
                   onClick={() => !isScored && onSelectCategory(category)}
                   disabled={isScored}
@@ -89,6 +84,14 @@ export const ScoreBoard = ({
                   aria-label={ariaLabel}
                 >
                   ?
+                </button>
+                }
+                
+                {isSelected && <button 
+                  className="icon-green" 
+                  onClick={() => selectedCategory && onScore(selectedCategory)}
+                > 
+                  <IconsSprite value="check" />                
                 </button>
                 }
               </div>

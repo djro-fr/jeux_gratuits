@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'react';
 
-type IconsValue = "reroll" | "score" | "roll" | "back" | "github" ;
+type IconsValue = "reroll" | "score" | "roll" | "back" | "github" | "check" ;
 
 interface DiceSpriteProps extends HTMLAttributes<SVGSVGElement> {
   value: IconsValue;

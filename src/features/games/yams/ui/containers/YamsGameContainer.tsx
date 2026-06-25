@@ -14,6 +14,7 @@ import { IconsSprite } from "@/shared/components/IconsSprite"
 
 export const YamsGameContainer = () => {
   const { t } = useTranslation("yams")
+  const { t: tGames } = useTranslation()
 
   const [scoreBoard, setScoreBoard] = useState(() => YamsScoreBoard.create())
   const [diceRoll, setDiceRoll] = useState<DiceRoll | null>(null)
@@ -128,10 +129,14 @@ export const YamsGameContainer = () => {
     return (
       <>
         <ErrorModal error={error} onClose={() => setError(null)} />
-        <button className="action icon" onClick={handleRoll}>
-          <IconsSprite value="roll" />
-          {t("ui.rollDice")}
-        </button>
+          <div className="flex flex-1 flex-col justify-center items-center pb-16">
+            <button className="action gold icon md" onClick={handleRoll}>
+              <div> 
+                <IconsSprite value="roll" />
+                {t("ui.rollDice")}
+              </div>
+            </button>
+          </div>
       </>
     )
   }else if (yamsTurn === null && !Object.values(scoreBoard.getAllScores()).includes(null)) {
@@ -140,15 +145,15 @@ export const YamsGameContainer = () => {
   
     return (<>
       <div className="game-over">
-        <p>{t('ui.gameOver')}</p>
-        <h2>Total</h2>
-        <p className="w-full text-center"> <span className="text-3xl">{totalScore}</span> points</p>
+        <p className="mt-4 text-xl text-primary-light text-center">{t('ui.gameOver')}</p>
+        <h2 className="mt-8 ml-9">Total</h2>
+        <p className="w-full text-center text-primary-light"> <span className="text-3xl">{totalScore}</span> points</p>
         {totalYahtzeeBonus > 0 && (
-        <p className="w-full text-center">
-          ({calculateTotalScore(scoreBoard.getAllScores())} + {totalYahtzeeBonus} bonus Yahtzee)
+        <p className="w-full text-center text-white">
+          ({calculateTotalScore(scoreBoard.getAllScores())} + {totalYahtzeeBonus} bonus {tGames('game.yams')})
         </p>
       )}
-        <h2>Détail</h2>
+        <h2 className="mt-8 ml-9">Détail</h2>
       </div>
       <div className="scoreboard game-over">
         <div className="scores">
@@ -182,32 +187,35 @@ export const YamsGameContainer = () => {
         onSelectDice={setSelectedIndices}
         rollNumber={yamsTurn.getRollNumber()}
       />
+      <div className={yamsTurn.getRollNumber() < 3 ? ("grid grid-cols-2 gap-x-4") : "w-[50%] mx-auto "}>
+        {yamsTurn.getRollNumber() < 3 && (
+          <button className="action gold icon md w-full" onClick={() => handleKeepDice(selectedIndices)}>    
+            <div>      
+              <IconsSprite value="reroll" />
+              {t('ui.reroll')}
+            </div>
+          </button>
+        )}
 
-      {yamsTurn.getRollNumber() < 3 && (
-        <button className="action icon" onClick={() => handleKeepDice(selectedIndices)}>          
-          <IconsSprite value="reroll" />
-          {t('ui.reroll')}
+    
+        <button 
+          className="action gold icon md w-full" 
+          onClick={() => setShowScoreBoard(!showScoreBoard)}
+        >                  
+          <div>
+            <IconsSprite value="score" />
+            {t('ui.score')}
+          </div>
         </button>
-      )}
 
-   
-      <button 
-        className="action icon ml-2" 
-        onClick={() => setShowScoreBoard(!showScoreBoard)}
-      >
-                  
-          <IconsSprite value="score" />
-        {t('ui.score')}
-      </button>
-
-      
-      {/* <button 
-        className="action ml-2"
-        onClick={handleFillTestData}
-      >
-        Fill Test Data (DEV)
-      </button> */}
-
+        
+        {/* <button 
+          className="action ml-2"
+          onClick={handleFillTestData}
+        >
+          Fill Test Data (DEV)
+        </button> */}
+      </div>
       {showScoreBoard && (
         <ScoreBoard
           scoreBoard={scoreBoard}

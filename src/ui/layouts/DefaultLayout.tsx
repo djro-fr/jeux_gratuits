@@ -7,9 +7,9 @@ interface DefaultLayoutProps {
 
 export const DefaultLayout = ( { children }: DefaultLayoutProps) => {
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-full flex flex-col">
       <Navbar />
-      <main className="flex-1 overflow-auto">
+      <main>
         {children}
       </main>
     </div>    

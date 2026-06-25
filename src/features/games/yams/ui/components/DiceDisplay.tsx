@@ -29,7 +29,7 @@ export const DiceDisplay = ({
 
   return (
     <div className="dice-display">
-      {!!rollNumber && <p>{t('ui.rollNumber')} {rollNumber}/3</p>}
+      <div className="text-center mt-1">{!!rollNumber && <p className='text-primary-light'>{t('ui.rollNumber')} {rollNumber}/3</p>}</div>
       
       <div className="dice-container">
         {dice?.map((die, index) => (          

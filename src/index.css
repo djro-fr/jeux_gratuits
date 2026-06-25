@@ -52,6 +52,9 @@
     font-family: var(--font-action);
     @apply cursor-pointer font-bold text-primary ;
   }
+  button{
+    @apply cursor-pointer;
+  }
   nav#navbar{    
     font-family: var(--font-action);
     @apply fixed w-full bottom-0 p-4 rounded-t-3xl bg-primary text-white z-2;
@@ -75,6 +78,9 @@
     }
     h2{      
       @apply text-white text-2xl text-left mb-2;
+    }
+    .game-over h2{
+      @apply max-w-65 mx-auto;
     }
     .dice-display{
       @apply text-primary-light font-bold ;

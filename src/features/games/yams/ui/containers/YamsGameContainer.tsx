@@ -26,36 +26,36 @@ export const YamsGameContainer = () => {
 
   const categories = Object.values(YamsCategory)
 
-  // const createTestScoreBoard1 = (): YamsScoreBoard => {
-  //   let board = YamsScoreBoard.create()
-  //   const testScores = {
-  //     ones: 5,
-  //     twos: 10,
-  //     threes: 15,
-  //     fours: 20,
-  //     fives: 25,
-  //     sixes: 30,
-  //     chance: 25,
-  //     threeOfAKind: 20,
-  //     fourOfAKind: 25,
-  //     fullHouse: 25,
-  //     smallStraight: 30,
-  //     largeStraight: 40,
-  //     yahtzee: 50
-  //   }
-  //   Object.entries(testScores).forEach(([category, score]) => {
-  //     board = board.addScore(category as YamsCategory, score)
-  //   })    
-  //   board = board.addYahtzeeBonus(100) 
-  //   board = board.addYahtzeeBonus(100) 
-  //   return board
-  // }
-  // const handleFillTestData = () => {
-  //   setScoreBoard(createTestScoreBoard1())
-  //   setYamsTurn(null)
-  //   setDiceRoll(null)
-  //   setError(null)
-  // }
+  const createTestScoreBoard1 = (): YamsScoreBoard => {
+    let board = YamsScoreBoard.create()
+    const testScores = {
+      ones: 5,
+      twos: 10,
+      threes: 15,
+      fours: 20,
+      fives: 25,
+      sixes: 30,
+      chance: 25,
+      threeOfAKind: 20,
+      fourOfAKind: 25,
+      fullHouse: 25,
+      smallStraight: 30,
+      largeStraight: 40,
+      yahtzee: 50
+    }
+    Object.entries(testScores).forEach(([category, score]) => {
+      board = board.addScore(category as YamsCategory, score)
+    })    
+    board = board.addYahtzeeBonus(100) 
+    board = board.addYahtzeeBonus(100) 
+    return board
+  }
+  const handleFillTestData = () => {
+    setScoreBoard(createTestScoreBoard1())
+    setYamsTurn(null)
+    setDiceRoll(null)
+    setError(null)
+  }
 
   const handleRoll = () => {
     try {
@@ -125,6 +125,16 @@ export const YamsGameContainer = () => {
     }
   }
 
+  const handleRestart = () => {
+    setScoreBoard(YamsScoreBoard.create())
+    setDiceRoll(null)
+    setYamsTurn(null)
+    setSelectedIndices([])
+    setSelectedCategory(null)
+    setError(null)
+    setShowScoreBoard(false)
+  }
+
   if (yamsTurn === null && Object.values(scoreBoard.getAllScores()).includes(null)) {
     return (
       <>
@@ -145,15 +155,15 @@ export const YamsGameContainer = () => {
   
     return (<>
       <div className="game-over">
-        <p className="mt-4 text-xl text-primary-light text-center">{t('ui.gameOver')}</p>
-        <h2 className="mt-8 ml-9">Total</h2>
+        <p className="mt-4 text-2xl text-primary-light text-center">{t('ui.gameOver')}</p>
+        <h2 className="mt-10">Total</h2>
         <p className="w-full text-center text-primary-light"> <span className="text-3xl">{totalScore}</span> points</p>
         {totalYahtzeeBonus > 0 && (
         <p className="w-full text-center text-white">
           ({calculateTotalScore(scoreBoard.getAllScores())} + {totalYahtzeeBonus} bonus {tGames('game.yams')})
         </p>
       )}
-        <h2 className="mt-8 ml-9">Détail</h2>
+        <h2 className="mt-10">Détail</h2>
       </div>
       <div className="scoreboard game-over">
         <div className="scores">
@@ -166,9 +176,18 @@ export const YamsGameContainer = () => {
                 </button>
               )
             })
-          }        
+          } 
+        </div>        
+        <button 
+          className="action gold w-full max-w-65 mt-9" 
+          onClick={() => handleRestart()}
+        >                  
+        <div className="text-xl">
+          Nouvelle partie
         </div>
+      </button>
       </div>
+
       
     </>)
   }
@@ -187,7 +206,7 @@ export const YamsGameContainer = () => {
         onSelectDice={setSelectedIndices}
         rollNumber={yamsTurn.getRollNumber()}
       />
-      <div className={yamsTurn.getRollNumber() < 3 ? ("grid grid-cols-2 gap-x-4") : "w-[50%] mx-auto "}>
+      <div className={yamsTurn.getRollNumber() < 3 ? ("grid grid-cols-2 gap-x-4") : "w-[40%] mx-auto "}>
         {yamsTurn.getRollNumber() < 3 && (
           <button className="action gold icon md w-full" onClick={() => handleKeepDice(selectedIndices)}>    
             <div>      
@@ -209,12 +228,12 @@ export const YamsGameContainer = () => {
         </button>
 
         
-        {/* <button 
+        <button 
           className="action ml-2"
           onClick={handleFillTestData}
         >
           Fill Test Data (DEV)
-        </button> */}
+        </button> 
       </div>
       {showScoreBoard && (
         <ScoreBoard

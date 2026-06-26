@@ -45,7 +45,7 @@
     @apply text-5xl pb-1 pt-5;
   }  
   main>div{
-    @apply px-5;
+    @apply px-5 w-full;
   }
   h2{
     @apply text-xl mt-4;
@@ -55,7 +55,7 @@
     @apply cursor-pointer font-bold text-primary ;
   }
   button{
-    @apply cursor-pointer;
+    @apply cursor-pointer max-w-90;
   }
   nav#navbar{    
     font-family: var(--font-action);
@@ -86,9 +86,12 @@
     }
     .dice-display{
       @apply text-primary-light font-bold ;
+      p{
+        @apply text-lg;
+      }
     }     
     button.action{
-      @apply bg-primary rounded-4xl text-white font-bold py-2 px-4 mb-5;    
+      @apply bg-primary rounded-4xl text-lg text-white font-bold py-2 px-4 mb-5;    
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
       font-family: var(--font-action);
       &:hover { opacity: .8;}
@@ -157,10 +160,10 @@
         button.category{
           @apply grid grid-cols-2 h-10 px-4 items-center border-t border-x border-gray-light bg-white;  
           span.name{
-            @apply text-left font-script font-normal text-sm;
+            @apply text-left font-script font-normal text-base;
           }     
           span.score{
-            @apply text-right pr-0 font-script font-normal text-sm text-tertiary;   
+            @apply text-right pr-0 font-script font-normal text-lg text-tertiary;   
           }     
           &.selected{
             @apply bg-gray-light;
@@ -199,6 +202,21 @@
         color:#ffffffff
       }    
     }
+    .leaderboard{
+      max-width: 400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0;
+      table {
+        box-shadow: 0 9px 12px rgba(0, 0, 0, 0.3);
+        max-width: 400px;
+        tr:nth-child(even) {
+          background: #FFFFFF33;
+        }
+      }    
+    }
+    
+
   }
   a.link, button.link {
     @apply pb-1 font-bold cursor-pointer border-primary text-primary border-b;
@@ -234,7 +252,8 @@
     filter: drop-shadow(0 0 8px var(--color-primary));
   }
   .green-carpet{
-    background-color: #02783F;
+    background: #109454;
+    background: linear-gradient(134deg,rgba(16, 148, 84, 1) 0%, rgba(18, 92, 65, 1) 100%);
   }
   .gold{
     background: #e6a845;

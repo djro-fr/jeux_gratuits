@@ -57,7 +57,7 @@ export const YamsGameContainer = () => {
           <p className="mt-4 text-xl font-semibold text-primary-light text-center">{t('ui.gameOver')}</p>
           <h2 className="mt-10">Total</h2>
           <p className="w-full text-center text-primary-light text-2xl">
-            <span className="text-4xl">{totalScore}</span> points
+            <span className="text-5xl">{totalScore}</span> points
           </p>
           {totalYahtzeeBonus > 0 && (
             <p className="w-full text-center text-white text-xl">
@@ -93,11 +93,11 @@ export const YamsGameContainer = () => {
               className="text-white text-2xl mb-4 text-center"
             />
             {error && <div className="error-message">{error}</div>}
-            <button className="action gold icon md w-full" onClick={handleSaveAndRestart}>
+            <button className="action gold icon md w-full mx-auto" onClick={handleSaveAndRestart}>
               {t('ui.saveScore')}
             </button>
           </div>
-          <button className="action second w-full mb-20" onClick={handleRestart}>
+          <button className="action second w-full mb-7 mx-auto" onClick={handleRestart}>
             {t('ui.restart')}
           </button>
         </div>
@@ -122,7 +122,7 @@ export const YamsGameContainer = () => {
         rollNumber={yamsTurn.getRollNumber()}
       />
 
-      <div className={yamsTurn.getRollNumber() < 3 ? "grid grid-cols-2 gap-x-4" : "w-[40%] mx-auto"}>
+      <div className={yamsTurn.getRollNumber() < 3 ? "grid grid-cols-2 gap-x-4" : "w-[50%] mx-auto"}>
         {yamsTurn.getRollNumber() < 3 && (
           <button className="action gold icon md w-full" onClick={() => handleKeepDice(selectedIndices)}>
             <div>

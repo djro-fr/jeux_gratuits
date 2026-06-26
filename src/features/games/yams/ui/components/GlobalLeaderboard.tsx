@@ -27,20 +27,20 @@ export const GlobalLeaderboard = () => {
       <div className="rounded-t-[20px] bg-white">
         <table className="w-full mt-6">
           <thead>
-            <tr className="font-action text-xl text-gold-dark">
-              <th className="text-left p-2">#</th>
-              <th className="text-left p-2">{t('ui.player')}</th>
-              <th className="text-right p-2">{t('ui.score')}</th>
+            <tr className="font-action text-lg text-gold-dark">
+              <th className="text-left p-2 pl-3">#</th>
+              <th className="text-center p-2">{t('ui.player')}</th>
+              <th className="text-right p-2 pr-3 ">{t('ui.score')}</th>
             </tr>
           </thead>
           <tbody className="bg-green-carpet">
             {scores.map((score) => (
               <tr key={score.rank} className="border-b hover:bg-green-carpet-dark">
-                <td className="text-center p-2">
+                <td className="text-left p-2 pl-3 text-xl">
                   {score.rank}
                 </td>
-                <td className="p-2 text-3xl">{score.playerName}</td>
-                <td className="text-right p-2 font-bold text-3xl">{score.score}</td>
+                <td className="p-2 text-center text-xl">{score.playerName}</td>
+                <td className="text-right p-2 pr-3 font-bold text-xl">{score.score}</td>
               </tr>
             ))}
           </tbody>

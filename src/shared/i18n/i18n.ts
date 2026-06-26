@@ -13,8 +13,9 @@ i18n
       fr: { translation: fr, yams : frYams },
       en: { translation: en, yams : enYams  },
     },
-    lng: 'fr',
+    lng: navigator.language,
     fallbackLng: 'en',
+    ns: ['translation', 'yams'],
     defaultNS: 'translation', 
     interpolation: { escapeValue: false },
   })

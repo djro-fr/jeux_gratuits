@@ -202,21 +202,19 @@
         color:#ffffffff
       }    
     }
-    .leaderboard{
+  }
+  .leaderboard{
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    table {
+      box-shadow: 0 9px 12px rgba(0, 0, 0, 0.3);
       max-width: 400px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 0;
-      table {
-        box-shadow: 0 9px 12px rgba(0, 0, 0, 0.3);
-        max-width: 400px;
-        tr:nth-child(even) {
-          background: #FFFFFF33;
-        }
-      }    
-    }
-    
-
+      tr:nth-child(even) {
+        background: #FFFFFF33;
+      }
+    }    
   }
   a.link, button.link {
     @apply pb-1 font-bold cursor-pointer border-primary text-primary border-b;

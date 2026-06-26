@@ -81,7 +81,7 @@ export class FirebaseLeaderboardRepository implements ILeaderboardRepository {
               .toSorted((a: FirebaseLeaderboardEntry, b: FirebaseLeaderboardEntry) =>
                 b.score - a.score
               )
-              .slice(0, 10)
+              .slice(0, 50)
             
             const leaderboard = LeaderboardMapper.toDomainArray(sorted)
             

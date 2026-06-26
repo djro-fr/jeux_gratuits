@@ -1,17 +1,13 @@
-import type { ReactNode } from "react";
-import { Navbar } from "../../shared/components/Navbar";
+import { Outlet } from "react-router-dom"
+import { Navbar } from "@/shared/components/Navbar"
 
-interface DefaultLayoutProps {
-  readonly children: ReactNode
-}
-
-export const DefaultLayout = ( { children }: DefaultLayoutProps) => {
+export const DefaultLayout = () => {
   return (
-    <div className="h-full flex flex-col">
+    <div className="layout">
       <Navbar />
-      <main>
-        {children}
+      <main className="main-content">
+        <Outlet />
       </main>
-    </div>    
+    </div>
   )
 }

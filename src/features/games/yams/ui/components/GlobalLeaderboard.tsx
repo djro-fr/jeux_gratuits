@@ -35,7 +35,7 @@ export const GlobalLeaderboard = () => {
           </thead>
           <tbody className="bg-green-carpet">
             {scores.map((score) => (
-              <tr key={score.rank} className="border-b hover:bg-green-carpet-dark">
+              <tr key={score.rank} className="hover:bg-green-carpet-dark">
                 <td className="text-left p-2 pl-3 text-xl">
                   {score.rank}
                 </td>

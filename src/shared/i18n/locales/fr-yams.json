@@ -23,7 +23,7 @@
     "invalidScoreValue": "Le score ne peut pas être négatif"  
   },
   "categories": {
-    "ones": "As",
+    "ones": "Un",
     "twos": "Deux",
     "threes": "Trois",
     "fours": "Quatre",
@@ -52,7 +52,8 @@
     "enterName": "Quel est votre nom ?",
     "scoreSaved": "Score sauvegardé !",
     "saveScore" : "Sauvegarder le score",
-    "restart" : "Recommencer",
+    "restart" : "Recommencer",    
+    "leaderboard": "Classement",
     "leaderboardLoaded": "Classement chargé ({{count}} entrées)",
     "leaderboardUpdated": "Classement mis à jour"
   }

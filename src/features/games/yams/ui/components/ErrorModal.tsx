@@ -1,18 +1,25 @@
+import { Modal } from "@/shared/components/Modal"
 interface ErrorModalProps {
   error: string | null
   onClose: () => void
 }
 
 export const ErrorModal = ({ error, onClose }: ErrorModalProps) => {
-  if (!error) return null 
-
   return (
-    <div className="errorModal">
-      <div>
-        <h2>Erreur</h2>
-        <p>{error}</p>
-        <button onClick={onClose} className="action">OK</button>
+    <Modal
+      isOpen={!!error}
+      onClose={onClose}
+      title="Erreur"
+    >
+      <div className="text-center">
+        <p className="text-lg text-red-600 mb-6">{error}</p>
+        <button
+          onClick={onClose}
+          className="action gold icon md"
+        >
+          OK
+        </button>
       </div>
-    </div>
+    </Modal>
   )
 }

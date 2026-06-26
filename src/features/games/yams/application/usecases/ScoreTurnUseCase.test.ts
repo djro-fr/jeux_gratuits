@@ -1,6 +1,7 @@
 import { Die } from "../../domain/entities/Die"
+import { YamsScoreBoard } from "../../domain/entities/YamsScoreBoard"
 import { YamsCategory } from "../../domain/rules/calculateScore"
-import { YamsScoreBoard } from "../entities/YamsScoreBoard"
+
 import { CategoryAlreadyScoredError} from "../errors/YamsErrors"
 import { ScoreTurnUseCase } from "./ScoreTurnUseCase"
 
@@ -81,6 +82,28 @@ describe("Application unit tests (ScoreTurnUseCase)", () => {
       expect(result.updatedScoreBoard.getScore(YamsCategory.ThreeOfAKind)).toBe(20)
     })
   })
-  
 
+  describe("5) Multi-step integration", () => {
+    it("5.1) preserves state across multiple operations", () => {
+      let scoreBoard = YamsScoreBoard.create()
+
+      const result1 = useCase.execute({
+        yamsScoreBoard: scoreBoard,
+        dice: [new Die(1), new Die(1), new Die(2), new Die(3), new Die(4)],
+        category: YamsCategory.Ones
+      })
+      scoreBoard = result1.updatedScoreBoard
+      
+      const result2 = useCase.execute({
+        yamsScoreBoard: scoreBoard,
+        dice: [new Die(1), new Die(2), new Die(2), new Die(2), new Die(4)],
+        category: YamsCategory.Twos
+      })
+      scoreBoard = result2.updatedScoreBoard
+     
+      expect(scoreBoard.getScore(YamsCategory.Ones)).toBe(2)
+      expect(scoreBoard.getScore(YamsCategory.Twos)).toBe(6)
+    })
+  })
 })
+  

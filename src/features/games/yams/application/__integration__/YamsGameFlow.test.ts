@@ -1,13 +1,14 @@
 import { DiceRoll } from "../../domain/entities/DiceRoll"
 import { Die } from "../../domain/entities/Die"
+import { YamsScoreBoard } from "../../domain/entities/YamsScoreBoard"
 import { YamsTurn } from "../../domain/entities/YamsTurn"
 import { YamsCategory } from "../../domain/rules/calculateScore"
-import { YamsScoreBoard } from "../entities/YamsScoreBoard"
+
 import { KeepDiceUseCase } from "../usecases/KeepDiceUseCase"
 import { RollDiceUseCase } from "../usecases/RollDiceUseCase"
 import { ScoreTurnUseCase } from "../usecases/ScoreTurnUseCase"
 
-describe("YamsGameFlow - One complete turn", () => {
+describe("Integration: YamsGameFlow - One complete turn", () => {
   it("1) Should complete one turn: start → roll → score", () => {
     
     const roll = new RollDiceUseCase().execute(5)

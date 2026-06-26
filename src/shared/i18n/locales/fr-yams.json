@@ -1,18 +1,29 @@
-{ 
-  "title": "Jouer au Yam's",
+{
+  "title": "Jouez au Yam's",
   "errors": {
     "invalidDieValueError": "Valeur de dé invalide : doit être entre 1 et 6",
-    "maxTurnsReachedError": "Plus de lancers disponibles",      
-    "gameAlreadyFinishedError" : "Le jeu est déjà fini",      
-    "wrongNumberOfDice" : "Le nombre de dés doit être entre 1 et 5, reçu {{count}}",
-    "duplicateDiceIndicesError": "Indices dupliqués dans la sélection gardée",      
-    "tooManyDiceKeptError": "4 dés gardés au maximum, reçu {{count}}",      
+    "maxTurnsReachedError": "Plus de lancer disponibles",
+    "gameAlreadyFinishedError" : "La partie est déjà terminée",
+    "wrongNumberOfDice" : "Le nombre de dés doit être entre 1 et 5, obtenu {{count}}",
+    "duplicateDiceIndicesError": "Indices de dés en doublon",      
+    "tooManyDiceKeptError": "Maximum 4 dés peuvent être conservés, obtenu {{count}}",      
     "invalidDiceIndicesError": "Indices de dés invalides",      
-    "cantRollError": "Vous ne pouvez plus relancer",      
-    "categoryAlreadyScoredError": "La catégorie {{category}} a déjà un score marqué"
+    "cantRollError": "Impossible de lancer",
+    "categoryAlreadyScoredError": "Catégorie {{category}} déjà marquée",
+    "invalidScoreData": "Données de score invalides",
+    "saveScoreFailed": "Erreur lors de la sauvegarde du score",
+    "unknownError": "Erreur inconnue",
+    "leaderboardMapFailed": "Erreur lors du traitement du classement",
+    "leaderboardFetchFailed": "Erreur lors du chargement du classement",
+    "leaderboardQueryFailed": "Erreur lors de la requête du classement",
+    "leaderboardSubscribeFailed": "Erreur lors de l'abonnement au classement",
+    "leaderboardConfigFailed": "Erreur de configuration du classement",
+    "playerNameEmpty": "Le nom du joueur est requis",                          
+    "playerNameTooLong": "Le nom du joueur doit faire 10 caractères maximum", 
+    "invalidScoreValue": "Le score ne peut pas être négatif"  
   },
   "categories": {
-    "ones": "Un",
+    "ones": "As",
     "twos": "Deux",
     "threes": "Trois",
     "fours": "Quatre",
@@ -27,20 +38,22 @@
     "yahtzee": "Yam's"
   },
   "ui": {
-    "rollDice": "Lancer",
+    "rollDice": "Lancer les dés",
     "reroll": "Relancer",
     "toScore": "Marquer",
-    "rollNumber" :"Tour",
+    "rollNumber" : "Lancer",
     "cancel" :  "Annuler",
-    "gameOver" : "La partie est terminée !",
+    "gameOver" : "Partie terminée !",    
     "loading": "Chargement...",
-    "noScores": "Pas encore de score enregistré",
-    "globalLeaderboard": "Classement Mondial",
+    "noScores": "Aucun score pour l'instant",
+    "globalLeaderboard": "Classement mondial",
     "player": "Joueur",
     "score": "Score",
-    "enterName": "Quel est ton nom ?",
+    "enterName": "Quel est votre nom ?",
     "scoreSaved": "Score sauvegardé !",
-    "save" : "Enregistrer le score",
-    "restart" : "Recommencer"
+    "saveScore" : "Sauvegarder le score",
+    "restart" : "Recommencer",
+    "leaderboardLoaded": "Classement chargé ({{count}} entrées)",
+    "leaderboardUpdated": "Classement mis à jour"
   }
 }

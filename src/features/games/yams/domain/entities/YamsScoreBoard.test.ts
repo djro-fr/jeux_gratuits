@@ -1,7 +1,8 @@
 
+import { CategoryAlreadyScoredError } from "../../application/errors/YamsErrors"
 import { YamsCategory } from "../../domain/rules/calculateScore"
-import { CategoryAlreadyScoredError } from "../errors/YamsErrors"
 import { YamsScoreBoard } from "./YamsScoreBoard"
+
 
 describe("Application unit tests (YamsScoreBoard entity)", () => {
   describe("1) Valid YamsScoreBoard", () => {

@@ -1,21 +1,9 @@
-import { useEffect, useState } from "react"
-import { GetLeaderboardUseCase, type LeaderboardScore} from "../../application/usecases/GetLeaderboardUseCase"
 import { useTranslation } from "react-i18next"
+import { useLeaderboard } from "../hooks/useLeaderboard"
 
 export const GlobalLeaderboard = () => {
   const { t } = useTranslation('yams')
-  const [scores, setScores] = useState<LeaderboardScore[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const usecase = new GetLeaderboardUseCase()
-    
-    const unsubscribe = usecase.execute((leaderboard) => {
-      setScores(leaderboard)
-      setLoading(false)
-    })    
-    return () => unsubscribe()
-  }, [])
+  const { scores, loading } = useLeaderboard()
 
   if (loading) {
     return (
@@ -28,7 +16,7 @@ export const GlobalLeaderboard = () => {
   if (scores.length === 0) {
     return (
       <div className="leaderboard-empty">
-        <p className="text-white text-2xl italic" >{t('ui.noScores')}</p>
+        <p className="text-white text-2xl italic">{t('ui.noScores')}</p>
       </div>
     )
   }
@@ -49,10 +37,7 @@ export const GlobalLeaderboard = () => {
             {scores.map((score) => (
               <tr key={score.rank} className="border-b hover:bg-green-carpet-dark">
                 <td className="text-center p-2">
-                  {score.rank === 1}
-                  {score.rank === 2}
-                  {score.rank === 3}
-                  {score.rank > 3 && score.rank}
+                  {score.rank}
                 </td>
                 <td className="p-2 text-3xl">{score.playerName}</td>
                 <td className="text-right p-2 font-bold text-3xl">{score.score}</td>

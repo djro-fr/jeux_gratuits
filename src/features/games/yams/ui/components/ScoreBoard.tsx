@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { YamsScoreBoard } from "../../application/entities/YamsScoreBoard"
+import { YamsScoreBoard } from "../../domain/entities/YamsScoreBoard"
 import { calculateScoreByCategory, YamsCategory } from "../../domain/rules/calculateScore"
 import type { Die } from "../../domain/entities/Die"
 import { explainScore } from "../../domain/rules/explainScore"

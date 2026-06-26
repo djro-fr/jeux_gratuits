@@ -1,6 +1,7 @@
 
+import { CategoryAlreadyScoredError } from "../../application/errors/YamsErrors"
 import { YamsCategory } from "../../domain/rules/calculateScore"
-import { CategoryAlreadyScoredError } from "../errors/YamsErrors"
+
 
 export class YamsScoreBoard {
   private readonly scores: Record<YamsCategory, number | null>

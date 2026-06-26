@@ -8,8 +8,7 @@ export class DiceRoll {
     this.dice = dice || Array.from({ length: 5}, () => Die.generateRandom())
   }
 
-  getDice(): Die[]{
-    // immutable, copy
+  getDice(): Die[]{    
     return [...this.dice]
   }
 

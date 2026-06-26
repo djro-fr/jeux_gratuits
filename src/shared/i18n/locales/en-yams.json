@@ -9,7 +9,18 @@
     "tooManyDiceKeptError": "Max 4 dice can be kept, got {{count}}",      
     "invalidDiceIndicesError": "Invalid dice indices",      
     "cantRollError": "Cannot roll anymore",
-    "categoryAlreadyScoredError": "Category {{category}} already scored" 
+    "categoryAlreadyScoredError": "Category {{category}} already scored",
+    "invalidScoreData": "Invalid score data",
+    "saveScoreFailed": "Failed to save score",
+    "unknownError": "Unknown error",
+    "leaderboardMapFailed": "Error processing leaderboard",
+    "leaderboardFetchFailed": "Error loading leaderboard",
+    "leaderboardQueryFailed": "Error querying leaderboard",
+    "leaderboardSubscribeFailed": "Error subscribing to leaderboard",
+    "leaderboardConfigFailed": "Leaderboard configuration error",
+    "playerNameEmpty": "Player name is required",     
+    "playerNameTooLong": "Player name must be 10 characters or less", 
+    "invalidScoreValue": "Score cannot be negative" 
   },
   "categories": {
     "ones": "Ones",
@@ -40,8 +51,10 @@
     "score": "Score",
     "enterName": "What's your name?",
     "scoreSaved": "Score saved!",
-    "save" : "Save score",
-    "restart" : "Restart"
+    "saveScore" : "Save score",
+    "restart" : "Restart",
+    "leaderboardLoaded": "Leaderboard loaded ({{count}} entries)",
+    "leaderboardUpdated": "Leaderboard updated"
   }
 
 }

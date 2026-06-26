@@ -1,31 +1,39 @@
-import { ref, push, set } from "firebase/database"
-import { database } from "@/shared/firebase/config"
+import type { SaveGameScoreInput, SaveGameScoreOutput } from "../dtos/SaveGameScoreDTO"
+import { InvalidScoreValueError, PlayerNameEmptyError, PlayerNameTooLongError } from "../errors/YamsErrors"
+import type { IScoreRepository, ScoreData } from "../repositories/IScoreRepository"
 
 export class SaveGameScoreUseCase {
-  async execute(
-    playerName: string,
-    score: number,
-    yahtzeeBonus: number
-  ): Promise<{ success: boolean; id?: string; error?: string }> {
+  readonly repository: IScoreRepository
+  
+  constructor(repository: IScoreRepository) {
+    this.repository = repository
+  }
+
+  async execute(input: SaveGameScoreInput): Promise<SaveGameScoreOutput> {
     try {
-      const scoresRef = ref(database, 'leaderboard')
-      const newScoreRef = push(scoresRef)
+      const playerName = input.playerName.trim()
       
-      await set(newScoreRef, {
-        playerName: playerName.trim() || 'Anonyme',
-        score,
-        yahtzeeBonus,
-        timestamp: new Date().toISOString()
-      })
-      
-      console.log("✅ Score sauvegardé !")
-      return { success: true, id: newScoreRef.key || '' }
-    } catch (error) {
-      console.error("❌ Erreur sauvegarde:", error)
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Erreur inconnue'
+      if (playerName.length === 0) {
+        throw new PlayerNameEmptyError()
       }
+      if (playerName.length > 10) {
+        throw new PlayerNameTooLongError({ maxLength: 10, actualLength: playerName.length })
+      }
+      if (input.score < 0) {
+        throw new InvalidScoreValueError({ score: input.score })
+      }
+
+      const data: ScoreData = {
+        playerName,
+        score: input.score,
+        yahtzeeBonus: input.yahtzeeBonus,
+        timestamp: new Date().toISOString()
+      }
+      return this.repository.save(data)
+    } catch (error) {
+      const errorName = error instanceof Error ? error.name : 'unknownError'      
+      console.error(errorName, error instanceof Error ? error.message : error)
+      return { success: false, error: errorName }
     }
   }
 }

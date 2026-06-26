@@ -1,7 +1,6 @@
 import { CategoryAlreadyScoredError } from '../errors/YamsErrors'
 import { calculateScoreByCategory, calculateYahtzeeBonus, hasOccurrences, YamsCategory } from '../../domain/rules/calculateScore'
-import type { ScoreTurnInput } from './ScoreTurnInput'
-import type { ScoreTurnOutput } from './ScoreTurnOutput'
+import type { ScoreTurnInput, ScoreTurnOutput } from '../dtos/ScoreTurnDTO'
 
 export class ScoreTurnUseCase {
   

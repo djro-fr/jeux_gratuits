@@ -185,6 +185,20 @@
         @apply relative h-auto overflow-visible w-full inset-0 bg-transparent flex flex-col items-center justify-center z-0 mb-0 pt-1;
       }
     }
+    input#player-name{
+      @apply max-w-65 mx-auto;
+      padding: 5px 0 ;
+      &:focus{
+        outline: none;
+        border-bottom: white 1px solid;          
+        &::placeholder{
+          color:#ffffffaa
+        }  
+      }
+      &::placeholder{
+        color:#ffffffff
+      }    
+    }
   }
   a.link, button.link {
     @apply pb-1 font-bold cursor-pointer border-primary text-primary border-b;
@@ -199,7 +213,7 @@
   }
 
   .error-message{
-    @apply bg-red-100 text-red-700 p-4 rounded;
+    @apply bg-red-100 text-red-700 p-4 rounded mb-2;
   }
   .errorModal{
     @apply fixed h-full w-full inset-0 bg-black/50 flex items-center justify-center z-10;

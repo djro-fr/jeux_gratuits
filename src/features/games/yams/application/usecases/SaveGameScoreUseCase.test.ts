@@ -77,7 +77,6 @@ describe('Application unit tests (SaveGameScoreUseCase)', () => {
     })
   })
 
-  // ===== NEW =====
   describe('2) Validation - playerName', () => {
     it('2.1) Should reject empty playerName', async () => {
       const useCase = new SaveGameScoreUseCase(mockRepository)
@@ -205,5 +204,4 @@ describe('Application unit tests (SaveGameScoreUseCase)', () => {
       expect(mockRepository.save).toHaveBeenCalled()
     })
   })
-  // ===== END NEW =====
 })

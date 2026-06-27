@@ -26,6 +26,18 @@ Built as a portfolio project to demonstrate Clean Architecture, Testing, and Mod
 - **Backend/Database:** Firebase Firestore
 - **Code Quality:** ESLint, SonarLint
 
+## Security
+
+- **XSS Protection**: React automatic escaping + input validation (regex)
+- **Firestore Rules**: Allow read/create only, deny update/delete
+- **Content Security Policy**: Meta CSP header with 'self' scripts
+- **Rate Limiting**: 5-second cooldown per player (prevents abuse)
+- **Validation**: playerName (1-10 chars, allowed characters), score (non-negative)
+- **No Secrets**: All sensitive config via environment variables
+
+**Note**: Leaderboard is public (no authentication).
+Firestore rules validate data, rate limiting prevents abuse.
+
 ## Architecture Patterns
 
 - **Clean Architecture**: Separation of concerns
@@ -72,7 +84,8 @@ ui/
 - **Repository Pattern**: Abstract data sources with explicit interfaces
 - **Mapper Pattern**: Explicit data transformations between layers
 - **Persistence**: Firebase Realtime DB for global leaderboard
-- **Security**: Environment variables for sensitive data
+- **Security**: Environment variables + CSP + Input validation + Rate limiting
+- **Rate Limiting**: 5-second cooldown between score saves
 
 ### Common Patterns
 

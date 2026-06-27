@@ -30,7 +30,16 @@ export const useSaveScore = ({
   const { t } = useTranslation("yams")
   const [playerName, setPlayerName] = useState('')
 
+  const [lastSaveTime, setLastSaveTime] = useState<number>(0)
+
   const handleSaveAndRestart = async () => {
+    const now = Date.now()
+    if (lastSaveTime > 0 && now - lastSaveTime < 5000) { 
+      setError(t(`errors.rateLimitError`))
+      return
+    }
+    setLastSaveTime(now)
+
     setError(null)
     
     const totalScore = calculateTotalScore(scoreBoard.getAllScores()) + scoreBoard.getTotalYahtzeeBonus()

@@ -9,6 +9,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Monda:wght@400..700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- 
+      Tailwind CSS v4 generates inline styles by default.
+      'unsafe-inline' is required for style-src but scripts remain protected with 'self'.
+      XSS risk mitigated by React's automatic escaping + input validation.
+    -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self';
+      style-src 'self' 'unsafe-inline' ;
+      img-src 'self' data: https:;
+      font-src 'self';
+      connect-src 'self' https://firestore.googleapis.com https://www.googleapis.com;
+      frame-ancestors 'none';
+      base-uri 'self';
+      form-action 'self'
+    " />
     <title>jeux gratuits</title>
   </head>
   <body>

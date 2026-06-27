@@ -50,6 +50,9 @@ describe('Unit tests - UI hooks', () => {
   describe('useSaveScore', () => {
     beforeEach(() => {
       vi.clearAllMocks()
+      vi.resetAllMocks()
+      vi.mocked(SaveGameScoreUseCase.prototype.execute).mockClear()
+
     })
 
     describe('1) Initial state', () => {
@@ -123,6 +126,50 @@ describe('Unit tests - UI hooks', () => {
         expect(mockSetError).toHaveBeenCalledWith('errors.unknownError')
         expect(mockOnSuccess).not.toHaveBeenCalled()
       })
+    })
+  })
+  describe('4) Rate limiting', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      vi.resetAllMocks()
+      vi.mocked(SaveGameScoreUseCase.prototype.execute).mockClear()
+    })
+    it('4.1) should prevent saving if called within 5 seconds', async () => {
+      vi.mocked(SaveGameScoreUseCase.prototype.execute).mockResolvedValue({ success: true })
+  
+      const { result } = renderUseSaveScore(buildScoreBoard())
+  
+      act(() => { result.current.setPlayerName('Alice') })
+      await act(async () => { await result.current.handleSaveAndRestart() })
+  
+      expect(mockOnSuccess).toHaveBeenCalledOnce()
+      expect(vi.mocked(SaveGameScoreUseCase.prototype.execute)).toHaveBeenCalledOnce()
+
+      act(() => { result.current.setPlayerName('Bob') })
+      await act(async () => { await result.current.handleSaveAndRestart() })
+  
+      expect(mockSetError).toHaveBeenCalledWith('errors.rateLimitError')
+      expect(vi.mocked(SaveGameScoreUseCase.prototype.execute)).toHaveBeenCalledOnce()
+    })
+  
+    it('4.2) should allow saving after 5 seconds', async () => {
+      vi.useFakeTimers()
+      vi.mocked(SaveGameScoreUseCase.prototype.execute).mockResolvedValue({ success: true })
+  
+      const { result } = renderUseSaveScore(buildScoreBoard())
+  
+      act(() => { result.current.setPlayerName('Alice') })
+      await act(async () => { await result.current.handleSaveAndRestart() })
+  
+      expect(vi.mocked(SaveGameScoreUseCase.prototype.execute)).toHaveBeenCalledOnce()
+  
+      act(() => { vi.advanceTimersByTime(5000) })
+  
+      act(() => { result.current.setPlayerName('Bob') })
+      await act(async () => { await result.current.handleSaveAndRestart() })
+  
+      expect(vi.mocked(SaveGameScoreUseCase.prototype.execute)).toHaveBeenCalledTimes(2)
+      vi.useRealTimers()
     })
   })
 })

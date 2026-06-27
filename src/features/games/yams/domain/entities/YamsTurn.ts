@@ -23,15 +23,16 @@ export class YamsTurn {
   }
 
   nextRoll(indicesToRoll?: number[]): YamsTurn {
-    if (this.canRoll()) {
-      if (indicesToRoll) {
-        return new YamsTurn(this.rollNumber + 1 , this.diceRoll.reroll(indicesToRoll));
-      }else{
-        return new YamsTurn(this.rollNumber + 1);
-      }
+    if (!this.canRoll()) {
+      throw new MaxTurnsReachedError({
+        currentRollNumber: this.rollNumber,
+        maxRolls: 3
+      })
     }
-    throw new MaxTurnsReachedError();
+    const newDiceRoll = indicesToRoll 
+      ? this.diceRoll.reroll(indicesToRoll)
+      : new DiceRoll()
+    
+    return new YamsTurn(this.rollNumber + 1, newDiceRoll)    
   }
-
-
 }

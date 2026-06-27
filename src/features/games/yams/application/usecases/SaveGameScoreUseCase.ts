@@ -1,5 +1,6 @@
+import { InvalidPlayerNameError, InvalidScoreValueError, PlayerNameEmptyError, PlayerNameTooLongError } from "../errors/YamsErrors"
 import type { SaveGameScoreInput, SaveGameScoreOutput } from "../dtos/SaveGameScoreDTO"
-import { InvalidScoreValueError, PlayerNameEmptyError, PlayerNameTooLongError } from "../errors/YamsErrors"
+
 import type { IScoreRepository, ScoreData } from "../repositories/IScoreRepository"
 
 export class SaveGameScoreUseCase {
@@ -9,15 +10,31 @@ export class SaveGameScoreUseCase {
     this.repository = repository
   }
 
+  private isValidPlayerName(name: string): boolean {
+    const regex = /^[a-zA-Z0-9\s\-'éèêëàâäùûüôöçÉÈÊËÀÂÄÙÛÜÔÖÇ]+$/
+    return regex.test(name)
+  }
+
   async execute(input: SaveGameScoreInput): Promise<SaveGameScoreOutput> {
     try {
       const playerName = input.playerName.trim()
       
       if (playerName.length === 0) {
-        throw new PlayerNameEmptyError()
+        throw new PlayerNameEmptyError({
+          received: ''
+        })
       }
       if (playerName.length > 10) {
-        throw new PlayerNameTooLongError({ maxLength: 10, actualLength: playerName.length })
+        throw new PlayerNameTooLongError({ 
+          maxLength: 10, 
+          actualLength: playerName.length 
+        })
+      }
+      if (!this.isValidPlayerName(playerName)) {        
+        throw new InvalidPlayerNameError({
+          playerName,
+          reason: 'Contains invalid characters'
+        })
       }
       if (input.score < 0) {
         throw new InvalidScoreValueError({ score: input.score })

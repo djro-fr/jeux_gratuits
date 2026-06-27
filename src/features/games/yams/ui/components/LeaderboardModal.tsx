@@ -31,7 +31,7 @@ const LeaderboardContent = () => {
         </thead>
         <tbody className="bg-green-carpet font-content">
           {scores.map((score) => (
-            <tr key={score.rank} className="hover:bg-green-carpet-dark">
+            <tr key={score.id} className="hover:bg-green-carpet-dark">
               <td className="text-left p-2 pl-3 text-xl font-bold">{score.rank}</td>
               <td className="p-2 text-center text-xl">{score.playerName}</td>
               <td className="text-right p-2 pr-3 font-bold text-xl">{score.score}</td>

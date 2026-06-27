@@ -1,6 +1,7 @@
 import type { LeaderboardScore } from "@/features/games/yams/application/repositories/ILeaderboardRepository"
 
-export interface FirebaseLeaderboardEntry {
+export interface FirestoreLeaderboardEntry {
+  id: string
   playerName: string
   score: number
   yahtzeeBonus: number
@@ -10,22 +11,27 @@ export interface FirebaseLeaderboardEntry {
 
 export class LeaderboardMapper {
   static toDomain(
-    firebaseData: FirebaseLeaderboardEntry,
+    data: FirestoreLeaderboardEntry,
     rank: number
   ): LeaderboardScore {
     return {
+      id: data.id,
       rank,
-      playerName: firebaseData.playerName,
-      score: firebaseData.score,
-      timestamp: new Date(firebaseData.timestamp).toLocaleDateString('fr-FR')
+      playerName: data.playerName,
+      score: data.score,
+      timestamp: new Date(data.timestamp).toLocaleDateString('fr-FR')
     }
   }
 
   static toDomainArray(
-    entries: FirebaseLeaderboardEntry[]
+    entries: (FirestoreLeaderboardEntry & { id: string })[] 
   ): LeaderboardScore[] {
-    return entries.map((entry, index) =>
-      this.toDomain(entry, index + 1)
-    )
+    return entries.map((entry, index) => {
+      let rank = index + 1
+      if (index > 0 && entry.score === entries[index - 1].score) {
+        rank = 1 
+      }
+      return this.toDomain(entry, rank)
+    })
   }
 }

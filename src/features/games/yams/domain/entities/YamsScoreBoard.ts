@@ -29,7 +29,12 @@ export class YamsScoreBoard {
   }
 
   addScore(category: YamsCategory, score: number): YamsScoreBoard {
-    if (!this.canScore(category)) throw new CategoryAlreadyScoredError(category)
+    if (!this.canScore(category)) {      
+      throw new CategoryAlreadyScoredError({
+        category,
+        currentScore: this.scores[category]
+      })
+    }
     const newScores = { ...this.scores, [category]: score }
     return new YamsScoreBoard(newScores, this.totalYahtzeeBonus)
   }

@@ -37,6 +37,13 @@ describe("Domain unit tests (Die entity)", () => {
       expect(toggledDie.isKeptDie()).toBe(false)
       expect(dice.isKeptDie()).toBe(true)
     })
+    it("3.3) toggleKeep() preserves die value", () => {
+      const dice = new Die(5, false)
+      const toggledDie = dice.toggleKeep()
+      
+      expect(toggledDie.getValue()).toBe(5)
+      expect(dice.getValue()).toBe(5)
+    })
   })
 
   describe("4) generateRandom()", () => {
@@ -45,11 +52,14 @@ describe("Domain unit tests (Die entity)", () => {
       expect(dice.getValue()).toBeGreaterThanOrEqual(1)
       expect(dice.getValue()).toBeLessThanOrEqual(6)
     })
-
     it("4.2) generateRandom() creates new instance each time", () => {
       const dice1 = Die.generateRandom()
       const dice2 = Die.generateRandom()
       expect(dice1).not.toBe(dice2)
+    })
+    it("4.3) generateRandom() creates with isKept false", () => {
+      const dice = Die.generateRandom()
+      expect(dice.isKeptDie()).toBe(false)
     })
   })
 })

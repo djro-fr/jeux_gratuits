@@ -55,7 +55,8 @@
     "restart" : "Restart",    
     "leaderboard": "Leaderboard",
     "leaderboardLoaded": "Leaderboard loaded ({{count}} entries)",
-    "leaderboardUpdated": "Leaderboard updated"
+    "leaderboardUpdated": "Leaderboard updated",
+    "error": "Erreur"
   }
 
 }

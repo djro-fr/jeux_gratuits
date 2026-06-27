@@ -7,8 +7,12 @@ export class ScoreTurnUseCase {
   execute(input: ScoreTurnInput): ScoreTurnOutput {
     const { yamsScoreBoard, dice, category } = input
 
-    if (!yamsScoreBoard.canScore(category)) 
-      throw new CategoryAlreadyScoredError(category)    
+    if (!yamsScoreBoard.canScore(category)) {
+      throw new CategoryAlreadyScoredError({
+        category,
+        currentScore: yamsScoreBoard.getScore(category)
+      })
+    }  
 
     const score = calculateScoreByCategory(category, dice)
     let scoreEarned = score ?? 0  

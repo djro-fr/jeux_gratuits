@@ -1,5 +1,5 @@
 export class InvalidScoreDataError extends Error {
-  readonly name: string = 'invalidScoreData'
+  readonly name: string = 'invalidScoreDataError'
   readonly details?: unknown
 
   constructor(details?: unknown) {
@@ -9,7 +9,7 @@ export class InvalidScoreDataError extends Error {
 }
 
 export class SaveScoreError extends Error {
-  readonly name: string = 'saveScoreFailed'
+  readonly name: string = 'saveScoreFailedError'
   readonly details?: unknown
 
   constructor(details?: unknown) {
@@ -19,7 +19,7 @@ export class SaveScoreError extends Error {
 }
 
 export class LeaderboardFetchError extends Error {
-  readonly name: string = 'leaderboardFetchFailed'
+  readonly name: string = 'leaderboardFetchFailedError'
   readonly details?: unknown
 
   constructor(details?: unknown) {
@@ -29,7 +29,7 @@ export class LeaderboardFetchError extends Error {
 }
 
 export class LeaderboardMapError extends Error {
-  readonly name: string = 'leaderboardMapFailed'
+  readonly name: string = 'leaderboardMapFailedError'
   readonly details?: unknown
 
   constructor(details?: unknown) {
@@ -39,7 +39,7 @@ export class LeaderboardMapError extends Error {
 }
 
 export class LeaderboardSubscribeError extends Error {
-  readonly name: string = 'leaderboardSubscribeFailed'
+  readonly name: string = 'leaderboardSubscribeFailedError'
   readonly details?: unknown
 
   constructor(details?: unknown) {
@@ -49,7 +49,7 @@ export class LeaderboardSubscribeError extends Error {
 }
 
 export class LeaderboardConfigError extends Error {
-  readonly name: string = 'leaderboardConfigFailed'
+  readonly name: string = 'leaderboardConfigFailedError'
   readonly details?: unknown
 
   constructor(details?: unknown) {

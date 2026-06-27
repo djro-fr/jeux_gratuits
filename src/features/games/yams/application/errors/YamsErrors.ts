@@ -1,91 +1,83 @@
-export class WrongNumberOfDice extends Error {
-  constructor(numberOfDice: number) {
-    super(`WRONG_NUMBER_OF_DICE - ${numberOfDice}`)
-    this.name = 'wrongNumberOfDice'
+export class WrongNumberOfDiceError extends Error {
+  readonly name: string = 'wrongNumberOfDiceError'
+  readonly details?: unknown
+
+  constructor(details?: unknown) {
+    super('Wrong number of dice')
+    this.details = details
   }
-}  
+}
+
 export class DuplicateDiceIndicesError extends Error {
-  constructor() {
-    super('DUPLICATE_DICE_INDICES')
-    this.name = 'duplicateDiceIndicesError'
+  readonly name: string = 'duplicateDiceIndicesError'
+  readonly details?: unknown
+
+  constructor(details?: unknown) {
+    super('Duplicate dice indices')
+    this.details = details
   }
-}  
+}
+
 export class TooManyDiceKeptError extends Error {
-  constructor(count: number) {
-    super(`TOO_MANY_DICE_KEPT - ${count}`)
-    this.name = 'tooManyDiceKeptError'
+  readonly name: string = 'tooManyDiceKeptError'
+  readonly details?: unknown
+
+  constructor(details?: unknown) {
+    super('Too many dice kept')
+    this.details = details
   }
 }
+
 export class InvalidDiceIndicesError extends Error {
-  constructor() {
-    super('INVALID_DICE_INDICES')
-    this.name = 'invalidDiceIndicesError'
+  readonly name: string = 'invalidDiceIndicesError'
+  readonly details?: unknown
+
+  constructor(details?: unknown) {
+    super('Invalid dice indices')
+    this.details = details
   }
-}  
+}
+
 export class CantRollError extends Error {
-  constructor() {
-    super('CANT_ROLL')
-    this.name = 'cantRollError'
+  readonly name: string = 'cantRollError'
+  readonly details?: unknown
+
+  constructor(details?: unknown) {
+    super('Cannot roll dice')
+    this.details = details
   }
-}  
+}
+
 export class CategoryAlreadyScoredError extends Error {
-  constructor(category: string) {
-    super(`CATEGORY_ALREADY_SCORED - ${category}`)
-    this.name = 'categoryAlreadyScoredError'
+  readonly name: string = 'categoryAlreadyScoredError'
+  readonly details?: unknown
+
+  constructor(details?: unknown) {
+    super('Category already scored')
+    this.details = details
   }
-}
-
-// infrastructure/errors/YamsErrors.ts
-export class InvalidScoreDataError extends Error {
-  readonly name: string = 'invalidScoreData'
-  readonly details?: unknown
-  constructor(details?: unknown) { super('Invalid score data'); this.details = details }
-}
-
-export class SaveScoreError extends Error {
-  readonly name: string = 'saveScoreFailed'
-  readonly details?: unknown
-  constructor(details?: unknown) { super('Failed to save score'); this.details = details }
 }
 
 export class PlayerNameTooLongError extends Error {
-  readonly name: string = 'playerNameTooLong'
+  readonly name: string = 'playerNameTooLongError'
   readonly details?: unknown
   constructor(details?: unknown) { super('Player name must be 10 characters or less'); this.details = details }
 }
 
 export class PlayerNameEmptyError extends Error {
-  readonly name: string = 'playerNameEmpty'
+  readonly name: string = 'playerNameEmptyError'
   readonly details?: unknown
   constructor(details?: unknown) { super('Player name is required'); this.details = details }
 }
 
+export class InvalidPlayerNameError extends Error {
+  readonly name: string = 'invalidPlayerNameError'
+  readonly details?: unknown
+  constructor(details?: unknown) { super('Player name is wrong'); this.details = details }
+}
+
 export class InvalidScoreValueError extends Error {
-  readonly name: string = 'invalidScoreValue'
+  readonly name: string = 'invalidScoreValueError'
   readonly details?: unknown
   constructor(details?: unknown) { super('Score cannot be negative'); this.details = details }
-}
-
-export class LeaderboardFetchError extends Error {
-  readonly name: string = 'leaderboardFetchFailed'
-  readonly details?: unknown
-  constructor(details?: unknown) { super('Failed to fetch leaderboard'); this.details = details }
-}
-
-export class LeaderboardMapError extends Error {
-  readonly name: string = 'leaderboardMapFailed'
-  readonly details?: unknown
-  constructor(details?: unknown) { super('Failed to map leaderboard data'); this.details = details }
-}
-
-export class LeaderboardSubscribeError extends Error {
-  readonly name: string = 'leaderboardSubscribeFailed'
-  readonly details?: unknown
-  constructor(details?: unknown) { super('Failed to subscribe to leaderboard'); this.details = details }
-}
-
-export class LeaderboardConfigError extends Error {
-  readonly name: string = 'leaderboardConfigFailed'
-  readonly details?: unknown
-  constructor(details?: unknown) { super('Leaderboard configuration error'); this.details = details }
 }

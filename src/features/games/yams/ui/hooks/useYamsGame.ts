@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { YamsScoreBoard } from "../../domain/entities/YamsScoreBoard"
 import { YamsTurn } from "../../domain/entities/YamsTurn"
@@ -37,6 +37,10 @@ export const useYamsGame = (): UseYamsGameReturn => {
   const [selectedCategory, setSelectedCategory] = useState<YamsCategory | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showScoreBoard, setShowScoreBoard] = useState(false)
+  
+  const rollDiceUseCase = useMemo(() => new RollDiceUseCase(), [])
+  const keepDiceUseCase = useMemo(() => new KeepDiceUseCase(), [])
+  const scoreTurnUseCase = useMemo(() => new ScoreTurnUseCase(), [])  
 
   const createTestScoreBoard = (): YamsScoreBoard => {
     let board = YamsScoreBoard.create()
@@ -64,14 +68,14 @@ export const useYamsGame = (): UseYamsGameReturn => {
   const handleRoll = () => {
     try {
       if (yamsTurn !== null) return
-      const diceResult = new RollDiceUseCase().execute(5)
+      const diceResult = rollDiceUseCase.execute(5)
       const turn = new YamsTurn(1, diceResult)
       setYamsTurn(turn)
       setDiceRoll(diceResult)
       setSelectedIndices([])
       setError(null)
     } catch (err) {
-      const errorKey = err instanceof Error ? err.name : 'unknown'
+      const errorKey = err instanceof Error ? err.name : 'unknownError'
       setError(t(`errors.${errorKey}`))
     }
   }
@@ -79,13 +83,13 @@ export const useYamsGame = (): UseYamsGameReturn => {
   const handleKeepDice = (indicesToKeep: number[]) => {
     try {
       if (!yamsTurn) return
-      const newTurn = new KeepDiceUseCase().execute(yamsTurn, indicesToKeep)
+      const newTurn = keepDiceUseCase.execute(yamsTurn, indicesToKeep)
       setYamsTurn(newTurn)
       setDiceRoll(newTurn.getDiceRoll())
       if (newTurn.getRollNumber() === 3) setSelectedIndices([])
       setError(null)
     } catch (err) {
-      const errorKey = err instanceof Error ? err.name : 'unknown'
+      const errorKey = err instanceof Error ? err.name : 'unknownError'
       setError(t(`errors.${errorKey}`))
     }
   }
@@ -93,7 +97,7 @@ export const useYamsGame = (): UseYamsGameReturn => {
   const handleScore = (category: YamsCategory) => {
     try {
       if (!diceRoll) return
-      const result = new ScoreTurnUseCase().execute({
+      const result = scoreTurnUseCase.execute({
         yamsScoreBoard: scoreBoard,
         dice: diceRoll.getDice(),
         category
@@ -111,12 +115,8 @@ export const useYamsGame = (): UseYamsGameReturn => {
 
       if (!allScored) setYamsTurn(null)
     } catch (err) {
-      const errorKey = err instanceof Error ? err.name : 'unknown'
-      if (errorKey === 'categoryAlreadyScoredError') {
-        setError(t(`errors.${errorKey}`, { category }))
-      } else {
-        setError(t(`errors.${errorKey}`))
-      }
+      const errorKey = err instanceof Error ? err.name : 'unknownError'
+      setError(t(`errors.${errorKey}`, { category }))
     }
   }
 

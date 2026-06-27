@@ -1,6 +1,7 @@
 # JeuxGratuits
 
-Free mini-games built with modern web technologies
+Free mini-games built with modern web technologies.
+Built as a portfolio project to demonstrate Clean Architecture, Testing, and Modern React practices.
 
 ## Games
 
@@ -10,7 +11,7 @@ Free mini-games built with modern web technologies
   - Score preview & validation
   - Yahtzee bonus detection
   - Complete game flow
-  - Global leaderboard with Firebase persistence
+  - Global leaderboard with Firebase persistence (Firestore)
   - Multi-language support (FR/EN)
 - More coming soon...
 
@@ -22,7 +23,7 @@ Free mini-games built with modern web technologies
 - **Internationalization:** react-i18next (FR/EN) with namespaces
 - **Architecture:** Clean Architecture with Domain-Driven Design
 - **State Management:** React Hooks + Custom Hooks
-- **Backend/Database:** Firebase Realtime Database
+- **Backend/Database:** Firebase Firestore
 - **Code Quality:** ESLint, SonarLint
 
 ## Architecture Patterns
@@ -86,46 +87,23 @@ ui/
 
 ## Testing
 
-### Test Strategy
+### Test Breakdown
 
-### Domain Layer (75 tests)
+- **Domain Layer** (74 tests)
+  - Die (14 tests), DiceRoll (20 tests), YamsTurn (10 tests)
+  - YamsGame (9 tests), YamsScoreBoard (14 tests)
+  - calculateScore (31 tests)
 
-- **Die.test.ts** (12 tests) - Value generation & constraints
-- **DiceRoll.test.ts** (20 tests) - Roll mechanics, keeping dice
-- **YamsTurn.test.ts** (6 tests) - Turn state management
-- **YamsGame.test.ts** (6 tests) - Game orchestration
-- **calculateScore.test.ts** (31 tests) - All 13 scoring categories
+- **Application Layer** (60 tests)
+  - UseCases (34 tests): RollDice, KeepDice, ScoreTurn, SaveGameScore, GetLeaderboard
+  - YamsScoreBoard (14 tests)
+  - Integration Tests (12 tests)
 
-### Application Layer (33 tests)
+- **Infrastructure Layer** (12 tests)
+  - LeaderboardMapper (12 tests)
 
-- **RollDiceUseCase.test.ts** (4 tests) - Roll execution
-- **KeepDiceUseCase.test.ts** (6 tests) - Keep & reroll mechanics
-- **ScoreTurnUseCase.test.ts** (6 tests) - Scoring logic + Yahtzee bonus
-- **SaveGameScoreUseCase.test.ts** (4 tests) - Score persistence contract
-- **GetLeaderboardUseCase.test.ts** (4 tests) - Leaderboard subscription contract
-- **YamsScoreBoard.test.ts** (13 tests) - Score tracking
-
-### Infrastructure Layer (15 tests)
-
-- **LeaderboardMapper.test.ts** (9 tests) - Firebase → Domain transformations
-- **ScoreMapper.test.ts** (6 tests) - Domain → Firebase transformations
-
-### UI Layer (29 tests)
-
-- **useYamsGame.test.ts** (17 tests) - Game state & handlers
-- **useLeaderboard.test.ts** (4 tests) - Leaderboard subscription & state
-- **useSaveScore.test.ts** (8 tests) - Save validation & persistence flow
-
-### Integration (5 tests)
-
-- **YamsGameFlow.test.ts** (4 tests) - Multi-turn scenarios
-- **YamsGameComplete.test.ts** (1 test) - Full game simulation
-
-### Test Summary
-
-- **Total: 161 tests, all passing**
-- Coverage: >90% Domain & Application layers, UI hooks fully covered
-- Framework: Vitest + React Testing Library
+- **UI Layer** (27 tests)
+  - Hooks (27 tests): useYamsGame, useLeaderboard, useSaveScore
 
 ## Data Flow Example: Scoring
 
@@ -159,13 +137,22 @@ useSaveScore.handleSaveAndRestart()
 
 ## TO DO
 
-- [ ] Component tests (React Testing Library)
-- [ ] Animation & transitions
-- [ ] Android build & Google Play Store publishing
-- [ ] More games
+- [ ] Animations & transitions
+- [ ] Component visual tests (Storybook)
+- [ ] E2E tests (Playwright/Cypress)
+- [ ] Performance optimizations
+- [ ] Android/iOS build (Capacitor)
+- [ ] Additional games
 
 ## Status
 
-**In development** - Yams Core Features Complete + Firebase Leaderboard + Clean Architecture Refactor + Explicit Mappers + UI Hooks + Full Hook Test Coverage
+**Complete - MVP** :
 
-**Last Updated:** June 26, 2026
+- Yams game with full rule implementation
+- Firebase Leaderboard (Firestore)
+- Clean Architecture + DDD
+- 185 comprehensive tests
+- Multi-language support (FR/EN)
+- Mobile responsive UI
+
+**Last Updated:** June 27, 2026

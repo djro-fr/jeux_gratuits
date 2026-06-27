@@ -18,16 +18,22 @@ describe("Domain unit tests (YamsTurn entity)", () => {
       expect(turn2.getDiceRoll()).toBe(existingDiceRoll)
     })
   })
-
-  it("2) canRoll() ", () => {   
-    const turn1 = new YamsTurn(1)
-    expect (turn1.canRoll()).toBe(true)
-    const turn2 = new YamsTurn(2)
-    expect (turn2.canRoll()).toBe(true)
-    const turn3 = new YamsTurn(3)
-    expect (turn3.canRoll()).toBe(false)
+  describe("2) canRoll()", () => {  
+    it("2.1) returns true for roll 1", () => {
+      const turn1 = new YamsTurn(1)
+      expect(turn1.canRoll()).toBe(true)
+    })
+    
+    it("2.2) returns true for roll 2", () => {
+      const turn2 = new YamsTurn(2)
+      expect(turn2.canRoll()).toBe(true)
+    })
+    
+    it("2.3) returns false for roll 3", () => {
+      const turn3 = new YamsTurn(3)
+      expect(turn3.canRoll()).toBe(false)
+    })
   })
-
   describe("3) nextRoll() ", () => {
     it("3.1) nextRoll no index parameter ", () => {      
       const turnA = new YamsTurn()
@@ -76,6 +82,21 @@ describe("Domain unit tests (YamsTurn entity)", () => {
         const diceA = turnA.getDiceRoll().getDice()[index]
         expect(diceB).toBe(diceA)
       }
+    })
+    it("3.4) nextRoll returns new instance", () => {
+      const turnA = new YamsTurn()
+      const turnB = turnA.nextRoll([0])
+      
+      expect(turnA).not.toBe(turnB)
+      expect(turnA.getRollNumber()).toBe(1) 
+      expect(turnB.getRollNumber()).toBe(2)
+    })
+    it("3.5) nextRoll with empty array rerolls all", () => {
+      const turnA = new YamsTurn()
+      const turnB = turnA.nextRoll([])
+      
+      expect(turnB.getRollNumber()).toBe(2)      
+      expect(turnB.getDiceRoll().getDice()).toHaveLength(5)
     })
     
 

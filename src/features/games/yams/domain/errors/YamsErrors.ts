@@ -1,18 +1,29 @@
 export class InvalidDieValueError extends Error {
-  constructor() {
-    super('INVALID_DIE_VALUE')
-    this.name = 'invalidDieValueError'
+  readonly name: string = 'invalidDieValueError'
+  readonly details?: unknown
+
+  constructor(details?: unknown) {
+    super('Invalid die value')
+    this.details = details
   }
 }
+
 export class MaxTurnsReachedError extends Error {
-  constructor() {
-    super('MAX_TURNS_REACHED')
-    this.name = 'maxTurnsReachedError'
+  readonly name: string = 'maxTurnsReachedError'
+  readonly details?: unknown
+
+  constructor(details?: unknown) {
+    super('Maximum turns reached')
+    this.details = details
   }
 }
+
 export class GameAlreadyFinishedError extends Error {
-  constructor() {
-    super('GAME_ALREADY_FINISHED')
-    this.name = 'gameAlreadyFinishedError'
+  readonly name: string = 'gameAlreadyFinishedError'
+  readonly details?: unknown
+
+  constructor(details?: unknown) {
+    super('Game is already finished')
+    this.details = details
   }
-}  
+}

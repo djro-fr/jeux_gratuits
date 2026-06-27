@@ -10,6 +10,7 @@ interface UseSaveScoreProps {
   scoreBoard: YamsScoreBoard
   onSuccess: () => void
   setError: (error: string | null) => void
+  setSuccessMessage?: (message: string | null) => void
 }
 
 interface UseSaveScoreReturn {
@@ -18,28 +19,20 @@ interface UseSaveScoreReturn {
   handleSaveAndRestart: () => Promise<void>
 }
 
+const saveUseCase = new SaveGameScoreUseCase(new FirebaseScoreRepository())
+
 export const useSaveScore = ({
   scoreBoard,
   onSuccess,
   setError,
+  setSuccessMessage
 }: UseSaveScoreProps): UseSaveScoreReturn => {
   const { t } = useTranslation("yams")
   const [playerName, setPlayerName] = useState('')
 
   const handleSaveAndRestart = async () => {
     setError(null)
-
-    const trimmedName = playerName.trim()
-    if (trimmedName.length === 0) {
-      setError(t('errors.playerNameEmpty'))
-      return
-    }
-    if (trimmedName.length > 10) {
-      setError(t('errors.playerNameTooLong'))
-      return
-    }
-
-    const saveUseCase = new SaveGameScoreUseCase(new FirebaseScoreRepository())
+    
     const totalScore = calculateTotalScore(scoreBoard.getAllScores()) + scoreBoard.getTotalYahtzeeBonus()
 
     const input: SaveGameScoreInput = {
@@ -47,16 +40,17 @@ export const useSaveScore = ({
       score: totalScore,
       yahtzeeBonus: scoreBoard.getTotalYahtzeeBonus()
     }
-
+    
     const result = await saveUseCase.execute(input)
 
     if (result.success) {
-      alert(t('ui.scoreSaved'))
+      setSuccessMessage?.(t('ui.scoreSaved'))  
       setPlayerName('')
       onSuccess()
     } else {
-      setError(result.error || t('errors.unknownError'))
-    }
+      const errorKey = result.error ?? 'unknownError'
+      setError(t(`errors.${errorKey}`))
+    }   
   }
 
   return { playerName, setPlayerName, handleSaveAndRestart }

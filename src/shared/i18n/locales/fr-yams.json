@@ -55,6 +55,7 @@
     "restart" : "Recommencer",    
     "leaderboard": "Classement",
     "leaderboardLoaded": "Classement chargé ({{count}} entrées)",
-    "leaderboardUpdated": "Classement mis à jour"
+    "leaderboardUpdated": "Classement mis à jour",
+    "error": "Erreur"
   }
 }

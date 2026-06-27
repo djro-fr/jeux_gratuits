@@ -1,8 +1,10 @@
+import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { calculateTotalScore, YamsCategory } from "../../domain/rules/calculateScore"
 import { DiceDisplay } from "../components/DiceDisplay"
 import { ScoreBoard } from "../components/ScoreBoard"
 import { ErrorModal } from "../components/ErrorModal"
+import { Modal } from "@/shared/components/Modal"  
 import { IconsSprite } from "@/shared/components/IconsSprite"
 import { GlobalLeaderboard } from "../components/GlobalLeaderboard"
 import { useYamsGame } from "../hooks/useYamsGame"
@@ -11,6 +13,8 @@ import { useSaveScore } from "../hooks/useSaveScore"
 export const YamsGameContainer = () => {
   const { t } = useTranslation("yams")
   const { t: tGames } = useTranslation()
+
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
   const {
     scoreBoard, diceRoll, yamsTurn,
@@ -28,6 +32,7 @@ export const YamsGameContainer = () => {
     scoreBoard,
     onSuccess: handleRestart,
     setError,
+    setSuccessMessage  
   })
   
   if (yamsTurn === null && Object.values(scoreBoard.getAllScores()).includes(null)) {
@@ -46,13 +51,28 @@ export const YamsGameContainer = () => {
     )
   }
 
-  
   if (yamsTurn === null && !Object.values(scoreBoard.getAllScores()).includes(null)) {
     const totalYahtzeeBonus = scoreBoard.getTotalYahtzeeBonus()
     const totalScore = calculateTotalScore(scoreBoard.getAllScores()) + totalYahtzeeBonus
 
     return (
       <>
+        <Modal
+          isOpen={!!successMessage}
+          onClose={() => setSuccessMessage(null)}
+          title={t('ui.success')}
+        >
+          <div className="text-center">
+            <p className="text-lg text-green-500 mb-6">{successMessage}</p>
+            <button
+              onClick={() => setSuccessMessage(null)}
+              className="action gold icon md w-full"
+            >
+              {t('ui.ok')}
+            </button>
+          </div>
+        </Modal>
+
         <div className="game-over">
           <p className="mt-4 text-xl font-semibold text-primary-light text-center">{t('ui.gameOver')}</p>
           <h2 className="mt-10">Total</h2>
@@ -87,7 +107,7 @@ export const YamsGameContainer = () => {
                 setPlayerName(e.target.value)
                 setError(null)
               }}
-              id= "player-name"
+              id="player-name"
               placeholder={t('ui.enterName')}
               maxLength={10}
               className="text-white text-2xl mb-4 text-center"

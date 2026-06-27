@@ -74,6 +74,41 @@ describe("Domain unit tests (YamsGame entity)", () => {
       expect(game.isGameFinished()).toBe(true)      
       expect(game.getGameTurnNumber()).toBe(13)
     })
+    it("2.4) validateTurn returns new instance", () => {
+      const game1 = new YamsGame()
+      const dice = new DiceRoll().getDice()
+      const game2 = game1.validateTurn(dice)
+      
+      expect(game1).not.toBe(game2)
+      expect(game1.getGameTurnNumber()).toBe(1)
+      expect(game2.getGameTurnNumber()).toBe(2)
+    })
+    it("2.5) getValidatedTurns returns defensive copy", () => {
+      const game = new YamsGame()
+      const dice = new DiceRoll().getDice()
+      const game2 = game.validateTurn(dice)
+      
+      const turns1 = game2.getValidatedTurns()
+      const turns2 = game2.getValidatedTurns()
+      
+      expect(turns1).not.toBe(turns2)  
+      expect(turns1).toEqual(turns2)   
+    })
+    it("2.6) currentTurn stays same until final turn", () => {
+      const turn1 = new YamsTurn(1)
+      let game = new YamsGame(turn1)
+      
+      for (let i = 0; i < 12; i++) {
+        const dice = new DiceRoll().getDice()
+        game = game.validateTurn(dice)
+      }
+      
+      expect(game.getCurrentTurn().getRollNumber()).toBe(1)
+
+      game = game.validateTurn(new DiceRoll().getDice())
+      expect(game.getCurrentTurn()).toBe(game.getCurrentTurn())
+    })
+
 
   })
 })

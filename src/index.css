@@ -62,11 +62,17 @@
     @apply fixed w-full bottom-0 p-4 rounded-t-3xl bg-primary text-white z-2;
     a{
       @apply text-white;
+    }   
+    li{
+      @apply max-h-8;
     }
     button{
       @apply font-bold ;
       &:hover {
         @apply border-b;
+      }
+      &.icon{
+       @apply w-8 h-8 fill-white;
       }
     }
   }

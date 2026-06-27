@@ -22,6 +22,17 @@ describe("Application unit tests (ScoreTurnUseCase)", () => {
       expect(result.scoreEarned).toBe(50)
       expect(result.updatedScoreBoard.getScore(YamsCategory.Yahtzee)).toBe(50)
     })
+    it("1.2) scores zero when no matching dice", () => {
+      const scoreBoard = YamsScoreBoard.create()
+      const dice = [new Die(1), new Die(2), new Die(3), new Die(4), new Die(5)]
+      const result = useCase.execute({
+        yamsScoreBoard: scoreBoard,
+        dice: dice,
+        category: YamsCategory.Sixes
+      })
+      expect(result.scoreEarned).toBe(0)
+      expect(result.updatedScoreBoard.getScore(YamsCategory.Sixes)).toBe(0)
+    })
   })
   describe("2) Error handling", () => {
     it("2.1) throws CategoryAlreadyScoredError if category already scored", () => {
@@ -64,6 +75,16 @@ describe("Application unit tests (ScoreTurnUseCase)", () => {
       })
       expect(result2.scoreEarned).toBe(120)
       expect(result2.updatedScoreBoard.getTotalYahtzeeBonus()).toBe(200)
+    })
+    it("3.3) Yahtzee bonus included in scoreEarned", () => {
+      const scoreBoard = YamsScoreBoard.create().addScore(YamsCategory.Yahtzee, 50)
+      const dice = [new Die(3), new Die(3), new Die(3), new Die(3), new Die(3)]
+      const result = useCase.execute({
+        yamsScoreBoard: scoreBoard,
+        dice: dice,
+        category: YamsCategory.Threes
+      })
+      expect(result.scoreEarned).toBe(115)
     })
   })
   

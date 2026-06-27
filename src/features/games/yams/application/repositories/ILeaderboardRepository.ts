@@ -1,4 +1,5 @@
 export interface LeaderboardScore {
+  id: string
   rank: number
   playerName: string
   score: number

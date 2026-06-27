@@ -2,35 +2,33 @@
 import { LeaderboardModal } from '@/features/games/yams/ui/components/LeaderboardModal'
 import { useYamsGame } from '@/features/games/yams/ui/hooks/useYamsGame'
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { IconsSprite } from './IconsSprite'
 
 export const NavbarYams = () => {
-  const {t} = useTranslation("yams")
   const { handleRestart } = useYamsGame()
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false)
 
   return (    
     <>
-    <nav id="navbar">
-      <div className="container mx-auto flex justify-between items-center">
-        <ul className="flex gap-8">
+    <nav id="navbar" className='py-2.5'>
+      <div className="container mx-auto flex">
+        <ul className="flex justify-between w-full px-5">
           <li>
             <Link to="/">
-              H
+            <button className='icon' onClick={handleRestart}>
+              <IconsSprite value='home'/>              
+            </button>
             </Link>
           </li>
           <li>
-            <button onClick={handleRestart}>
-              {t("ui.restart")}
+            <button className='icon' onClick={handleRestart}>
+              <IconsSprite value='restart'/>              
             </button>
           </li>
           <li>
-            <button 
-              onClick={() => setIsLeaderboardOpen(true)}
-              className="hover:opacity-80 transition"
-            >
-              {t("ui.leaderboard")}
+            <button className='icon' onClick={() => setIsLeaderboardOpen(true)}>
+              <IconsSprite value='leaderboard'/>              
             </button>
           </li>
         </ul>

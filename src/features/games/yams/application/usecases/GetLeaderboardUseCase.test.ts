@@ -10,8 +10,8 @@ const mockRepository: ILeaderboardRepository = {
 }
 
 const fakeScores: LeaderboardScore[] = [
-  { rank: 1, playerName: 'Alice', score: 300, timestamp: '2025-01-01T10:00:00Z' },
-  { rank: 2, playerName: 'Bob',   score: 250, timestamp: '2025-01-02T10:00:00Z' },
+  { id: 'doc1', rank: 1, playerName: 'Alice', score: 300, timestamp: '2025-01-01T10:00:00Z' },
+  { id: 'doc1', rank: 2, playerName: 'Bob',   score: 250, timestamp: '2025-01-02T10:00:00Z' },
 ]
 
 describe('Application unit tests (GetLeaderboardUseCase)', () => {

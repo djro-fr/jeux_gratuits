@@ -6,7 +6,10 @@ export class Die {
 
   constructor(value: number, isKept: boolean = false) {
     if (value < 1 || value > 6) {
-      throw new InvalidDieValueError()
+      throw new InvalidDieValueError({
+        received: value,
+        validRange: [1, 6]
+      })
     }
     this.value = value
     this.isKept = isKept
@@ -21,7 +24,7 @@ export class Die {
   }
 
   static generateRandom(): Die {
-    return new Die(Math.round(Math.random()*5+1))
+    return new Die(Math.floor(Math.random() * 6) + 1)
   }
 
   toggleKeep(): Die {

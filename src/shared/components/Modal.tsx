@@ -22,7 +22,7 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
             ✕
           </button>
         </div>
-        <div className="p-1">
+        <div className="p-1 overflow-scroll">
           {children}
         </div>
       </div>

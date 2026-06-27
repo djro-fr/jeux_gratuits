@@ -27,20 +27,25 @@ export class YamsGame{
 
   validateTurn(finalDice: Die[]) : YamsGame{
     if (this.isGameFinished()) {
-      throw new GameAlreadyFinishedError()
+      throw new GameAlreadyFinishedError({
+        turnsCompleted: this.validatedTurns.length,
+        maxTurns: 13,
+        currentTurnNumber: this.gameTurnNumber
+      })
     }
     const newValidatedTurns = [
       ...this.validatedTurns,
       { turn: this.currentTurn, finalDice: finalDice }
     ]
     
-    const newGameTurnNumber = (newValidatedTurns.length < 13)
-    ? this.gameTurnNumber + 1
-    : this.gameTurnNumber 
-  
-  const newTurn = (newValidatedTurns.length < 13)
-    ? new YamsTurn()
-    : this.currentTurn 
+    const isFinalTurn = newValidatedTurns.length >= 13
+    const newGameTurnNumber = isFinalTurn 
+      ? this.gameTurnNumber 
+      : this.gameTurnNumber + 1
+    
+    const newTurn = isFinalTurn 
+      ? this.currentTurn 
+      : new YamsTurn()
   
     return new YamsGame(newTurn, newGameTurnNumber, newValidatedTurns)
   }

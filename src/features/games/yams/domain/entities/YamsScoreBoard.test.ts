@@ -13,6 +13,15 @@ describe("Application unit tests (YamsScoreBoard entity)", () => {
         expect(score).toBe(null)
       })
     })    
+    it("1.2) Constructor with initial yahtzeeBonus", () => {
+      const scoreBoard = YamsScoreBoard.create(100)
+      expect(scoreBoard.getTotalYahtzeeBonus()).toBe(100)
+      
+      const scores = scoreBoard.getAllScores()
+      Object.values(scores).forEach(score => {
+        expect(score).toBe(null)
+      })
+    })
   })    
 
   describe("2) canScore", () => {

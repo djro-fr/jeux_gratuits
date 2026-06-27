@@ -10,8 +10,8 @@ vi.mock('../../application/usecases/GetLeaderboardUseCase')
 const mockUnsubscribe = vi.fn()
 
 const fakeScores: LeaderboardScore[] = [
-  { rank: 1, playerName: 'Alice', score: 300, timestamp: '15/01/2025' },
-  { rank: 2, playerName: 'Bob',   score: 250, timestamp: '20/02/2025' },
+  { id: 'doc1', rank: 1, playerName: 'Alice', score: 300, timestamp: '15/01/2025' },
+  { id: 'doc1', rank: 2, playerName: 'Bob',   score: 250, timestamp: '20/02/2025' },
 ]
 
 describe('Unit tests - UI hooks', () => {

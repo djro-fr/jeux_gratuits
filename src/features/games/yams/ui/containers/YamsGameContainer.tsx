@@ -55,23 +55,28 @@ export const YamsGameContainer = () => {
     const totalYahtzeeBonus = scoreBoard.getTotalYahtzeeBonus()
     const totalScore = calculateTotalScore(scoreBoard.getAllScores()) + totalYahtzeeBonus
 
+    const handleCloseSuccessModal = () => {
+      setSuccessMessage(null)
+      handleRestart()
+    }
+
     return (
       <>
-        <Modal
-          isOpen={!!successMessage}
-          onClose={() => setSuccessMessage(null)}
-          title={t('ui.success')}
-        >
-          <div className="text-center">
-            <p className="text-2xl my-6">{successMessage}</p>
-            <button
-              onClick={() => setSuccessMessage(null)}
-              className="action w-full max-w-24"
-            >
-              {t('ui.ok')}
-            </button>
-          </div>
-        </Modal>
+      <Modal
+        isOpen={!!successMessage}
+        onClose={handleCloseSuccessModal}
+        title={t('')}
+      >
+        <div className="text-center">
+          <p className="text-xl my-6">{successMessage}</p>
+          <button
+            onClick={handleCloseSuccessModal}
+            className="action w-full max-w-30"
+          >
+            {t('ui.success')}
+          </button>
+        </div>
+      </Modal>
 
         <div className="game-over">
           <p className="mt-4 text-xl font-semibold text-primary-light text-center">{t('ui.gameOver')}</p>

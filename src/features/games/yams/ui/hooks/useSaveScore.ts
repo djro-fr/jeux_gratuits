@@ -23,7 +23,6 @@ const saveUseCase = new SaveGameScoreUseCase(new FirebaseScoreRepository())
 
 export const useSaveScore = ({
   scoreBoard,
-  onSuccess,
   setError,
   setSuccessMessage
 }: UseSaveScoreProps): UseSaveScoreReturn => {
@@ -55,7 +54,6 @@ export const useSaveScore = ({
     if (result.success) {
       setSuccessMessage?.(t('ui.scoreSaved'))  
       setPlayerName('')
-      onSuccess()
     } else {
       const errorKey = result.error ?? 'unknownError'
       setError(t(`errors.${errorKey}`))

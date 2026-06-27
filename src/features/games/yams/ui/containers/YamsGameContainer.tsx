@@ -63,10 +63,10 @@ export const YamsGameContainer = () => {
           title={t('ui.success')}
         >
           <div className="text-center">
-            <p className="text-lg text-green-500 mb-6">{successMessage}</p>
+            <p className="text-2xl my-6">{successMessage}</p>
             <button
               onClick={() => setSuccessMessage(null)}
-              className="action gold icon md w-full"
+              className="action w-full max-w-24"
             >
               {t('ui.ok')}
             </button>
@@ -142,9 +142,9 @@ export const YamsGameContainer = () => {
         rollNumber={yamsTurn.getRollNumber()}
       />
 
-      <div className={yamsTurn.getRollNumber() < 3 ? "grid grid-cols-2 gap-x-4" : "w-[50%] mx-auto"}>
+      <div className={yamsTurn.getRollNumber() < 3 ? "flex justify-center gap-x-4" : "flex w-[50%] mx-auto justify-center"}>
         {yamsTurn.getRollNumber() < 3 && (
-          <button className="action gold icon md w-full" onClick={() => handleKeepDice(selectedIndices)}>
+          <button className="action flex-1 gold icon md w-full" onClick={() => handleKeepDice(selectedIndices)}>
             <div>
               <IconsSprite value="reroll" />
               {t('ui.reroll')}
@@ -157,6 +157,8 @@ export const YamsGameContainer = () => {
             {t('ui.toScore')}
           </div>
         </button>
+      </div>
+      <div>
         <button className="action ml-2" onClick={handleFillTestData}>
           Fill Test Data (DEV)
         </button>

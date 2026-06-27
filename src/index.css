@@ -71,6 +71,9 @@
       &:hover {
         @apply border-b;
       }
+      &.icon:hover{        
+        @apply border-0 opacity-65;
+      }
       &.icon{
        @apply w-8 h-8 fill-white;
       }
@@ -138,13 +141,15 @@
       }
     }
     .dice-container {
-      @apply grid grid-cols-5 gap-x-2 mb-4 mt-40;
+      @apply max-w-300 grid grid-cols-5 gap-x-[2vw] mb-[4vw] mt-40 mx-auto;
       .die{
         box-shadow: 0 12px 6px rgba(0, 0, 0, 0.15);
         border-radius: 20%;
         &.selected{
           box-shadow: 0 6px 2px rgba(0, 0, 0, 0.2);
-          transform: scale(.85) translateY(40vh);
+          transform: scale(.8) translateY(40vh);
+          @apply md:translate-y-[4vw];
+          
         }      
       }
     }

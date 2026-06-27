@@ -58,6 +58,7 @@
     "leaderboard": "Classement",
     "leaderboardLoaded": "Classement chargé ({{count}} entrées)",
     "leaderboardUpdated": "Classement mis à jour",
-    "error": "Erreur"
+    "error": "Erreur",
+    "success" : "OK"
   }
 }

@@ -61,23 +61,35 @@ export class CategoryAlreadyScoredError extends Error {
 export class PlayerNameTooLongError extends Error {
   readonly name: string = 'playerNameTooLongError'
   readonly details?: unknown
-  constructor(details?: unknown) { super('Player name must be 10 characters or less'); this.details = details }
+  constructor(details?: unknown) { 
+    super('Player name must be 10 characters or less')
+    this.details = details 
+  }
 }
 
 export class PlayerNameEmptyError extends Error {
   readonly name: string = 'playerNameEmptyError'
   readonly details?: unknown
-  constructor(details?: unknown) { super('Player name is required'); this.details = details }
+  constructor(details?: unknown) { 
+    super('Player name is required')
+    this.details = details 
+  }
 }
 
 export class InvalidPlayerNameError extends Error {
   readonly name: string = 'invalidPlayerNameError'
   readonly details?: unknown
-  constructor(details?: unknown) { super('Player name is wrong'); this.details = details }
+  constructor(details?: unknown) { 
+    super('Player name is wrong')
+    this.details = details 
+  }
 }
 
 export class InvalidScoreValueError extends Error {
   readonly name: string = 'invalidScoreValueError'
   readonly details?: unknown
-  constructor(details?: unknown) { super('Score cannot be negative'); this.details = details }
+  constructor(details?: unknown) { 
+    super('Score cannot be negative')
+    this.details = details 
+  }
 }

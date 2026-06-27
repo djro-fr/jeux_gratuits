@@ -1,13 +1,15 @@
-import { DiceRoll } from "./DiceRoll";
-import { MaxTurnsReachedError } from "../errors/YamsErrors";
+import { DiceRoll } from "./DiceRoll"
+import { MaxTurnsReachedError } from "../errors/YamsErrors"
 
 export class YamsTurn {
-  private readonly rollNumber: number;
-  private readonly diceRoll: DiceRoll;
+  private readonly rollNumber: number
+  private readonly diceRoll: DiceRoll
 
   constructor(rollNumber: number = 1, diceRoll?: DiceRoll) {
-    this.rollNumber = rollNumber;
-    this.diceRoll = diceRoll || new DiceRoll();
+    this.rollNumber = rollNumber
+  
+    this.diceRoll = diceRoll || new DiceRoll()
+  
   }
 
   getRollNumber() : number {

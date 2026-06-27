@@ -1,9 +1,9 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react'
 
-type IconsValue = "reroll" | "score" | "roll" | "back" | "github" | "check" | "leaderboard" | "restart" | "home" ;
+type IconsValue = "reroll" | "score" | "roll" | "back" | "github" | "check" | "leaderboard" | "restart" | "home" 
 
 interface DiceSpriteProps extends HTMLAttributes<SVGSVGElement> {
-  value: IconsValue;
+  value: IconsValue
 }
 
 export const IconsSprite = ({ 
@@ -16,4 +16,4 @@ export const IconsSprite = ({
   >
     <use href={`/assets/icons-sprite.svg#${value}`} />
   </svg>
-);
+)

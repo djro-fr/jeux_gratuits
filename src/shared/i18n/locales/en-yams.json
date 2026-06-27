@@ -58,6 +58,7 @@
     "leaderboard": "Leaderboard",
     "leaderboardLoaded": "Leaderboard loaded ({{count}} entries)",
     "leaderboardUpdated": "Leaderboard updated",
+    "leaderboardRank": "You are #",
     "error": "Erreur",
     "success" : "OK"
   }

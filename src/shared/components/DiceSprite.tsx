@@ -1,9 +1,9 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react'
 
-type DiceValue = 1 | 2 | 3 | 4 | 5 | 6;
+type DiceValue = 1 | 2 | 3 | 4 | 5 | 6
 
 interface DiceSpriteProps extends HTMLAttributes<SVGSVGElement> {
-  value: DiceValue;
+  value: DiceValue
 }
 
 export const DiceSprite = ({ 
@@ -16,4 +16,4 @@ export const DiceSprite = ({
   >
     <use href={`/assets/dice-sprite.svg#dice-${value}`} />
   </svg>
-);
+)

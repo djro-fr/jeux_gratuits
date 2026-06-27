@@ -64,7 +64,6 @@ export class FirebaseLeaderboardRepository implements ILeaderboardRepository {
             }))
             const leaderboard = LeaderboardMapper.toDomainArray(entries)
             callback(leaderboard)
-            console.log(i18n.t('ui.leaderboardUpdated', { ns: 'yams' }))
           } catch (error) {
             throw new LeaderboardMapError({
               reason: 'Failed to map leaderboard data',

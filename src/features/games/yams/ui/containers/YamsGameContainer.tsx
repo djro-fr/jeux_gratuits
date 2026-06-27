@@ -9,6 +9,7 @@ import { IconsSprite } from "@/shared/components/IconsSprite"
 import { GlobalLeaderboard } from "../components/GlobalLeaderboard"
 import { useYamsGame } from "../hooks/useYamsGame"
 import { useSaveScore } from "../hooks/useSaveScore"
+import { useLeaderboard } from "../hooks/useLeaderboard"
 
 export const YamsGameContainer = () => {
   const { t } = useTranslation("yams")
@@ -27,10 +28,11 @@ export const YamsGameContainer = () => {
   } = useYamsGame()
 
   const categories = Object.values(YamsCategory)
-
-  const { playerName, setPlayerName, handleSaveAndRestart } = useSaveScore({
+  
+  const { scores } = useLeaderboard()
+  const { playerName, setPlayerName, handleSaveAndRestart, playerRank } = useSaveScore({
     scoreBoard,
-    onSuccess: handleRestart,
+    leaderboardScores : scores, 
     setError,
     setSuccessMessage  
   })
@@ -69,6 +71,26 @@ export const YamsGameContainer = () => {
       >
         <div className="text-center">
           <p className="text-xl my-6">{successMessage}</p>
+          {playerRank===1 && (
+            <p className="text-2xl mb-4">
+              FIRSSSTTTT
+            </p>
+          )}
+          {playerRank===2 && (
+            <p className="text-2xl mb-4">
+              SECONNNNNDDDD
+            </p>
+          )}
+          {playerRank===3 && (
+            <p className="text-2xl mb-4">
+              THIRRRRRD
+            </p>
+          )}
+          {playerRank && (
+            <p className="text-2xl mb-4">
+              {t('ui.leaderboardRank')}{playerRank}
+            </p>
+          )}
           <button
             onClick={handleCloseSuccessModal}
             className="action w-full max-w-30"

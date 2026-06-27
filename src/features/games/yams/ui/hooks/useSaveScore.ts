@@ -5,10 +5,11 @@ import { SaveGameScoreUseCase } from "../../application/usecases/SaveGameScoreUs
 import { FirebaseScoreRepository } from "../../infrastructure/firebase/repositories/FirebaseScoreRepository"
 import type { YamsScoreBoard } from "../../domain/entities/YamsScoreBoard"
 import type { SaveGameScoreInput } from "../../application/dtos/SaveGameScoreDTO"
+import type { LeaderboardScore } from "../../application/repositories/ILeaderboardRepository"
 
 interface UseSaveScoreProps {
   scoreBoard: YamsScoreBoard
-  onSuccess: () => void
+  leaderboardScores: LeaderboardScore[]
   setError: (error: string | null) => void
   setSuccessMessage?: (message: string | null) => void
 }
@@ -17,17 +18,20 @@ interface UseSaveScoreReturn {
   playerName: string
   setPlayerName: (name: string) => void
   handleSaveAndRestart: () => Promise<void>
+  playerRank: number | null
 }
 
 const saveUseCase = new SaveGameScoreUseCase(new FirebaseScoreRepository())
 
 export const useSaveScore = ({
   scoreBoard,
+  leaderboardScores,
   setError,
   setSuccessMessage
 }: UseSaveScoreProps): UseSaveScoreReturn => {
   const { t } = useTranslation("yams")
   const [playerName, setPlayerName] = useState('')
+  const [playerRank, setPlayerRank] = useState<number | null>(null) 
 
   const [lastSaveTime, setLastSaveTime] = useState<number>(0)
 
@@ -51,7 +55,12 @@ export const useSaveScore = ({
     
     const result = await saveUseCase.execute(input)
 
-    if (result.success) {
+    if (result.success) {  
+      const scoresAbove = leaderboardScores.filter(s => s.score > totalScore)
+      const distinctScoresAbove = new Set(scoresAbove.map(s => s.score)).size
+      const calculatedRank = distinctScoresAbove + 1
+      
+      setPlayerRank(calculatedRank)
       setSuccessMessage?.(t('ui.scoreSaved'))  
       setPlayerName('')
     } else {
@@ -59,6 +68,5 @@ export const useSaveScore = ({
       setError(t(`errors.${errorKey}`))
     }   
   }
-
-  return { playerName, setPlayerName, handleSaveAndRestart }
+  return { playerName, setPlayerName, handleSaveAndRestart, playerRank }
 }

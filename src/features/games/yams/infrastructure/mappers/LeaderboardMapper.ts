@@ -26,12 +26,18 @@ export class LeaderboardMapper {
   static toDomainArray(
     entries: (FirestoreLeaderboardEntry & { id: string })[] 
   ): LeaderboardScore[] {
-    return entries.map((entry, index) => {
-      let rank = index + 1
-      if (index > 0 && entry.score === entries[index - 1].score) {
-        rank = 1 
-      }
-      return this.toDomain(entry, rank)
+    const result: LeaderboardScore[] = []
+    let currentRank = 1
+    let previousScore: number | null = null
+  
+    entries.forEach((entry) => {
+      if (previousScore !== null && entry.score !== previousScore) {
+        currentRank++
+      }      
+      previousScore = entry.score
+      result.push(this.toDomain(entry, currentRank))
     })
+  
+    return result
   }
 }

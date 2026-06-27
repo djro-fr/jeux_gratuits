@@ -94,7 +94,7 @@ describe('Infrastructure, unit testing: LeaderboardMapper', () => {
 
       expect(result[0].rank).toBe(1)
       expect(result[1].rank).toBe(1) 
-      expect(result[2].rank).toBe(3) 
+      expect(result[2].rank).toBe(2) 
     })
 
     it('2.6) should handle multiple ties', () => {
@@ -109,7 +109,7 @@ describe('Infrastructure, unit testing: LeaderboardMapper', () => {
       expect(result[0].rank).toBe(1)
       expect(result[1].rank).toBe(1)
       expect(result[2].rank).toBe(1)
-      expect(result[3].rank).toBe(4)
+      expect(result[3].rank).toBe(2)
     })
   })
 })

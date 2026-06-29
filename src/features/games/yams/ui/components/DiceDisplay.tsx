@@ -34,7 +34,7 @@ export const DiceDisplay = ({
       <div className="dice-container">
         {dice?.map((die, index) => (          
           <button
-          key={`die-${index}-${die.getValue()}`}
+          key={`die-${rollNumber}-${index}`}
           onClick={() => handleDiceClick(index)}
           className={`die ${selectedIndices.includes(index) ? 'selected' : ''}`}
         >

@@ -85,12 +85,11 @@ export const useYamsGame = (): UseYamsGameReturn => {
  
   const handleKeepDice = (indicesToKeep: number[]) => {
     try {
-      const updated = keepDiceUseCase.execute({  // ← Appel UseCase
+      const updated = keepDiceUseCase.execute({
         game,
         indicesToKeep
       })
       setGame(updated)
-      if (updated.getCurrentTurn().getRollNumber() === 3) setSelectedIndices([])
       setError(null)
     } catch (err) {
       const errorKey = err instanceof Error ? err.name : 'unknownError'

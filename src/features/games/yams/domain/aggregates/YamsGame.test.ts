@@ -107,11 +107,11 @@ describe("Domain unit tests (YamsGame aggregate root)", () => {
       for (let i = 0; i < 12; i++) {
         const dice = new DiceRoll().getDice()
         game = game.validateTurn(dice)
-        expect(game.getCurrentTurn().getRollNumber()).toBe(1)  // ← Vérifier rollNumber, pas identité
+        expect(game.getCurrentTurn().getRollNumber()).toBe(1) 
       }
     
       game = game.validateTurn(new DiceRoll().getDice())
-      expect(game.getCurrentTurn().getRollNumber()).toBe(1)  // ← Toujours 1 après 13e
+      expect(game.getCurrentTurn().getRollNumber()).toBe(1) 
       expect(game.isGameFinished()).toBe(true)
     })    
   })

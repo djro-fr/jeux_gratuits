@@ -25,7 +25,7 @@ export const YamsGameContainer = () => {
     setShowScoreBoard, setError,
     handleKeepDice,
     handleScore, handleRestart: hookHandleRestart, 
-    handleFillTestData
+    // handleFillTestData
   } = useYamsGame()
  
   const handleRestart = () => {
@@ -196,11 +196,11 @@ export const YamsGameContainer = () => {
           </div>
         </button>
       </div>
-      <div>
+      {/* <div>
         <button className="action ml-2" onClick={handleFillTestData}>
           Fill Test Data (DEV)
         </button>
-      </div>
+      </div> */}
 
       {showScoreBoard && (
         <ScoreBoard

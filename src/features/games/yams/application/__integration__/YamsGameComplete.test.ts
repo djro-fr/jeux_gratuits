@@ -20,7 +20,7 @@ describe('Integration: YamsGameFlow - Complete game', () => {
     })
     
     expect(game.getScoreBoard().getScore(YamsCategory.Ones)).not.toBeNull()
-    expect(game.getScoreBoard().getScore(YamsCategory.Ones)).toBe(2) // 1+1
+    expect(game.getScoreBoard().getScore(YamsCategory.Ones)).toBe(2) 
     
     const finalScore = calculateTotalScore(game.getScoreBoard().getAllScores())
     expect(finalScore).toBeGreaterThan(0)

@@ -5,7 +5,6 @@ import { KeepDiceUseCase } from '../../application/usecases/KeepDiceUseCase'
 import { RecordScoreUseCase } from '../../application/usecases/RecordScoreUseCase'
 import { YamsCategory } from '../../domain/rules/calculateScore'
 import { YamsGame } from '../../domain/aggregates/YamsGame'
-import { YamsTurn } from '../../domain/valueObjects/YamsTurn'
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -57,21 +56,7 @@ describe('Unit tests - UI hooks', () => {
         })
       })
 
-      it('2.2) should reset selectedIndices when rollNumber reaches 3', () => {
-        const turn3 = new YamsTurn(3)
-        const gameWithRoll3 = new YamsGame(undefined, turn3)
-        
-        vi.mocked(KeepDiceUseCase.prototype.execute).mockReturnValue(gameWithRoll3)
-
-        const { result } = renderHook(() => useYamsGame())
-
-        act(() => { result.current.setSelectedIndices([0, 2]) })
-        act(() => { result.current.handleKeepDice([1, 3]) })
-
-        expect(result.current.selectedIndices).toEqual([])
-      })
-
-      it('2.3) should set error if KeepDiceUseCase throws', () => {
+      it('2.2) should set error if KeepDiceUseCase throws', () => {
         const error = new Error('TooManyDiceKeptError')
         error.name = 'TooManyDiceKeptError'
         vi.mocked(KeepDiceUseCase.prototype.execute).mockImplementation(() => { throw error })

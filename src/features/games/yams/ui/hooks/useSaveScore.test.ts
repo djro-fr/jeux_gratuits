@@ -86,7 +86,7 @@ describe("Unit tests - UI hooks", () => {
       })
     })
 
-    // ===== ADD =====
+
     describe("2) Save success", () => {
       it("2.1) should reset playerName on success", async () => {
         vi.mocked(SaveGameScoreUseCase.prototype.execute).mockResolvedValue({
@@ -153,13 +153,11 @@ describe("Unit tests - UI hooks", () => {
           await result.current.handleSaveAndRestart()
         })
 
-        // buildScoreBoard total: 345
-        // fakeLeaderboard: 300, 250
-        // Rank = 1 (score > both)
+
         expect(result.current.playerRank).toBe(1)
       })
     })
-    // ===== END ADD =====
+
 
     describe("3) Save failure", () => {
       it("3.1) should translate error.name from UseCase", async () => {

@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import type { Die } from '../../domain/valueObjects/Die'
 import { DiceSprite } from '@/shared/components/DiceSprite'
+import { useState } from 'react'
 
 
 interface DiceDisplayProps {
@@ -26,7 +27,16 @@ export const DiceDisplay = ({
       onSelectDice([...selectedIndices, index])
     }
   }
+  const [animatedByRoll, setAnimatedByRoll] = useState<Record<number, Set<number>>>({})
 
+  const currentRollAnimated = animatedByRoll[rollNumber ?? 0] ?? new Set()
+  
+  const handleAnimationEnd = (index: number) => {
+    setAnimatedByRoll(prev => ({
+      ...prev,
+      [rollNumber ?? 0]: new Set([...(prev[rollNumber ?? 0] ?? []), index])
+    }))
+  }
   return (
     <div className="dice-display">
       <div className="text-center mt-1">{!!rollNumber && <p className='text-primary-light'>{t('ui.rollNumber')} {rollNumber}/3</p>}</div>
@@ -36,7 +46,12 @@ export const DiceDisplay = ({
           <button
           key={`die-${rollNumber}-${index}`}
           onClick={() => handleDiceClick(index)}
-          className={`die ${selectedIndices.includes(index) ? 'selected' : ''}`}
+          className={`
+            die 
+            ${selectedIndices.includes(index) ? 'selected' : 'animated'}
+            ${currentRollAnimated.has(index) ? 'played' : ''}  
+           `}           
+           onAnimationEnd={() => handleAnimationEnd(index)}
         >
         <DiceSprite 
           value={die.getValue() as 1 | 2 | 3 | 4 | 5 | 6}

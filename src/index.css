@@ -142,22 +142,26 @@
     }
     .dice-container {
       @apply max-w-300 grid grid-cols-5 gap-x-[2vw] mb-[4vw] mt-40 mx-auto;
-      .die{
+      
+      .die {
         box-shadow: 0 12px 6px rgba(0, 0, 0, 0.15);
         border-radius: 20%;
-        &.selected{
-          box-shadow: 0 6px 2px rgba(0, 0, 0, 0.2);
-          transform: scale(.8) translateY(40vh);
-          @apply md:translate-y-[4vw];
-          
-        }      
-        &:not(.selected) {
-          animation: slideInRotate .3s ease-in-out;            
+        
+        &.animated {
+          animation: slideInRotate 0.3s ease-in-out forwards;          
           &:nth-child(1) { animation-delay: 0s; }
           &:nth-child(2) { animation-delay: 0.1s; }
           &:nth-child(3) { animation-delay: 0.2s; }
           &:nth-child(4) { animation-delay: 0.3s; }
-          &:nth-child(5) { animation-delay: 0.4s; }         
+          &:nth-child(5) { animation-delay: 0.4s; }
+        }
+        &.played {
+          animation: none; 
+        }
+        &.selected {
+          box-shadow: 0 6px 2px rgba(0, 0, 0, 0.2);
+          transform: scale(.8) translateY(40vh);
+          @apply md:translate-y-[4vw];
         }
       }
     }

@@ -27,3 +27,13 @@ export class GameAlreadyFinishedError extends Error {
     this.details = details
   }
 }
+
+export class CategoryAlreadyScoredError extends Error {
+  readonly name: string = 'categoryAlreadyScoredError'
+  readonly details?: unknown
+
+  constructor(details?: unknown) {
+    super('Category already scored')
+    this.details = details
+  }
+}

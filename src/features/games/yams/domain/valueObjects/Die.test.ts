@@ -1,7 +1,7 @@
 import { InvalidDieValueError } from "../errors/YamsErrors"
 import { Die } from "./Die"
 
-describe("Domain unit tests (Die entity)", () => {
+describe("Domain unit tests (Die Value Object)", () => {
   describe("1) Valid dice creation", () => {
     it.each([1, 2, 3, 4, 5, 6])("1.%i) should create valid die %i", (value) => {
       const dice = new Die(value)

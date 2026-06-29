@@ -1,4 +1,4 @@
-import { Die } from "../entities/Die"
+import { Die } from "../valueObjects/Die"
 
 export const YamsCategory = {
   Ones: "ones",

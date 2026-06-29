@@ -1,100 +1,100 @@
-import { DiceRoll } from "../../domain/entities/DiceRoll"
-import { Die } from "../../domain/entities/Die"
-import { YamsScoreBoard } from "../../domain/entities/YamsScoreBoard"
-import { YamsTurn } from "../../domain/entities/YamsTurn"
+import { YamsGame } from "../../domain/aggregates/YamsGame"
 import { YamsCategory } from "../../domain/rules/calculateScore"
-
 import { KeepDiceUseCase } from "../usecases/KeepDiceUseCase"
 import { RollDiceUseCase } from "../usecases/RollDiceUseCase"
-import { ScoreTurnUseCase } from "../usecases/ScoreTurnUseCase"
+import { RecordScoreUseCase } from "../usecases/RecordScoreUseCase"
+import { Die } from "../../domain/valueObjects/Die"
+import { DiceRoll } from "../../domain/valueObjects/DiceRoll"
+import { YamsTurn } from "../../domain/valueObjects/YamsTurn"
 
 describe("Integration: YamsGameFlow - One complete turn", () => {
-  it("1) Should complete one turn: start → roll → score", () => {
+  it("1) Should complete one turn: roll → score", () => {
+    const rollUseCase = new RollDiceUseCase()
+    const scoreUseCase = new RecordScoreUseCase()
     
-    const roll = new RollDiceUseCase().execute(5)
-
-    const scoreBoard = YamsScoreBoard.create()
-    const dice = roll.getDice()
-    const scoreResult = new ScoreTurnUseCase().execute({
-      yamsScoreBoard: scoreBoard,
-      dice: dice,
+    const game1 = new YamsGame()
+    const game2 = rollUseCase.execute({ game: game1 })
+    
+    expect(game2.getCurrentTurn().getDiceRoll().getDice().length).toBe(5)
+    
+    const game3 = scoreUseCase.execute({
+      game: game2,
       category: YamsCategory.Chance
     })
-
-    expect(roll.getDice().length).toBe(5)    
-    expect(scoreResult.scoreEarned).toBeGreaterThan(0)
-    expect(scoreResult.updatedScoreBoard.getScore(YamsCategory.Chance)).not.toBe(null)
-    expect(scoreResult.updatedScoreBoard).not.toBe(scoreBoard)
-  })
-  it("2) Should complete two turns with score accumulation", () => {
     
-    const scoreBoard1 = YamsScoreBoard.create()
-    const dice1 = [new Die(1), new Die(1), new Die(3), new Die(4), new Die(5)]    
-    const scoreResult1 = new ScoreTurnUseCase().execute({
-      yamsScoreBoard: scoreBoard1,
-      dice: dice1,
+    expect(game3.getScoreBoard().getScore(YamsCategory.Chance)).not.toBeNull()
+    expect(game3).not.toBe(game1)
+  })
+
+  it("2) Should complete two turns with score accumulation", () => {
+    const scoreUseCase = new RecordScoreUseCase()
+    
+    let game = new YamsGame()
+    
+    game = scoreUseCase.execute({
+      game,
       category: YamsCategory.Ones
     })
-
-    const scoreBoard2 = scoreResult1.updatedScoreBoard
-    const dice2 = [new Die(2), new Die(2), new Die(4), new Die(5), new Die(6)]    
-    const scoreResult2 = new ScoreTurnUseCase().execute({
-      yamsScoreBoard: scoreBoard2,
-      dice: dice2,
+    expect(game.getScoreBoard().getScore(YamsCategory.Ones)).not.toBeNull()
+    
+    game = scoreUseCase.execute({
+      game,
       category: YamsCategory.Twos
     })
-
-    const scoreBoard3 = scoreResult2.updatedScoreBoard
-
-    expect(scoreResult1.scoreEarned).toBeGreaterThan(0)      
-    expect(scoreResult2.scoreEarned).toBeGreaterThan(0)
-    expect(scoreBoard3.getScore(YamsCategory.Ones)).not.toBe(null)    
-    expect(scoreBoard3.getScore(YamsCategory.Twos)).not.toBe(null)    
-    expect(scoreBoard3).not.toBe(scoreBoard1)
+    expect(game.getScoreBoard().getScore(YamsCategory.Twos)).not.toBeNull()
+    expect(game.getGameTurnNumber()).toBe(3)
   })
+
   it("3) Should complete one turn with keep and reroll", () => {
-
-    const scoreBoard = YamsScoreBoard.create()
-    const roll1 = new DiceRoll([new Die(1), new Die(1), new Die(3), new Die(4), new Die(5)])      
-    const turn1 = new YamsTurn(1, roll1)  
+    const keepUseCase = new KeepDiceUseCase()
+    const scoreUseCase = new RecordScoreUseCase()
     
-    const turn2 = new KeepDiceUseCase().execute(turn1, [0, 1])
-    const roll2 = turn2.getDiceRoll()
-
-    const finalDice = roll2.getDice()
-
-    const result = new ScoreTurnUseCase().execute({
-      yamsScoreBoard: scoreBoard,
-      dice: finalDice,
+    let game = new YamsGame()
+    
+    game = keepUseCase.execute({
+      game,
+      indicesToKeep: [0, 1]
+    })
+    expect(game.getCurrentTurn().getRollNumber()).toBe(2)
+    
+    game = scoreUseCase.execute({
+      game,
       category: YamsCategory.Chance
     })
-
-    const scoreBoard2 = result.updatedScoreBoard
-
-    expect(finalDice.length).toBe(5)
-    expect(result.scoreEarned).toBeGreaterThan(0)      
-    expect(scoreBoard2.getScore(YamsCategory.Chance)).toBeGreaterThan(0)   
+    
+    expect(game.getScoreBoard().getScore(YamsCategory.Chance)).toBeGreaterThan(0)
   })
-  it("4) Should apply Yahtzee bonus on second Yahtzee roll", () => {    
-    const scoreBoard1 = YamsScoreBoard.create()
-    const yahtzee1 = [new Die(5), new Die(5), new Die(5), new Die(5), new Die(5)]
-    const result1 = new ScoreTurnUseCase().execute({
-      yamsScoreBoard: scoreBoard1,
-      dice: yahtzee1,
+
+  it("4) Should apply Yahtzee bonus on second Yahtzee roll", () => {
+    const scoreUseCase = new RecordScoreUseCase()
+        
+    const yahtzee1Dice = [
+      new Die(5), new Die(5), new Die(5), new Die(5), new Die(5)
+    ]
+    const yahtzeeRoll = new DiceRoll(yahtzee1Dice)
+    const yahtyeeTurn = new YamsTurn(1, yahtzeeRoll)
+    let game = new YamsGame(undefined, yahtyeeTurn)
+    
+    game = scoreUseCase.execute({
+      game,
       category: YamsCategory.Yahtzee
     })
     
-    expect(result1.scoreEarned).toBe(50)
-    expect(result1.updatedScoreBoard.getTotalYahtzeeBonus()).toBe(0)
+    expect(game.getScoreBoard().getScore(YamsCategory.Yahtzee)).toBe(50)
+    expect(game.getScoreBoard().getTotalYahtzeeBonus()).toBe(0)
         
-    const yahtzee2 = [new Die(3), new Die(3), new Die(3), new Die(3), new Die(3)]
-    const result2 = new ScoreTurnUseCase().execute({
-      yamsScoreBoard: result1.updatedScoreBoard,
-      dice: yahtzee2,
-      category: YamsCategory.FourOfAKind  
-    })
+    const yahtzee2Dice = [
+      new Die(3), new Die(3), new Die(3), new Die(3), new Die(3)
+    ]
+    const yahtzeeRoll2 = new DiceRoll(yahtzee2Dice)
+    const yahtyeeTurn2 = new YamsTurn(1, yahtzeeRoll2)
+    game = new YamsGame(game.getScoreBoard(), yahtyeeTurn2)
     
-    expect(result2.scoreEarned).toBe(115) 
-    expect(result2.updatedScoreBoard.getTotalYahtzeeBonus()).toBe(100)
+    game = scoreUseCase.execute({
+      game,
+      category: YamsCategory.FourOfAKind
+    })
+        
+    expect(game.getScoreBoard().getTotalYahtzeeBonus()).toBe(100)
   })
 })

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 import { calculateTotalScore } from "../../domain/rules/calculateScore"
 import { SaveGameScoreUseCase } from "../../application/usecases/SaveGameScoreUseCase"
 import { FirebaseScoreRepository } from "../../infrastructure/firebase/repositories/FirebaseScoreRepository"
-import type { YamsScoreBoard } from "../../domain/entities/YamsScoreBoard"
+import type { YamsScoreBoard } from "../../domain/valueObjects/YamsScoreBoard"
 import type { SaveGameScoreInput } from "../../application/dtos/SaveGameScoreDTO"
 import type { LeaderboardScore } from "../../domain/repositories/ILeaderboardRepository"
 

@@ -18,14 +18,25 @@ export const YamsGameContainer = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
   const {
-    scoreBoard, diceRoll, yamsTurn,
+    game, scoreBoard, diceRoll, yamsTurn,
     selectedIndices, selectedCategory,
     error, showScoreBoard,
     setSelectedIndices, setSelectedCategory,
     setShowScoreBoard, setError,
-    handleRoll, handleKeepDice,
-    handleScore, handleRestart, handleFillTestData
+    handleKeepDice,
+    handleScore, handleRestart: hookHandleRestart, 
+    handleFillTestData
   } = useYamsGame()
+ 
+  const handleRestart = () => {
+    hookHandleRestart()
+    setHasRolled(false)
+  }
+
+  const handleScoreWithReset = (category: YamsCategory) => {
+    handleScore(category)
+    setHasRolled(false)
+  }
 
   const categories = Object.values(YamsCategory)
   
@@ -36,13 +47,15 @@ export const YamsGameContainer = () => {
     setError,
     setSuccessMessage  
   })
+
+  const [hasRolled, setHasRolled] = useState(false)
   
-  if (yamsTurn === null && Object.values(scoreBoard.getAllScores()).includes(null)) {
+  if (yamsTurn.getRollNumber() === 1 && !hasRolled) {
     return (
       <>
         <ErrorModal error={error} onClose={() => setError(null)} />
         <div className="flex flex-1 flex-col justify-center items-center pb-16">
-          <button className="action gold icon md" onClick={handleRoll}>
+          <button className="action gold icon md" onClick={() => setHasRolled(true)}>
             <div>
               <IconsSprite value="roll" />
               {t("ui.rollDice")}
@@ -53,7 +66,7 @@ export const YamsGameContainer = () => {
     )
   }
 
-  if (yamsTurn === null && !Object.values(scoreBoard.getAllScores()).includes(null)) {
+  if (game.isGameFinished() && !Object.values(scoreBoard.getAllScores()).includes(null)) {
     const totalYahtzeeBonus = scoreBoard.getTotalYahtzeeBonus()
     const totalScore = calculateTotalScore(scoreBoard.getAllScores()) + totalYahtzeeBonus
 
@@ -154,10 +167,6 @@ export const YamsGameContainer = () => {
     )
   }
   
-  if (!yamsTurn) {
-    throw new Error('Unexpected state: yamsTurn should not be null')
-  }
-  
   return (
     <>
       <ErrorModal error={error} onClose={() => setError(null)} />
@@ -178,7 +187,9 @@ export const YamsGameContainer = () => {
             </div>
           </button>
         )}
-        <button className="action gold icon md w-full" onClick={() => setShowScoreBoard(!showScoreBoard)}>
+        <button className="action gold icon md w-full"   onClick={() => {
+          setShowScoreBoard(!showScoreBoard)
+        }}>
           <div>
             <IconsSprite value="score" />
             {t('ui.toScore')}
@@ -196,7 +207,7 @@ export const YamsGameContainer = () => {
           scoreBoard={scoreBoard}
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
-          onScore={handleScore}
+          onScore={handleScoreWithReset}
           onClose={() => setShowScoreBoard(false)}
           dice={diceRoll?.getDice()}
         />

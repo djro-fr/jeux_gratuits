@@ -1,4 +1,4 @@
-import type { Die } from "../entities/Die"
+import type { Die } from "../valueObjects/Die"
 import { YamsCategory } from "./calculateScore"
 
 export function explainScore(category: YamsCategory, dice: Die[]): string[] {

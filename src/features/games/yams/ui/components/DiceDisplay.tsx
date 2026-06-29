@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import type { Die } from '../../domain/entities/Die'
+import type { Die } from '../../domain/valueObjects/Die'
 import { DiceSprite } from '@/shared/components/DiceSprite'
 
 

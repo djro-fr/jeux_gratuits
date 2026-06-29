@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react"
 import { SaveGameScoreUseCase } from "../../application/usecases/SaveGameScoreUseCase"
-import { YamsScoreBoard } from "../../domain/entities/YamsScoreBoard"
+import { YamsScoreBoard } from "../../domain/valueObjects/YamsScoreBoard"
 import { useSaveScore } from "./useSaveScore"
 import type { LeaderboardScore } from "../../domain/repositories/ILeaderboardRepository"
 import type { YamsCategory } from "../../domain/rules/calculateScore"

@@ -1,5 +1,5 @@
-import type { Die } from "../../domain/entities/Die"
-import type { YamsScoreBoard } from "../../domain/entities/YamsScoreBoard"
+import type { Die } from "../../domain/valueObjects/Die"
+import type { YamsScoreBoard } from "../../domain/valueObjects/YamsScoreBoard"
 import type { YamsCategory } from "../../domain/rules/calculateScore"
 
 export interface ScoreTurnInput {

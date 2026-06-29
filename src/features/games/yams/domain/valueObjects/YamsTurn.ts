@@ -1,6 +1,18 @@
 import { DiceRoll } from "./DiceRoll"
 import { MaxTurnsReachedError } from "../errors/YamsErrors"
 
+/**
+ * VALUE OBJECT
+ * Represents a single turn with up to 3 rolls.
+ * 
+ * Responsibilities:
+ * - Track current roll number
+ * - Manage the current dice state (DiceRoll)
+ * - Control reroll availability
+ * 
+ * Immutable: each operation returns a new instance.
+ * No identity, compared by value.
+ */
 export class YamsTurn {
   private readonly rollNumber: number
   private readonly diceRoll: DiceRoll

@@ -1,8 +1,12 @@
 
-import { CategoryAlreadyScoredError } from "../../application/errors/YamsErrors"
-import { YamsCategory } from "../../domain/rules/calculateScore"
+import { CategoryAlreadyScoredError } from "../errors/YamsErrors"
+import { YamsCategory } from "../rules/calculateScore"
 
-
+/**
+ * VALUE OBJECT
+ * Manages scores for all 13 Yams categories and Yahtzee bonus.
+ * Immutable, prevents duplicate scoring.
+ */
 export class YamsScoreBoard {
   private readonly scores: Record<YamsCategory, number | null>
   private readonly totalYahtzeeBonus: number 

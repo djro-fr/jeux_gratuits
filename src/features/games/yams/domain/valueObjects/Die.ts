@@ -1,5 +1,9 @@
 import { InvalidDieValueError } from "../errors/YamsErrors"
 
+/**
+ * VALUE OBJECT
+ * A single die: value (1-6) and kept state. Immutable.
+ */
 export class Die {
   private readonly value: number
   private readonly isKept: boolean

@@ -2,7 +2,7 @@ import { MaxTurnsReachedError } from "../errors/YamsErrors"
 import { DiceRoll } from "./DiceRoll"
 import { YamsTurn } from "./YamsTurn"
 
-describe("Domain unit tests (YamsTurn entity)", () => {
+describe("Domain unit tests (YamsTurn Value Object)", () => {
   describe("1) Valid YamsTurn ", () => {
     it("1.1) Default constructor ", () => {
       const turn = new YamsTurn()

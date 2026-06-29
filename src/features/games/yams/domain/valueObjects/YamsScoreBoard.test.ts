@@ -1,10 +1,9 @@
-
-import { CategoryAlreadyScoredError } from "../../application/errors/YamsErrors"
-import { YamsCategory } from "../../domain/rules/calculateScore"
+import { CategoryAlreadyScoredError } from "../errors/YamsErrors"
+import { YamsCategory } from "../rules/calculateScore"
 import { YamsScoreBoard } from "./YamsScoreBoard"
 
 
-describe("Application unit tests (YamsScoreBoard entity)", () => {
+describe("Application unit tests (YamsScoreBoard Value Object)", () => {
   describe("1) Valid YamsScoreBoard", () => {
     it("1.1) Default constructor", () => {
       const scoreBoard = YamsScoreBoard.create()            

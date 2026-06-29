@@ -1,6 +1,6 @@
 import { DiceRoll } from "./DiceRoll"
 
-describe("Domain unit tests (DiceRoll entity)", () => {
+describe("Domain unit tests (DiceRoll Value Object)", () => {
 
   describe("1) Valid DiceRoll ", () => {
     it("1.1) Length = 5 ", () => {

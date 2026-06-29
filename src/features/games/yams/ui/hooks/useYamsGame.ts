@@ -1,17 +1,20 @@
 import { useState, useMemo } from "react"
 import { useTranslation } from "react-i18next"
-import { YamsScoreBoard } from "../../domain/entities/YamsScoreBoard"
-import { YamsTurn } from "../../domain/entities/YamsTurn"
-import { RollDiceUseCase } from "../../application/usecases/RollDiceUseCase"
+import { YamsScoreBoard } from "../../domain/valueObjects/YamsScoreBoard"
+import { YamsTurn } from "../../domain/valueObjects/YamsTurn"
+
 import { KeepDiceUseCase } from "../../application/usecases/KeepDiceUseCase"
-import { ScoreTurnUseCase } from "../../application/usecases/ScoreTurnUseCase"
+
 import { YamsCategory } from "../../domain/rules/calculateScore"
-import type { DiceRoll } from "../../domain/entities/DiceRoll"
+import { DiceRoll } from "../../domain/valueObjects/DiceRoll"
+import { YamsGame } from "../../domain/aggregates/YamsGame"
+import { RecordScoreUseCase } from "../../application/usecases/RecordScoreUseCase"
 
 interface UseYamsGameReturn {
+  game: YamsGame
   scoreBoard: YamsScoreBoard
-  diceRoll: DiceRoll | null
-  yamsTurn: YamsTurn | null
+  diceRoll: DiceRoll
+  yamsTurn: YamsTurn
   selectedIndices: number[]
   selectedCategory: YamsCategory | null
   error: string | null
@@ -20,7 +23,6 @@ interface UseYamsGameReturn {
   setSelectedCategory: (category: YamsCategory | null) => void
   setShowScoreBoard: (show: boolean) => void
   setError: (error: string | null) => void
-  handleRoll: () => void
   handleKeepDice: (indicesToKeep: number[]) => void
   handleScore: (category: YamsCategory) => void
   handleRestart: () => void
@@ -30,17 +32,19 @@ interface UseYamsGameReturn {
 export const useYamsGame = (): UseYamsGameReturn => {
   const { t } = useTranslation("yams")
 
-  const [scoreBoard, setScoreBoard] = useState(() => YamsScoreBoard.create())
-  const [diceRoll, setDiceRoll] = useState<DiceRoll | null>(null)
-  const [yamsTurn, setYamsTurn] = useState<YamsTurn | null>(null)
+  const [game, setGame] = useState<YamsGame>(() => new YamsGame())
+
+  const scoreBoard = game.getScoreBoard()
+  const yamsTurn = game.getCurrentTurn()
+  const diceRoll = yamsTurn.getDiceRoll()
+
   const [selectedIndices, setSelectedIndices] = useState<number[]>([])
   const [selectedCategory, setSelectedCategory] = useState<YamsCategory | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showScoreBoard, setShowScoreBoard] = useState(false)
   
-  const rollDiceUseCase = useMemo(() => new RollDiceUseCase(), [])
   const keepDiceUseCase = useMemo(() => new KeepDiceUseCase(), [])
-  const scoreTurnUseCase = useMemo(() => new ScoreTurnUseCase(), [])  
+  const scoreTurnUseCase = useMemo(() => new RecordScoreUseCase(), [])  
 
   const createTestScoreBoard = (): YamsScoreBoard => {
     let board = YamsScoreBoard.create()
@@ -57,63 +61,51 @@ export const useYamsGame = (): UseYamsGameReturn => {
     board = board.addYahtzeeBonus(100)
     return board
   }
-
   const handleFillTestData = () => {
-    setScoreBoard(createTestScoreBoard())
-    setYamsTurn(null)
-    setDiceRoll(null)
-    setError(null)
-  }
-
-  const handleRoll = () => {
     try {
-      if (yamsTurn !== null) return
-      const diceResult = rollDiceUseCase.execute(5)
-      const turn = new YamsTurn(1, diceResult)
-      setYamsTurn(turn)
-      setDiceRoll(diceResult)
-      setSelectedIndices([])
+      const testBoard = createTestScoreBoard()
+      const validatedTurns = Array.from({ length: 13 }, () => ({
+        turn: new YamsTurn(),
+        finalDice: new DiceRoll().getDice()
+      }))
+      const game = new YamsGame(
+        testBoard,
+        new YamsTurn(),
+        13,
+        validatedTurns
+      )
+      
+      setGame(game)
       setError(null)
     } catch (err) {
       const errorKey = err instanceof Error ? err.name : 'unknownError'
       setError(t(`errors.${errorKey}`))
     }
   }
-
+ 
   const handleKeepDice = (indicesToKeep: number[]) => {
     try {
-      if (!yamsTurn) return
-      const newTurn = keepDiceUseCase.execute(yamsTurn, indicesToKeep)
-      setYamsTurn(newTurn)
-      setDiceRoll(newTurn.getDiceRoll())
-      if (newTurn.getRollNumber() === 3) setSelectedIndices([])
+      const updated = keepDiceUseCase.execute({  // ← Appel UseCase
+        game,
+        indicesToKeep
+      })
+      setGame(updated)
+      if (updated.getCurrentTurn().getRollNumber() === 3) setSelectedIndices([])
       setError(null)
     } catch (err) {
       const errorKey = err instanceof Error ? err.name : 'unknownError'
       setError(t(`errors.${errorKey}`))
     }
   }
-
+  
   const handleScore = (category: YamsCategory) => {
     try {
-      if (!diceRoll) return
-      const result = scoreTurnUseCase.execute({
-        yamsScoreBoard: scoreBoard,
-        dice: diceRoll.getDice(),
-        category
-      })
-      const allScored = Object.values(result.updatedScoreBoard.getAllScores())
-        .every((score: number | null) => score !== null)
-
-      setScoreBoard(result.updatedScoreBoard)
-      setDiceRoll(null)
-      setYamsTurn(null)
+      const updated = scoreTurnUseCase.execute({ game, category })  
+      setGame(updated)
       setSelectedCategory(null)
       setSelectedIndices([])
       setShowScoreBoard(false)
       setError(null)
-
-      if (!allScored) setYamsTurn(null)
     } catch (err) {
       const errorKey = err instanceof Error ? err.name : 'unknownError'
       setError(t(`errors.${errorKey}`, { category }))
@@ -121,9 +113,7 @@ export const useYamsGame = (): UseYamsGameReturn => {
   }
 
   const handleRestart = () => {
-    setScoreBoard(YamsScoreBoard.create())
-    setDiceRoll(null)
-    setYamsTurn(null)
+    setGame(new YamsGame())
     setSelectedIndices([])
     setSelectedCategory(null)
     setError(null)
@@ -131,12 +121,13 @@ export const useYamsGame = (): UseYamsGameReturn => {
   }
 
   return {
+    game,
     scoreBoard, diceRoll, yamsTurn,
     selectedIndices, selectedCategory,
     error, showScoreBoard,
     setSelectedIndices, setSelectedCategory,
     setShowScoreBoard, setError,
-    handleRoll, handleKeepDice,
+    handleKeepDice,
     handleScore, handleRestart, handleFillTestData
   }
 }

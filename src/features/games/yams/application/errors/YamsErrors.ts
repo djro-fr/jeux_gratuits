@@ -48,16 +48,6 @@ export class CantRollError extends Error {
   }
 }
 
-export class CategoryAlreadyScoredError extends Error {
-  readonly name: string = 'categoryAlreadyScoredError'
-  readonly details?: unknown
-
-  constructor(details?: unknown) {
-    super('Category already scored')
-    this.details = details
-  }
-}
-
 export class PlayerNameTooLongError extends Error {
   readonly name: string = 'playerNameTooLongError'
   readonly details?: unknown

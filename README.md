@@ -40,33 +40,50 @@ Firestore rules validate data, rate limiting prevents abuse.
 
 ## Architecture Patterns
 
-- **Clean Architecture**: Separation of concerns
-- **Domain-Driven Design**: Business logic focus
+- **Clean Architecture**: Separation of concerns (Domain → Application → UI)
+- **Domain-Driven Design**: Business logic focus via Aggregate Root
 - **Dependency Inversion**: Use Cases inject dependencies
 - **Strategy Pattern**: Score calculation strategies
-- **Factory Pattern**: Entity creation
+- **Factory Pattern**: Entity creation (static `create()` methods)
+- **Repository Pattern**: Abstract data sources
 
 ### Dependency Flow
 
 ```text
 domain/
-   ↓ (Pure business logic, no outer dependency)
-   ↓ (Entities, Rules, Errors)
+   ├─ aggregates/          (YamsGame - Aggregate Root)
+   ├─ valueObjects/        (Die, DiceRoll, YamsTurn, YamsScoreBoard)
+   ├─ rules/               (calculateScore, business logic)
+   ├─ repositories/        (Interfaces/Abstractions)
+   └─ errors/              (Custom errors with i18n keys)
+   ↑ (Pure business logic, zero external dependencies)
    
 application/
-   ├─ dtos/                 (Input/Output Contracts)
-   ├─ repositories/         (Interfaces/Abstractions)
-   └─ usecases/             (Orchestration)
+   ├─ dtos/                (Input/Output Contracts)
+   ├─ usecases/            (Orchestration, inject domain)
+   │   ├─ RollDiceUseCase
+   │   ├─ KeepDiceUseCase
+   │   ├─ RecordScoreUseCase
+   │   └─ SaveGameScoreUseCase (Infrastructure)
+   └─ errors/              (Application-level errors)
+   ↑ (Orchestrates Domain)
    
 infrastructure/
-   └─ firebase/
-       ├─ mappers/          (Data transformations)
-       └─ repositories/     (Firebase implementations)
+   ├─ firebase/
+   │   ├─ mappers/         (Data transformations: Domain ↔ Firebase)
+   │   └─ repositories/    (Firebase implementations)
+   └─ persistence/
+   ↑ (External services)
    
 ui/
-   ├─ hooks/                (State logic, testable in isolation)
-   ├─ containers/           (Bridge: injects dependencies + manages React state)
-   └─ components/           (Pure display, dumb components)
+   ├─ hooks/               (State logic, custom hooks)
+   │   ├─ useYamsGame      (Game orchestration)
+   │   ├─ useLeaderboard   (Leaderboard queries)
+   │   └─ useSaveScore     (Score persistence)
+   ├─ containers/          (Bridge: inject dependencies + React state)
+   │   └─ YamsGameContainer
+   └─ components/          (Pure display, dumb components)
+   ↑ (React framework)
 ```
 
 **Key Rule:** Inner layers never depend on outer layers.
@@ -78,75 +95,87 @@ ui/
 - **Immutability**: All entities return new instances on state change
 - **Error Handling**: Custom error classes with `name` property for i18n mapping
 - **Type Safety**: Full TypeScript typing throughout, no `any`
-- **Test-Driven**: Tests before or alongside implementation
+- **Test-Driven**: 189 passing tests covering all layers
 - **No Framework in Domain**: Pure business logic, 100% reusable
 - **Dependency Injection**: All external dependencies injected via constructors
 - **Repository Pattern**: Abstract data sources with explicit interfaces
 - **Mapper Pattern**: Explicit data transformations between layers
-- **Persistence**: Firebase Realtime DB for global leaderboard
-- **Security**: Environment variables + CSP + Input validation + Rate limiting
+- **Aggregate Root**: YamsGame orchestrates all state (scoreBoard, turns, validation)
+- **Single State**: React hook uses one `useState<YamsGame>`, derived values accessed via getters
+- **UseCase Pattern**: Each action goes through a UseCase (RollDice, KeepDice, RecordScore)
 - **Rate Limiting**: 5-second cooldown between score saves
 
 ### Common Patterns
 
-- **UseCase Pattern**: `execute(input): output`
+- **UseCase Pattern**: `execute(input): output` with domain orchestration
 - **DTO Pattern**: Explicit Input/Output contracts per UseCase
-- **Repository Pattern**: Abstract data sources
-- **Mapper Pattern**: Domain <> Firebase data transformations
-- **Factory Methods**: `static create()`
-- **Guard Clauses**: Early returns in UseCases
+- **Repository Pattern**: Abstract data sources behind interfaces
+- **Mapper Pattern**: Domain ↔ Firebase data transformations
+- **Factory Methods**: `static create()` for safe entity construction
+- **Guard Clauses**: Early returns in UseCases for validation
 - **Type Narrowing**: React's if/else if/else for null checks
 - **Custom Hooks**: Testable state logic extracted from components
+- **Immutability**: All mutations return new instances (immutable data structures)
 
 ## Testing
 
-### Test Breakdown
+### Test Breakdown (189 total)
 
 - **Domain Layer** (74 tests)
   - Die (14 tests), DiceRoll (20 tests), YamsTurn (10 tests)
-  - YamsGame (9 tests), YamsScoreBoard (14 tests)
+  - YamsGame Aggregate (17 tests) - *with canRoll(), canReroll(), canScore() guards*
+  - YamsScoreBoard (14 tests)
   - calculateScore (31 tests)
 
 - **Application Layer** (60 tests)
-  - UseCases (34 tests): RollDice, KeepDice, ScoreTurn, SaveGameScore, GetLeaderboard
-  - YamsScoreBoard (14 tests)
-  - Integration Tests (12 tests)
+  - UseCases (34 tests): RollDice, KeepDice, RecordScore, SaveGameScore, GetLeaderboard
+  - Integration Tests (12 tests): Complete game flows
+  - Hook Tests (15 tests): useYamsGame state management
 
 - **Infrastructure Layer** (12 tests)
   - LeaderboardMapper (12 tests)
+  - ScoreMapper (6 tests)
 
-- **UI Layer** (27 tests)
-  - Hooks (27 tests): useYamsGame, useLeaderboard, useSaveScore
+- **UI Layer** (43 tests)
+  - Hooks (43 tests): useYamsGame (15), useLeaderboard (4), useSaveScore (9), GetLeaderboard (4)
 
 ## Data Flow Example: Scoring
 
+```text
 User clicks "Score"
 ↓
-useYamsGame.handleScore()
+useYamsGame.handleScore(category)
 ↓
-ScoreTurnUseCase.execute(ScoreTurnInput)
-├─ 1. Validation (Domain Entity)
-├─ 2. Calculate (Domain Rule)
-├─ 3. Update (Domain Entity)
-└─ Returns ScoreTurnOutput
+RecordScoreUseCase.execute({ game, category })
+├─ 1. Get scoreBoard + dice from game
+├─ 2. Validate category available
+├─ 3. Calculate score (Domain Rule)
+├─ 4. Add score to scoreBoard (immutable)
+├─ 5. Handle Yahtzee bonus
+├─ 6. Create game with scoreBoard via game.recordScore()
+├─ 7. game.validateTurn() advances to next turn or ends game
+└─ Returns YamsGame (updated)
 ↓
-setScoreBoard() → React re-render
+setGame(updatedGame) → React re-render
 ↓
-User finishes game, clicks "Save"
+scoreBoard & yamsTurn updated via getters
+↓
+User finishes game (13 turns), clicks "Save"
 ↓
 useSaveScore.handleSaveAndRestart()
-├─ 1. Validate playerName
+├─ 1. Validate playerName (1-10 chars)
 ├─ 2. SaveGameScoreUseCase.execute(SaveGameScoreInput)
 │   ├─ ScoreMapper.toFirebase() ← Transform data
-│   ├─ FirebaseScoreRepository.save() ← Persist
+│   ├─ FirebaseScoreRepository.save() ← Persist to Firestore
 │   └─ Returns SaveGameScoreOutput
-└─ onSuccess() → handleRestart()
+└─ onSuccess() → Restart game with empty scoreBoard
+```
 
-## Doc
+## Documentation
 
 ### Yams
 
-- [Flow for usecases](./docs/yams-flow.md)
+- [Game Flow & UseCases](./docs/yams-flow.md)
 
 ## TO DO
 
@@ -163,9 +192,12 @@ useSaveScore.handleSaveAndRestart()
 
 - Yams game with full rule implementation
 - Firebase Leaderboard (Firestore)
-- Clean Architecture + DDD
-- 185 comprehensive tests
+- Clean Architecture + DDD with Aggregate Root
+- **189 comprehensive tests** (up from 185)
 - Multi-language support (FR/EN)
 - Mobile responsive UI
+- Complete UseCase-driven architecture
 
-**Last Updated:** June 27, 2026
+**Key Achievement:** YamsGame as orchestrating Aggregate Root with immutable state management
+
+**Last Updated:** June 29, 2026

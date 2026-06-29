@@ -1,37 +1,61 @@
-import { WrongNumberOfDiceError } from "../errors/YamsErrors"
+import { YamsGame } from "../../domain/aggregates/YamsGame"
+import { YamsTurn } from "../../domain/valueObjects/YamsTurn"
 import { RollDiceUseCase } from "./RollDiceUseCase"
 
 describe("Application unit tests (RollDiceUseCase)", () => {
-  describe("1) execute", () => {
-    let rollDiceUseCase: RollDiceUseCase
-
-    beforeEach(() => {
-      rollDiceUseCase = new RollDiceUseCase()
-    })
-    it("1.1) without arguments returns Diceroll with 5 dice", () => {
-      const rollDice = rollDiceUseCase.execute()  
-      expect(rollDice.getDice().length).toBe(5)
-    })
-    it("1.2) with 3 dice returns Diceroll with 3 dice", () => {
-      const rollDice = rollDiceUseCase.execute(3)  
-      expect(rollDice.getDice().length).toBe(3)
-    })
-    it("1.3) with 0 dice throws WrongNumberOfDice error", () => {        
-      expect(() => rollDiceUseCase.execute(0)).toThrow(WrongNumberOfDiceError)
-    })
-    it("1.4) with 6 dice throws WrongNumberOfDice error", () => {        
-      expect(() => rollDiceUseCase.execute(6)).toThrow(WrongNumberOfDiceError)
-    })
-    it("1.5) should generate random dice with values 1-6", () => {
-      const rollDice = rollDiceUseCase.execute(5)
-      const diceValues = rollDice.getDice().map(die => die.getValue())
+  describe("1) Valid roll", () => {
+    it("1.1) should start new turn and return updated game", () => {
+      const useCase = new RollDiceUseCase()
+      const game = new YamsGame()
       
-      diceValues.forEach(value => {
-        expect(value).toBeGreaterThanOrEqual(1)
-        expect(value).toBeLessThanOrEqual(6)
-      })
+      const result = useCase.execute({ game })
+      
+      expect(result.getCurrentTurn().getRollNumber()).toBe(1)
+      expect(result).not.toBe(game)
     })
     
+    it("1.2) should preserve scoreBoard", () => {
+      const useCase = new RollDiceUseCase()
+      const game = new YamsGame()
+      
+      const result = useCase.execute({ game })
+      
+      expect(result.getScoreBoard()).toBe(game.getScoreBoard())
+    })
+    
+    it("1.3) should reset to fresh state", () => {
+      const useCase = new RollDiceUseCase()
+      const game = new YamsGame()
+      
+      const result = useCase.execute({ game })
+      
+      expect(result.getGameTurnNumber()).toBe(1)
+      expect(result.getValidatedTurns()).toHaveLength(0)
+    })
+  })
+  
+  describe("2) Guard: can only roll when turn is fresh", () => {
+    it("2.1) should throw if turn already started", () => {
+      const useCase = new RollDiceUseCase()
+      const turn2 = new YamsTurn(2)
+      const game = new YamsGame(undefined, turn2)
+      
+      expect(() => {
+        useCase.execute({ game })
+      }).toThrow()
+    })
+    
+    it("2.2) should throw if game finished", () => {
+      const useCase = new RollDiceUseCase()
+      let game = new YamsGame()
+      
+      for (let i = 0; i < 13; i++) {
+        game = game.validateTurn(game.getCurrentTurn().getDiceRoll().getDice())
+      }
+      
+      expect(() => {
+        useCase.execute({ game })
+      }).toThrow()
+    })
   })
 })
-      

@@ -1,7 +1,7 @@
 import { InvalidPlayerNameError, InvalidScoreValueError, PlayerNameEmptyError, PlayerNameTooLongError } from "../errors/YamsErrors"
 import type { SaveGameScoreInput, SaveGameScoreOutput } from "../dtos/SaveGameScoreDTO"
 
-import type { IScoreRepository, ScoreData } from "../repositories/IScoreRepository"
+import type { IScoreRepository, ScoreData } from "../../domain/repositories/IScoreRepository"
 
 export class SaveGameScoreUseCase {
   readonly repository: IScoreRepository

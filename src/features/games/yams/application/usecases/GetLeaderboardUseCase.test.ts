@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { GetLeaderboardUseCase } from './GetLeaderboardUseCase'
-import type { ILeaderboardRepository, LeaderboardScore } from '../repositories/ILeaderboardRepository'
+import type { ILeaderboardRepository, LeaderboardScore } from '../../domain/repositories/ILeaderboardRepository'
 
 const mockUnsubscribe = vi.fn()
 

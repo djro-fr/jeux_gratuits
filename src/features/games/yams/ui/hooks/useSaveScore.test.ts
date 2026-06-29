@@ -2,7 +2,7 @@ import { renderHook, act } from "@testing-library/react"
 import { SaveGameScoreUseCase } from "../../application/usecases/SaveGameScoreUseCase"
 import { YamsScoreBoard } from "../../domain/entities/YamsScoreBoard"
 import { useSaveScore } from "./useSaveScore"
-import type { LeaderboardScore } from "../../application/repositories/ILeaderboardRepository"
+import type { LeaderboardScore } from "../../domain/repositories/ILeaderboardRepository"
 import type { YamsCategory } from "../../domain/rules/calculateScore"
 
 vi.stubGlobal("alert", vi.fn())

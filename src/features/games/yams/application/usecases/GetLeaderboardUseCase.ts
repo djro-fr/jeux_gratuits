@@ -1,4 +1,4 @@
-import type { ILeaderboardRepository, LeaderboardScore } from "../repositories/ILeaderboardRepository";
+import type { ILeaderboardRepository, LeaderboardScore } from "../../domain/repositories/ILeaderboardRepository";
 
 
 export class GetLeaderboardUseCase {

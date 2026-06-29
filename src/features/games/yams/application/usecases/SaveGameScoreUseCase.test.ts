@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { SaveGameScoreUseCase } from './SaveGameScoreUseCase'
-import type { IScoreRepository, ScoreData } from '../repositories/IScoreRepository'
+import type { IScoreRepository, ScoreData } from '../../domain/repositories/IScoreRepository'
 import type { SaveGameScoreInput } from '../dtos/SaveGameScoreDTO'
 
 vi.stubGlobal('console', {

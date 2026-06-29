@@ -1,7 +1,7 @@
 import { collection, addDoc, Timestamp } from "firebase/firestore"
 import { db } from "../config"
 import i18n from "@/shared/i18n/i18n"
-import type { IScoreRepository, ScoreData } from "@/features/games/yams/application/repositories/IScoreRepository"
+import type { IScoreRepository, ScoreData } from "@/features/games/yams/domain/repositories/IScoreRepository"
 import { SaveScoreError } from "../../errors/YamsErrors"
 
 export class FirebaseScoreRepository implements IScoreRepository {

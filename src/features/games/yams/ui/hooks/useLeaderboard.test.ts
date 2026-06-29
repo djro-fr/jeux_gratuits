@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useLeaderboard } from './useLeaderboard'
 import { GetLeaderboardUseCase } from '../../application/usecases/GetLeaderboardUseCase'
-import type { LeaderboardScore } from '../../application/repositories/ILeaderboardRepository'
+import type { LeaderboardScore } from '../../domain/repositories/ILeaderboardRepository'
 
 vi.mock('../../infrastructure/firebase/repositories/FirebaseLeaderboardRepository')
 vi.mock('../../application/usecases/GetLeaderboardUseCase')

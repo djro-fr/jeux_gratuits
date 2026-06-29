@@ -1,4 +1,4 @@
-import type { LeaderboardScore } from "@/features/games/yams/application/repositories/ILeaderboardRepository"
+import type { LeaderboardScore } from "@/features/games/yams/domain/repositories/ILeaderboardRepository"
 
 export interface FirestoreLeaderboardEntry {
   id: string

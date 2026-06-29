@@ -1,4 +1,4 @@
-import type { ScoreData } from "../../application/repositories/IScoreRepository"
+import type { ScoreData } from "../../domain/repositories/IScoreRepository"
 
 export interface FirebaseScoreData {
   playerName: string

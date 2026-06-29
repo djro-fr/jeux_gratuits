@@ -2,7 +2,7 @@ import { collection, query, orderBy, limit, getDocs, onSnapshot } from "firebase
 import { db } from "../config"
 import i18n from "@/shared/i18n/i18n"
 
-import type { ILeaderboardRepository, LeaderboardScore } from "@/features/games/yams/application/repositories/ILeaderboardRepository"
+import type { ILeaderboardRepository, LeaderboardScore } from "@/features/games/yams/domain/repositories/ILeaderboardRepository"
 import { LeaderboardMapper, type FirestoreLeaderboardEntry } from "../../mappers/LeaderboardMapper"
 import { LeaderboardFetchError, LeaderboardMapError, LeaderboardSubscribeError } from "../../errors/YamsErrors"
 

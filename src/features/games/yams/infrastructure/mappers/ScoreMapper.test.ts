@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { ScoreMapper, type FirebaseScoreData } from './ScoreMapper'
-import type { ScoreData } from '../../application/repositories/IScoreRepository'
+import type { ScoreData } from '../../domain/repositories/IScoreRepository'
 
 
 const fakeScoreData: ScoreData = {

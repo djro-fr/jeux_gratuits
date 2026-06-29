@@ -5,7 +5,7 @@ import { SaveGameScoreUseCase } from "../../application/usecases/SaveGameScoreUs
 import { FirebaseScoreRepository } from "../../infrastructure/firebase/repositories/FirebaseScoreRepository"
 import type { YamsScoreBoard } from "../../domain/entities/YamsScoreBoard"
 import type { SaveGameScoreInput } from "../../application/dtos/SaveGameScoreDTO"
-import type { LeaderboardScore } from "../../application/repositories/ILeaderboardRepository"
+import type { LeaderboardScore } from "../../domain/repositories/ILeaderboardRepository"
 
 interface UseSaveScoreProps {
   scoreBoard: YamsScoreBoard

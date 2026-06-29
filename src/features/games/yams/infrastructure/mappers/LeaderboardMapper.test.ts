@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { LeaderboardMapper, type FirestoreLeaderboardEntry } from './LeaderboardMapper'
-import type { LeaderboardScore } from '@/features/games/yams/application/repositories/ILeaderboardRepository'
+import type { LeaderboardScore } from '@/features/games/yams/domain/repositories/ILeaderboardRepository'
 
 const fakeEntry: FirestoreLeaderboardEntry = {
   id: 'doc1',

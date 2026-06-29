@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { GetLeaderboardUseCase } from "../../application/usecases/GetLeaderboardUseCase"
 import { FirebaseLeaderboardRepository } from "../../infrastructure/firebase/repositories/FirebaseLeaderboardRepository"
-import type { LeaderboardScore } from "../../application/repositories/ILeaderboardRepository"
+import type { LeaderboardScore } from "../../domain/repositories/ILeaderboardRepository"
 
 interface UseLeaderboardReturn {
   scores: LeaderboardScore[]

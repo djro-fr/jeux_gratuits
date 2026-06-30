@@ -2,7 +2,14 @@
   "games":"Games",
   "game": {
     "notFound": "Game {{gameId}} not found",
-    "yams": "Yahtzee",    
-    "about": "About"
+    "yams": "Yahtzee" 
+  },
+  "about" : {
+    "name": "About",
+    "title" : "About this app",
+    "p1" : "Graphic designer since 2006, I recently obtained my title CDA (Application Developer Designer).",
+    "p2" : "I create this app to explore in a fun way the React framework and the principles of Clean Architecture.",
+    "p3" : "The challenge: to demonstrate a scalable, tested architecture ready for production.",
+    "p4" : "Open to an opportunity to make progress in development."
   }
 }

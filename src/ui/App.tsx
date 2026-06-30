@@ -4,18 +4,18 @@ import { YamsLayout } from "./layouts/YamsLayout"
 import { HomePage } from "./pages/HomePage"
 import { GamePage } from "./pages/GamePage"
 import { YamsPage } from "@/features/games/yams/ui/pages/YamsPage"
+import { AboutPage } from "./pages/AboutPage"
 
 export const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Routes avec DefaultLayout */}
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/game/:gameId" element={<GamePage />} />
-        </Route>
 
-        {/* Routes avec YamsLayout */}
+        </Route>
         <Route element={<YamsLayout />}>
           <Route path="/game/yams" element={<YamsPage />} />
         </Route>

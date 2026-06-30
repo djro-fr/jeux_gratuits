@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 export const Navbar = () => {
   const navigate = useNavigate()
-  const {t} = useTranslation()
+  const {t} = useTranslation()  
 
   return (    
     <nav id="navbar">
@@ -19,7 +19,7 @@ export const Navbar = () => {
           <button onClick={() => navigate('/game/yams')}>{t("game.yams")}</button>
         </li>
         <li>
-          <button onClick={() => navigate('/about')}>{t("game.about")}</button>
+          <button onClick={() => navigate('/about')}>{t("about.name")}</button>
         </li>
       </ul>
       </div>

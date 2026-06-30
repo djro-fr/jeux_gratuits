@@ -38,6 +38,8 @@ export const YamsGameContainer = () => {
     setHasRolled(false)
   }
 
+  const [isCursorVisible, setIsCursorVisible] = useState(true)
+
   const categories = Object.values(YamsCategory)
   
   const { scores } = useLeaderboard()
@@ -140,6 +142,9 @@ export const YamsGameContainer = () => {
 
         <div className="flex flex-col gap-3 mb-6 mt-0">
           <div className="flex flex-col">
+            <div id='cursor' className="max-w-60 w-full mx-auto relative">
+              <span className={isCursorVisible ? 'anim text-white text-3xl right-5 absolute' : 'hidden' }>|</span>
+            </div>
             <input
               type="text"
               value={playerName}
@@ -147,11 +152,13 @@ export const YamsGameContainer = () => {
                 setPlayerName(e.target.value)
                 setError(null)
               }}
+              onFocus={() => setIsCursorVisible(false)}
+              onBlur={() => setIsCursorVisible(true)}
               id="player-name"
-              placeholder={t('ui.enterName')}
-              maxLength={10}
-              className="text-white text-2xl mb-4 text-center"
+              placeholder={t('ui.enterName')} 
+              maxLength={10}              
             />
+            
             {error && <div className="error-message">{error}</div>}
             <button className="action gold icon md w-full mx-auto" onClick={handleSaveAndRestart}>
               {t('ui.saveScore')}

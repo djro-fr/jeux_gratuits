@@ -6,7 +6,7 @@
   },
   "about" : {
     "name": "À propos",
-    "title" : "À propos de cette app",
+    "title" : "À propos de cette application",
     "p1" : "Graphiste depuis 2006, j'ai récemment obtenu mon titre CDA (Concepteur Développeur d'Applications).",
     "p2" : "Je crée cette application pour explorer de manière ludique le framework React et les principes de Clean Architecture.",
     "p3" : "L'enjeu : démontrer une architecture scalable, testée et prête pour la production.",

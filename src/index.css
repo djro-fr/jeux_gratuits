@@ -212,19 +212,25 @@
       }
     }
     input#player-name{
-      @apply max-w-65 mx-auto;
+      @apply max-w-65 mx-auto mb-5 text-white text-2xl text-left;
       padding: 5px 0 ;
-      &:focus{
-        outline: none;
-        border-bottom: white 1px solid;          
+      border-bottom: white 1px solid;         
+      &:focus{      
+        outline: none;        
         &::placeholder{
-          color:#ffffffaa
+          color:#ffffff88
         }  
       }
       &::placeholder{
-        color:#ffffffff
+        color:#ffffffaa
       }    
     }
+    .anim{
+      animation-name: blink;
+      animation-duration: 1s; 
+      animation-iteration-count: infinite; 
+      animation-timing-function: ease-in-out; 
+    }     
   }
   .leaderboard{
     max-width: 400px;
@@ -270,6 +276,10 @@
     100% {         
       transform: translateX(0) rotate(0deg); 
     }
+  }  
+  @keyframes blink {
+      0% { opacity: 1; }      
+      100% { opacity: 0.2; }
   }
 }
 

@@ -2,7 +2,8 @@
   "games":"Jeux",
   "game": {
     "notFound": "Jeu {{gameId}} non trouvé",    
-    "yams": "Yam's"
+    "yams": "Yam's",
+    "about": "À propos"
   }
 
 }

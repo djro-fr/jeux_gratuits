@@ -2,6 +2,7 @@
   "games":"Games",
   "game": {
     "notFound": "Game {{gameId}} not found",
-    "yams": "Yahtzee"
+    "yams": "Yahtzee",    
+    "about": "About"
   }
 }

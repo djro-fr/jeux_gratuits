@@ -18,6 +18,9 @@ export const Navbar = () => {
         <li>
           <button onClick={() => navigate('/game/yams')}>{t("game.yams")}</button>
         </li>
+        <li>
+          <button onClick={() => navigate('/about')}>{t("game.about")}</button>
+        </li>
       </ul>
       </div>
    

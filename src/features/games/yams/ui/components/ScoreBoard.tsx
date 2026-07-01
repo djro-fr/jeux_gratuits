@@ -60,7 +60,7 @@ export const ScoreBoard = ({
           const currentScore = scoreBoard.getScore(category)          
           const isScored = currentScore  !== null
           const isSelected = selectedCategory === category
-          const previewScore = isSelected ? getScorePreview(category) : "-"
+          const previewScore = getScorePreview(category) === "0" ? "-" : getScorePreview(category)
           const categoryLabel = t(`categories.${category}`)
           const ariaLabel = `Expliquer ${categoryLabel}`
 
@@ -73,8 +73,12 @@ export const ScoreBoard = ({
                   className={`category flex-1 ${isSelected ? 'selected' : ''} ${isScored ? 'scored' : ''}`}
                 >
                   <span className="name">{t(`categories.${category}`)}</span>
-                  <span className="score">
-                    {isScored ? (<strong>{currentScore}</strong>) : (<em>{previewScore}</em>)}
+                  <span className={`score 
+                    ${!isScored && !isSelected ? 'animate-[blink_1s_linear_infinite]' : ''}`}>
+                    {isScored && <strong>{currentScore}</strong>}
+                    {!isScored && (
+                      previewScore === "-" ? "0" : <em>{previewScore}</em>
+                    )}
                   </span>
                 </button>                
                 
@@ -88,7 +92,7 @@ export const ScoreBoard = ({
                 }
                 
                 {isSelected && <button 
-                  className="icon-green" 
+                  className="icon-green animate-[blink_.6s_linear_infinite]" 
                   onClick={() => selectedCategory && onScore(selectedCategory)}
                 > 
                   <IconsSprite value="check" />                

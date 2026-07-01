@@ -10,6 +10,8 @@ import { GlobalLeaderboard } from "../components/GlobalLeaderboard"
 import { useYamsGame } from "../hooks/useYamsGame"
 import { useSaveScore } from "../hooks/useSaveScore"
 import { useLeaderboard } from "../hooks/useLeaderboard"
+import { TrophiesSprite } from "@/shared/components/TrophiesSprite"
+import { LeaderboardModal } from "../components/LeaderboardModal"
 
 export const YamsGameContainer = () => {
   const { t } = useTranslation("yams")
@@ -50,8 +52,9 @@ export const YamsGameContainer = () => {
     setSuccessMessage  
   })
 
-  const [hasRolled, setHasRolled] = useState(false)
-  
+  const [hasRolled, setHasRolled] = useState(false)  
+  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false)
+
   if (yamsTurn.getRollNumber() === 1 && !hasRolled) {
     return (
       <>
@@ -72,34 +75,60 @@ export const YamsGameContainer = () => {
     const totalYahtzeeBonus = scoreBoard.getTotalYahtzeeBonus()
     const totalScore = calculateTotalScore(scoreBoard.getAllScores()) + totalYahtzeeBonus
 
-    const handleCloseSuccessModal = () => {
-      setSuccessMessage(null)
-      handleRestart()
-    }
-
     return (
       <>
+      <LeaderboardModal
+        isOpen={isLeaderboardOpen}  
+        onClose={() => {
+          setIsLeaderboardOpen(false)
+          handleRestart()
+        }}        
+      />
       <Modal
         isOpen={!!successMessage}
-        onClose={handleCloseSuccessModal}
+        onClose={() => {
+          setSuccessMessage(null)
+          setIsLeaderboardOpen(true)
+        }}
         title={t('')}
       >
-        <div className="text-center">
+        <div className="text-center h-full">
           <p className="text-xl my-6">{successMessage}</p>
           {playerRank===1 && (
-            <p className="text-2xl mb-4">
-              FIRSSSTTTT
-            </p>
-          )}
+            <div className="trophy mx-auto mt-5 mb-9 relative w-80">
+              <div className="shine mx-auto overflow-hidden h-40">
+                <div className="lightShineRadial animate-[blinkRotate_4s_linear_infinite]">
+                  <svg viewBox="0 0 400 400"><use href="/assets/shine.svg"></use></svg>
+                </div>
+              </div>
+              <div className="cup mx-auto w-40 absolute top-0 left-0 right-0 animate-[bounceUp_1s_ease-in-out_forwards]">
+                <TrophiesSprite value="gold" />
+              </div>
+            </div>
+            )}
           {playerRank===2 && (
-            <p className="text-2xl mb-4">
-              SECONNNNNDDDD
-            </p>
+            <div className="trophy mx-auto mt-5 mb-9 relative w-80">
+              <div className="shine mx-auto overflow-hidden h-40">
+                <div className="lightShineRadial animate-[blinkRotate_4s_linear_infinite]">
+                  <svg viewBox="0 0 400 400"><use href="/assets/shine.svg"></use></svg>
+                </div>
+              </div>
+              <div className="cup mx-auto w-40 absolute top-0 left-0 right-0 animate-[bounceUp_1s_ease-in-out_forwards]">
+                <TrophiesSprite value="silver" />
+              </div>
+            </div>
           )}
           {playerRank===3 && (
-            <p className="text-2xl mb-4">
-              THIRRRRRD
-            </p>
+            <div className="trophy mx-auto mt-5 mb-9 relative w-80">
+              <div className="shine mx-auto overflow-hidden h-40">
+                <div className="lightShineRadial animate-[blinkRotate_4s_linear_infinite]">
+                  <svg viewBox="0 0 400 400"><use href="/assets/shine.svg"></use></svg>
+                </div>
+              </div>
+              <div className="cup mx-auto w-40 absolute top-0 left-0 right-0 animate-[bounceUp_1s_ease-in-out_forwards]">
+                <TrophiesSprite value="bronze" />
+              </div>
+            </div>
           )}
           {playerRank && (
             <p className="text-2xl mb-4">
@@ -107,7 +136,10 @@ export const YamsGameContainer = () => {
             </p>
           )}
           <button
-            onClick={handleCloseSuccessModal}
+            onClick={() =>{
+              setSuccessMessage(null)
+              setIsLeaderboardOpen(true)
+            }}
             className="action w-full max-w-30"
           >
             {t('ui.success')}

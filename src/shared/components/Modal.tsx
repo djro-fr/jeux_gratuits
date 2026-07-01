@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import { useId, type ReactNode } from "react"
 
 interface ModalProps {
   isOpen: boolean
@@ -8,13 +8,14 @@ interface ModalProps {
 }
 
 export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
+  const modalId = useId()
   if (!isOpen) return null
 
   return (
-    <div id="modal" className="fixed inset-0 bg-overlay/95 flex items-center justify-center z-50">
+    <div id={`modal-${modalId}`} className="fixed inset-0 bg-overlay/95 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full mx-4 max-h-[80vh] flex flex-col">
         <div className="flex justify-between items-center p-3 border-b border-gray-300 shrink-0">
-          <h2 className="text-2xl font-bold mt-0">{title}</h2>
+          <h2 className="my-0 text-black text-2xl font-bold ">{title}</h2>
           <button
             onClick={onClose}
             className="text-2xl font-bold hover:opacity-70"

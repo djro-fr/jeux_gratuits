@@ -9,6 +9,7 @@ import { YamsCategory } from "../../domain/rules/calculateScore"
 import { DiceRoll } from "../../domain/valueObjects/DiceRoll"
 import { YamsGame } from "../../domain/aggregates/YamsGame"
 import { RecordScoreUseCase } from "../../application/usecases/RecordScoreUseCase"
+import type { TFunction } from "i18next"
 
 interface UseYamsGameReturn {
   game: YamsGame
@@ -46,6 +47,13 @@ export const useYamsGame = (): UseYamsGameReturn => {
   const keepDiceUseCase = useMemo(() => new KeepDiceUseCase(), [])
   const scoreTurnUseCase = useMemo(() => new RecordScoreUseCase(), [])  
 
+  const getErrorMessage = (err: unknown, t: TFunction): string => {
+    if (!(err instanceof Error)) return t('errors.unknownError')
+    const errorKey = err.name
+    const details = 'details' in err ? (err.details as Record<string, unknown>) : {}
+    return t(`errors.${errorKey}`, details) as string
+  }
+
   const createTestScoreBoard = (): YamsScoreBoard => {
     let board = YamsScoreBoard.create()
     const testScores: Record<YamsCategory, number> = {
@@ -77,9 +85,8 @@ export const useYamsGame = (): UseYamsGameReturn => {
       
       setGame(game)
       setError(null)
-    } catch (err) {
-      const errorKey = err instanceof Error ? err.name : 'unknownError'
-      setError(t(`errors.${errorKey}`))
+    } catch (err) {      
+      setError(getErrorMessage(err, t))
     }
   }
  
@@ -92,8 +99,7 @@ export const useYamsGame = (): UseYamsGameReturn => {
       setGame(updated)
       setError(null)
     } catch (err) {
-      const errorKey = err instanceof Error ? err.name : 'unknownError'
-      setError(t(`errors.${errorKey}`))
+      setError(getErrorMessage(err, t))
     }
   }
   
@@ -106,8 +112,7 @@ export const useYamsGame = (): UseYamsGameReturn => {
       setShowScoreBoard(false)
       setError(null)
     } catch (err) {
-      const errorKey = err instanceof Error ? err.name : 'unknownError'
-      setError(t(`errors.${errorKey}`, { category }))
+      setError(getErrorMessage(err, t))
     }
   }
 

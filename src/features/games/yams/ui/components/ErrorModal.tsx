@@ -14,10 +14,10 @@ export const ErrorModal = ({ error, onClose }: ErrorModalProps) => {
       title={t('ui.error')}
     >
       <div className="text-center">
-        <p className="text-lg text-red-600 mb-6">{error}</p>
+        <p className="text-lg my-5">{error}</p>
         <button
           onClick={onClose}
-          className="action gold icon md"
+          className="action md"
         >
           OK
         </button>

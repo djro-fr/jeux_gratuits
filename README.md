@@ -179,11 +179,9 @@ useSaveScore.handleSaveAndRestart()
 
 ## TO DO
 
-- [ ] Animations & transitions
 - [ ] Component visual tests (Storybook)
 - [ ] E2E tests (Playwright/Cypress)
 - [ ] Performance optimizations
-- [ ] Android/iOS build (Capacitor)
 - [ ] Additional games
 
 ## Status
@@ -200,4 +198,4 @@ useSaveScore.handleSaveAndRestart()
 
 **Key Achievement:** YamsGame as orchestrating Aggregate Root with immutable state management
 
-**Last Updated:** June 29, 2026
+**Last Updated:** July 1, 2026

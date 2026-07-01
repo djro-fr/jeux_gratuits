@@ -86,7 +86,7 @@
   }
   nav#navbar{    
     font-family: var(--font-action);
-    @apply fixed w-full bottom-0 p-4 rounded-t-3xl bg-primary text-white z-2;
+    @apply fixed w-full bottom-0 px-4 pt-1.5 pb-0.5 rounded-t-3xl bg-primary text-white z-2;
     a{
       @apply text-white;
     }   

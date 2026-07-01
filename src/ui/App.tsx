@@ -5,9 +5,13 @@ import { HomePage } from "./pages/HomePage"
 import { GamePage } from "./pages/GamePage"
 import { YamsPage } from "@/features/games/yams/ui/pages/YamsPage"
 import { AboutPage } from "./pages/AboutPage"
+import { DiceSpriteDefs } from "@/shared/components/DiceSpriteDefs"
 
 export const App = () => {
   return (
+    <>
+    <DiceSpriteDefs />
+  
     <BrowserRouter>
       <Routes>
         <Route element={<DefaultLayout />}>
@@ -21,5 +25,6 @@ export const App = () => {
         </Route>
       </Routes>
     </BrowserRouter>
+    </>
   )
 }

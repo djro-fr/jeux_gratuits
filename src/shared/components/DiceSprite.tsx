@@ -6,6 +6,8 @@ interface DiceSpriteProps extends HTMLAttributes<SVGSVGElement> {
   value: DiceValue
 }
 
+
+
 export const DiceSprite = ({ 
   value,
   ...props 
@@ -14,6 +16,6 @@ export const DiceSprite = ({
     viewBox="0 0 20 20"
     {...props}
   >
-    <use href={`/assets/dice-sprite.svg#dice-${value}`} />
+    <use href={`#dice-${value}`} />
   </svg>
 )

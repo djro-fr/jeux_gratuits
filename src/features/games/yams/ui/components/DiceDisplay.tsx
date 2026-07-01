@@ -27,16 +27,24 @@ export const DiceDisplay = ({
       onSelectDice([...selectedIndices, index])
     }
   }
-  const [animatedByRoll, setAnimatedByRoll] = useState<Record<number, Set<number>>>({})
 
-  const currentRollAnimated = animatedByRoll[rollNumber ?? 0] ?? new Set()
-  
-  const handleAnimationEnd = (index: number) => {
-    setAnimatedByRoll(prev => ({
-      ...prev,
-      [rollNumber ?? 0]: new Set([...(prev[rollNumber ?? 0] ?? []), index])
-    }))
+  const computeToAnimate = () =>
+    new Set((dice ?? []).map((_, index) => index).filter(index => !selectedIndices.includes(index)))  
+  const [prevRoll, setPrevRoll] = useState(rollNumber)
+  const [diceToAnimate, setDiceToAnimate] = useState<Set<number>>(computeToAnimate)  
+  const [animatedDone, setAnimatedDone] = useState<Set<number>>(new Set())
+
+  const isAnimating = (index: number) => diceToAnimate.has(index) && !animatedDone.has(index)
+
+  const handleAnimationEnd = (index: number) =>
+    setAnimatedDone(prev => new Set(prev).add(index))
+
+  if (rollNumber !== prevRoll) {
+    setPrevRoll(rollNumber)
+    setDiceToAnimate(computeToAnimate())    
+    setAnimatedDone(new Set())
   }
+
   return (
     <div className="dice-display">
       <div className="text-center mt-1">{!!rollNumber && <p className='text-primary-light'>{t('ui.rollNumber')} {rollNumber}/3</p>}</div>
@@ -48,10 +56,10 @@ export const DiceDisplay = ({
           onClick={() => handleDiceClick(index)}
           className={`
             die 
-            ${selectedIndices.includes(index) ? 'selected' : 'animated'}
-            ${currentRollAnimated.has(index) ? 'played' : ''}  
-           `}           
-           onAnimationEnd={() => handleAnimationEnd(index)}
+            ${selectedIndices.includes(index) ? 'selected' : ''}
+            ${isAnimating(index) ? 'animated' : ''}
+           `}     
+          onAnimationEnd={() => handleAnimationEnd(index)}      
         >
         <DiceSprite 
           value={die.getValue() as 1 | 2 | 3 | 4 | 5 | 6}

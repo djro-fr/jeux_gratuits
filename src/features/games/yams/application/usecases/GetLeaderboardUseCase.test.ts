@@ -6,7 +6,8 @@ const mockUnsubscribe = vi.fn()
 
 const mockRepository: ILeaderboardRepository = {
   subscribe: vi.fn(),
-  getTopScores: vi.fn(),  
+  getTopScores: vi.fn(),
+  getPlayerRank: vi.fn(),
 }
 
 const fakeScores: LeaderboardScore[] = [

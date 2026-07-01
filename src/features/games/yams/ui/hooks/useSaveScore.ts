@@ -3,13 +3,12 @@ import { useTranslation } from "react-i18next"
 import { calculateTotalScore } from "../../domain/rules/calculateScore"
 import { SaveGameScoreUseCase } from "../../application/usecases/SaveGameScoreUseCase"
 import { FirebaseScoreRepository } from "../../infrastructure/firebase/repositories/FirebaseScoreRepository"
+import { FirebaseLeaderboardRepository } from "../../infrastructure/firebase/repositories/FirebaseLeaderboardRepository"
 import type { YamsScoreBoard } from "../../domain/valueObjects/YamsScoreBoard"
 import type { SaveGameScoreInput } from "../../application/dtos/SaveGameScoreDTO"
-import type { LeaderboardScore } from "../../domain/repositories/ILeaderboardRepository"
 
 interface UseSaveScoreProps {
   scoreBoard: YamsScoreBoard
-  leaderboardScores: LeaderboardScore[]
   setError: (error: string | null) => void
   setSuccessMessage?: (message: string | null) => void
 }
@@ -22,10 +21,10 @@ interface UseSaveScoreReturn {
 }
 
 const saveUseCase = new SaveGameScoreUseCase(new FirebaseScoreRepository())
+const leaderboardRepository = new FirebaseLeaderboardRepository()
 
 export const useSaveScore = ({
   scoreBoard,
-  leaderboardScores,
   setError,
   setSuccessMessage
 }: UseSaveScoreProps): UseSaveScoreReturn => {
@@ -56,13 +55,15 @@ export const useSaveScore = ({
     const result = await saveUseCase.execute(input)
 
     if (result.success) {  
-      const scoresAbove = leaderboardScores.filter(s => s.score > totalScore)
-      const distinctScoresAbove = new Set(scoresAbove.map(s => s.score)).size
-      const calculatedRank = distinctScoresAbove + 1
-      
-      setPlayerRank(calculatedRank)
-      setSuccessMessage?.(t('ui.scoreSaved'))  
-      setPlayerName('')
+      try {
+        const rank = await leaderboardRepository.getPlayerRank(totalScore)
+        setPlayerRank(rank)
+        setSuccessMessage?.(t('ui.scoreSaved'))  
+        setPlayerName('')
+      } catch (err) {
+        const errorKey = err instanceof Error ? err.name : 'unknownError'
+        setError(t(`errors.${errorKey}`))
+      }
     } else {
       const errorKey = result.error ?? 'unknownError'
       setError(t(`errors.${errorKey}`))

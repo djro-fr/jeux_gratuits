@@ -1,8 +1,8 @@
 import { renderHook, act } from "@testing-library/react"
 import { SaveGameScoreUseCase } from "../../application/usecases/SaveGameScoreUseCase"
+import { FirebaseLeaderboardRepository } from "../../infrastructure/firebase/repositories/FirebaseLeaderboardRepository"
 import { YamsScoreBoard } from "../../domain/valueObjects/YamsScoreBoard"
 import { useSaveScore } from "./useSaveScore"
-import type { LeaderboardScore } from "../../domain/repositories/ILeaderboardRepository"
 import type { YamsCategory } from "../../domain/rules/calculateScore"
 
 vi.stubGlobal("alert", vi.fn())
@@ -16,27 +16,11 @@ vi.mock("react-i18next", async (importOriginal) => {
 })
 
 vi.mock("../../infrastructure/firebase/repositories/FirebaseScoreRepository")
+vi.mock("../../infrastructure/firebase/repositories/FirebaseLeaderboardRepository")
 vi.mock("../../application/usecases/SaveGameScoreUseCase")
 
 const mockSetError = vi.fn()
 const mockSetSuccessMessage = vi.fn()
-
-const fakeLeaderboard: LeaderboardScore[] = [
-  {
-    id: "doc1",
-    rank: 1,
-    playerName: "Alice",
-    score: 300,
-    timestamp: "15/01/2025",
-  },
-  {
-    id: "doc2",
-    rank: 2,
-    playerName: "Bob",
-    score: 250,
-    timestamp: "20/02/2025",
-  },
-]
 
 const buildScoreBoard = () => {
   let board = YamsScoreBoard.create()
@@ -65,7 +49,6 @@ const renderUseSaveScore = (scoreBoard = YamsScoreBoard.create()) =>
   renderHook(() =>
     useSaveScore({
       scoreBoard,
-      leaderboardScores: fakeLeaderboard,
       setError: mockSetError,
       setSuccessMessage: mockSetSuccessMessage,
     }),
@@ -139,10 +122,11 @@ describe("Unit tests - UI hooks", () => {
         expect(mockSetSuccessMessage).toHaveBeenCalledWith("ui.scoreSaved")
       })
 
-      it("2.4) should calculate player rank correctly", async () => {
+      it("2.4) should fetch player rank from repository", async () => {
         vi.mocked(SaveGameScoreUseCase.prototype.execute).mockResolvedValue({
           success: true,
         })
+        vi.mocked(FirebaseLeaderboardRepository.prototype.getPlayerRank).mockResolvedValue(3)
 
         const { result } = renderUseSaveScore(buildScoreBoard())
 
@@ -153,8 +137,8 @@ describe("Unit tests - UI hooks", () => {
           await result.current.handleSaveAndRestart()
         })
 
-
-        expect(result.current.playerRank).toBe(1)
+        expect(vi.mocked(FirebaseLeaderboardRepository.prototype.getPlayerRank)).toHaveBeenCalled()
+        expect(result.current.playerRank).toBe(3)
       })
     })
 

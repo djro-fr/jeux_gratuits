@@ -9,7 +9,6 @@ import { IconsSprite } from "@/shared/components/IconsSprite"
 import { GlobalLeaderboard } from "../components/GlobalLeaderboard"
 import { useYamsGame } from "../hooks/useYamsGame"
 import { useSaveScore } from "../hooks/useSaveScore"
-import { useLeaderboard } from "../hooks/useLeaderboard"
 import { TrophiesSprite } from "@/shared/components/TrophiesSprite"
 import { LeaderboardModal } from "../components/LeaderboardModal"
 
@@ -43,11 +42,9 @@ export const YamsGameContainer = () => {
   const [isCursorVisible, setIsCursorVisible] = useState(true)
 
   const categories = Object.values(YamsCategory)
-  
-  const { scores } = useLeaderboard()
+    
   const { playerName, setPlayerName, handleSaveAndRestart, playerRank } = useSaveScore({
     scoreBoard,
-    leaderboardScores : scores, 
     setError,
     setSuccessMessage  
   })

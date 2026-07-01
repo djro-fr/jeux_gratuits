@@ -1,4 +1,4 @@
-import { collection, query, orderBy, limit, getDocs, onSnapshot } from "firebase/firestore"
+import { collection, query, orderBy, limit, getDocs, onSnapshot, where } from "firebase/firestore"
 import { db } from "../config"
 import i18n from "@/shared/i18n/i18n"
 
@@ -86,6 +86,31 @@ export class FirebaseLeaderboardRepository implements ILeaderboardRepository {
       console.error(errorMessage, error)      
       callback([])
       return () => {}
+    }
+  }
+
+  async getPlayerRank(playerScore: number): Promise<number> {
+    try {
+      const scoresRef = collection(db, 'leaderboard')
+      const q = query(
+        scoresRef,
+        where('score', '>', playerScore)
+      )
+      
+      const snapshot = await getDocs(q)
+      const scoresAbove = snapshot.size
+      
+      console.log(i18n.t('ui.playerRankCalculated', { ns: 'yams', rank: scoresAbove + 1 }))
+      
+      return scoresAbove + 1
+    } catch (error) {
+      const errorName = error instanceof Error ? error.name : 'unknownError'
+      const errorMessage = i18n.t(`errors.${errorName}`, { ns: 'yams' })
+      console.error(errorMessage, error)
+      throw new LeaderboardFetchError({
+        reason: 'Failed to calculate player rank',
+        originalError: error instanceof Error ? error.message : String(error)
+      })
     }
   }
 }

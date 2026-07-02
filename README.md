@@ -24,6 +24,7 @@ Built as a portfolio project to demonstrate Clean Architecture, Testing, and Mod
 - **Architecture:** Clean Architecture with Domain-Driven Design
 - **State Management:** React Hooks + Custom Hooks
 - **Backend/Database:** Firebase Firestore
+- **Mobile:** Capacitor (Android via Android Studio)
 - **Code Quality:** ESLint, SonarLint
 
 ## Security
@@ -191,11 +192,12 @@ useSaveScore.handleSaveAndRestart()
 - Yams game with full rule implementation
 - Firebase Leaderboard (Firestore)
 - Clean Architecture + DDD with Aggregate Root
-- **189 comprehensive tests** (up from 185)
+- **189 comprehensive tests**
 - Multi-language support (FR/EN)
-- Mobile responsive UI
+- Mobile responsive UI (Web + Android via Capacitor)
 - Complete UseCase-driven architecture
+- Android app with native launcher icons
 
 **Key Achievement:** YamsGame as orchestrating Aggregate Root with immutable state management
 
-**Last Updated:** July 1, 2026
+**Last Updated:** July 2, 2026

@@ -9,5 +9,6 @@ export interface LeaderboardScore {
 export interface ILeaderboardRepository {
   getTopScores(limit: number): Promise<LeaderboardScore[]>
   subscribe(callback: (scores: LeaderboardScore[]) => void): () => void
-  getPlayerRank(playerScore: number): Promise<number>
+  getPlayerRank(playerScore: number): Promise<number>  
+  getPlayerBestScore(playerName: string): Promise<number | null>  
 }

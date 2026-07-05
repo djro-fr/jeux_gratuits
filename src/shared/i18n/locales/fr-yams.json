@@ -51,8 +51,19 @@
     "globalLeaderboard": "Classement mondial",
     "player": "Joueur",
     "score": "Score",
+    "noScoresForPlayer": "Aucun score pour ce joueur",
+    "playerRankCalculated": "Rang calculé : {{rank}}",
+    "playerBestScore": "Meilleur score du joueur : {{score}}",
     "enterName": "Quel est votre nom ?",
     "scoreSaved": "Score sauvegardé !",
+    "scoreValidation": {
+      "notBetter": "Vous avez déjà un meilleur score !"
+    },
+    "messageModal": {
+      "validationTitle": "Attention",
+      "successTitle": "Succès",
+      "ok": "OK"
+    },
     "saveScore" : "Sauvegarder le score",
     "restart" : "Recommencer",    
     "leaderboard": "Classement",

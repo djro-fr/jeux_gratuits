@@ -8,6 +8,8 @@ import { LeaderboardFetchError, LeaderboardMapError, LeaderboardSubscribeError }
 
 export class FirebaseLeaderboardRepository implements ILeaderboardRepository {
 
+  
+
   async getTopScores(limitCount: number): Promise<LeaderboardScore[]> {
     try {
       const scoresRef = collection(db, 'leaderboard')
@@ -113,4 +115,38 @@ export class FirebaseLeaderboardRepository implements ILeaderboardRepository {
       })
     }
   }
+
+  async getPlayerBestScore(playerName: string): Promise<number | null> {
+    try {
+      const scoresRef = collection(db, 'leaderboard')
+      const q = query(
+        scoresRef,
+        where('playerName', '==', playerName),
+        orderBy('score', 'desc'),
+        limit(1)
+      )
+      
+      const snapshot = await getDocs(q)
+      
+      if (snapshot.empty) {
+        console.log(i18n.t('ui.noScoresForPlayer', { ns: 'yams' }))
+        return null
+      }
+      
+      const bestScore = snapshot.docs[0].data().score
+      console.log(i18n.t('ui.playerBestScore', { ns: 'yams', score: bestScore }))
+      
+      return bestScore
+    } catch (error) {
+      const errorName = error instanceof Error ? error.name : 'unknownError'
+      const errorMessage = i18n.t(`errors.${errorName}`, { ns: 'yams' })
+      console.error(errorMessage, error)
+      throw new LeaderboardFetchError({
+        reason: 'Failed to fetch player best score',
+        playerName,
+        originalError: error instanceof Error ? error.message : String(error)
+      })
+    }
+  }
+
 }

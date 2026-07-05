@@ -51,6 +51,17 @@
     "globalLeaderboard": "Worldwide leaderboard",
     "player": "Player",
     "score": "Score",
+    "noScoresForPlayer": "No score for this player",
+    "playerRankCalculated": "Rank: {{rank}}",
+    "playerBestScore": "Best score for this player: {{score}}",
+    "scoreValidation": {
+      "notBetter": "You already have a better score!"
+    },
+    "messageModal": {
+      "validationTitle": "Attention",
+      "successTitle": "Success",
+      "ok": "OK"
+    },
     "enterName": "What's your name?",
     "scoreSaved": "Score saved!",
     "saveScore" : "Save score",
@@ -60,7 +71,7 @@
     "leaderboardUpdated": "Leaderboard updated",
     "leaderboardRank": "You are #",
     "error": "Erreur",
-    "success" : "OK"
+    "success" : "OK"    
   }
 
 }

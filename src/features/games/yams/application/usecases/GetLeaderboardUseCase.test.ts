@@ -8,6 +8,7 @@ const mockRepository: ILeaderboardRepository = {
   subscribe: vi.fn(),
   getTopScores: vi.fn(),
   getPlayerRank: vi.fn(),
+  getPlayerBestScore: vi.fn(),
 }
 
 const fakeScores: LeaderboardScore[] = [

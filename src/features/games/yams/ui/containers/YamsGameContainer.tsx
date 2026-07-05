@@ -11,12 +11,11 @@ import { useYamsGame } from "../hooks/useYamsGame"
 import { useSaveScore } from "../hooks/useSaveScore"
 import { TrophiesSprite } from "@/shared/components/TrophiesSprite"
 import { LeaderboardModal } from "../components/LeaderboardModal"
+import { MessageModal } from "../components/MessageModal"
 
 export const YamsGameContainer = () => {
   const { t } = useTranslation("yams")
   const { t: tGames } = useTranslation()
-
-  const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
   const {
     game, scoreBoard, diceRoll, yamsTurn,
@@ -26,7 +25,7 @@ export const YamsGameContainer = () => {
     setShowScoreBoard, setError,
     handleKeepDice,
     handleScore, handleRestart: hookHandleRestart, 
-    // handleFillTestData
+    handleFillTestData
   } = useYamsGame()
  
   const handleRestart = () => {
@@ -43,16 +42,22 @@ export const YamsGameContainer = () => {
 
   const categories = Object.values(YamsCategory)
     
-  const { playerName, setPlayerName, handleSaveAndRestart, playerRank } = useSaveScore({
+  const { 
+    playerName, 
+    setPlayerName, 
+    handleSaveAndRestart, 
+    playerRank,
+    message,
+    clearMessage
+   } = useSaveScore({
     scoreBoard,
-    setError,
-    setSuccessMessage  
+    setError
   })
 
   const [hasRolled, setHasRolled] = useState(false)  
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false)
 
-  if (yamsTurn.getRollNumber() === 1 && !hasRolled) {
+  if (!game.isGameFinished() && yamsTurn.getRollNumber() === 1 && !hasRolled) {
     return (
       <>
         <ErrorModal error={error} onClose={() => setError(null)} />
@@ -74,6 +79,10 @@ export const YamsGameContainer = () => {
 
     return (
       <>
+      <MessageModal
+        message={message?.type === 'validation' ? message : null}
+        onClose={clearMessage}
+      />
       <LeaderboardModal
         isOpen={isLeaderboardOpen}  
         onClose={() => {
@@ -82,15 +91,15 @@ export const YamsGameContainer = () => {
         }}        
       />
       <Modal
-        isOpen={!!successMessage}
+        isOpen={message?.type === 'success'}
         onClose={() => {
-          setSuccessMessage(null)
+          clearMessage()
           setIsLeaderboardOpen(true)
         }}
         title={t('')}
       >
         <div className="text-center h-full">
-          <p className="text-xl my-6">{successMessage}</p>
+          <p className="text-xl my-6">{message?.text}</p>
           {playerRank===1 && (
             <div className="trophy mx-auto mt-5 mb-9 relative w-80">
               <div className="shine mx-auto overflow-hidden h-40">
@@ -134,7 +143,7 @@ export const YamsGameContainer = () => {
           )}
           <button
             onClick={() =>{
-              setSuccessMessage(null)
+              clearMessage() 
               setIsLeaderboardOpen(true)
             }}
             className="action w-full max-w-30"
@@ -232,11 +241,11 @@ export const YamsGameContainer = () => {
           </div>
         </button>
       </div>
-      {/* <div>
+      <div>
         <button className="action ml-2" onClick={handleFillTestData}>
           Fill Test Data (DEV)
         </button>
-      </div> */}
+      </div>
 
       {showScoreBoard && (
         <ScoreBoard

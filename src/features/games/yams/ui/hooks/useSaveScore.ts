@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { calculateTotalScore } from "../../domain/rules/calculateScore"
 import { SaveGameScoreUseCase } from "../../application/usecases/SaveGameScoreUseCase"
@@ -6,11 +6,18 @@ import { FirebaseScoreRepository } from "../../infrastructure/firebase/repositor
 import { FirebaseLeaderboardRepository } from "../../infrastructure/firebase/repositories/FirebaseLeaderboardRepository"
 import type { YamsScoreBoard } from "../../domain/valueObjects/YamsScoreBoard"
 import type { SaveGameScoreInput } from "../../application/dtos/SaveGameScoreDTO"
+import { GetPlayerBestScoreUseCase } from "../../application/usecases/GetPlayerBestScoreUseCase"
+
+export type MessageType = 'validation' | 'success'
+
+export interface Message {
+  text: string
+  type: MessageType
+}
 
 interface UseSaveScoreProps {
   scoreBoard: YamsScoreBoard
   setError: (error: string | null) => void
-  setSuccessMessage?: (message: string | null) => void
 }
 
 interface UseSaveScoreReturn {
@@ -18,6 +25,8 @@ interface UseSaveScoreReturn {
   setPlayerName: (name: string) => void
   handleSaveAndRestart: () => Promise<void>
   playerRank: number | null
+  message: Message | null 
+  clearMessage: () => void
 }
 
 const saveUseCase = new SaveGameScoreUseCase(new FirebaseScoreRepository())
@@ -25,14 +34,20 @@ const leaderboardRepository = new FirebaseLeaderboardRepository()
 
 export const useSaveScore = ({
   scoreBoard,
-  setError,
-  setSuccessMessage
+  setError
 }: UseSaveScoreProps): UseSaveScoreReturn => {
   const { t } = useTranslation("yams")
   const [playerName, setPlayerName] = useState('')
   const [playerRank, setPlayerRank] = useState<number | null>(null) 
-
   const [lastSaveTime, setLastSaveTime] = useState<number>(0)
+  const [message, setMessage] = useState<Message | null>(null)
+
+  const getPlayerBestScoreUseCase = useMemo(
+    () => new GetPlayerBestScoreUseCase(new FirebaseLeaderboardRepository()),
+    []
+  )
+
+  const clearMessage = () => setMessage(null)
 
   const handleSaveAndRestart = async () => {
     const now = Date.now()
@@ -43,8 +58,25 @@ export const useSaveScore = ({
     setLastSaveTime(now)
 
     setError(null)
+    clearMessage()
     
     const totalScore = calculateTotalScore(scoreBoard.getAllScores()) + scoreBoard.getTotalYahtzeeBonus()
+
+    try {
+      const bestScoreResult = await getPlayerBestScoreUseCase.execute({ playerName })
+      
+      if (!bestScoreResult.isNewPlayer && totalScore <= bestScoreResult.bestScore!) {
+        setMessage({
+          text: t('ui.scoreValidation.notBetter'),
+          type: 'validation'
+        })
+        return
+      }
+    } catch (err) {
+      const errorKey = err instanceof Error ? err.name : 'unknownError'
+      setError(t(`errors.${errorKey}`))
+      return
+    }
 
     const input: SaveGameScoreInput = {
       playerName,
@@ -58,7 +90,10 @@ export const useSaveScore = ({
       try {
         const rank = await leaderboardRepository.getPlayerRank(totalScore)
         setPlayerRank(rank)
-        setSuccessMessage?.(t('ui.scoreSaved'))  
+        setMessage({
+          text: t('ui.scoreSaved'),
+          type: 'success'
+        })
         setPlayerName('')
       } catch (err) {
         const errorKey = err instanceof Error ? err.name : 'unknownError'
@@ -69,5 +104,6 @@ export const useSaveScore = ({
       setError(t(`errors.${errorKey}`))
     }   
   }
-  return { playerName, setPlayerName, handleSaveAndRestart, playerRank }
+  return { playerName, setPlayerName, handleSaveAndRestart, playerRank, message, clearMessage }
+
 }

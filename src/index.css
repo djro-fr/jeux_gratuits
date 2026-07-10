@@ -262,6 +262,21 @@
       &::placeholder{
         color:#ffffffaa
       }    
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+        -webkit-text-fill-color: white !important;
+        background-color: transparent !important;
+        caret-color: white;
+      }         
+      &:-webkit-autofill {
+        -webkit-transition-delay: 99999s;
+      }
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      outline: none;
     }
     .anim{
       animation-name: blink;

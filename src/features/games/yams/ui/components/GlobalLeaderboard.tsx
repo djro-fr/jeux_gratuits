@@ -33,7 +33,7 @@ export const GlobalLeaderboard = () => {
               <th className="text-right p-2 pr-3 ">{t('ui.score')}</th>
             </tr>
           </thead>
-          <tbody className="bg-green-carpet">
+          <tbody className="bg-green-carpet font-content">
             {scores.map((score) => (
               <tr key={score.id} className="hover:bg-green-carpet-dark">
                 <td className="text-left p-2 pl-3 text-xl">

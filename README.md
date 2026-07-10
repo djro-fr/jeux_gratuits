@@ -259,7 +259,7 @@ service cloud.firestore {
 
 ## Status
 
-**Complete - MVP v1.1.0** :
+**Complete - MVP v1.1.4** :
 
 - ✅ Yams game with full rule implementation (13 categories)
 - ✅ Firebase Leaderboard (Firestore with upsert + duplicate prevention)
@@ -269,7 +269,7 @@ service cloud.firestore {
 - ✅ Mobile responsive UI (Web + Android via Capacitor)
 - ✅ Score marking animation (scale pop with interaction blocking)
 - ✅ Best-score-only leaderboard
-- ✅ Android app v1.1.0 with native launcher icons
+- ✅ Android app v1.1.4 with native launcher icons
 - ✅ Firestore composite indexes & security rules
 
 **Key Achievements:**
@@ -280,4 +280,4 @@ service cloud.firestore {
 - Full test coverage across all layers (Domain → Infrastructure → UI)
 - Production-ready Firestore configuration with indexes
 
-**Last Updated:** July 10, 202
+**Last Updated:** July 10, 2026

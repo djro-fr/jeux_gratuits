@@ -6,7 +6,10 @@ service cloud.firestore {
     	allow create: if request.auth == null && 
         request.resource.data.playerName.size() > 0 &&
         request.resource.data.playerName.size() <= 10;
-      allow update, delete: if false;
+      allow update: if request.auth == null &&
+        request.resource.data.playerName == resource.data.playerName &&
+        request.resource.data.score >= resource.data.score;
+      allow delete: if false;
     }
   }
 }

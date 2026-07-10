@@ -103,7 +103,7 @@ export const YamsGameContainer = () => {
         title={t('')}
       >
         <div className="text-center h-full">
-          <p className="text-xl my-6">{message?.text}</p>
+          <p className="text-xl my-6 font-content">{message?.text}</p>
           {playerRank===1 && (
             <div className="trophy mx-auto mt-5 mb-9 relative w-80">
               <div className="shine mx-auto overflow-hidden h-40">
@@ -141,7 +141,7 @@ export const YamsGameContainer = () => {
             </div>
           )}
           {playerRank && (
-            <p className="text-2xl mb-4">
+            <p className="text-2xl mb-4 font-content">
               {t('ui.leaderboardRank')}{playerRank}
             </p>
           )}
@@ -150,7 +150,7 @@ export const YamsGameContainer = () => {
               clearMessage() 
               setIsLeaderboardOpen(true)
             }}
-            className="action w-full max-w-30"
+            className="action w-full max-w-30 mb-8"
           >
             {t('ui.success')}
           </button>
@@ -160,11 +160,11 @@ export const YamsGameContainer = () => {
         <div className="game-over">
           <p className="mt-4 text-xl font-semibold text-primary-light text-center">{t('ui.gameOver')}</p>
           <h2 className="mt-10">Total</h2>
-          <p className="w-full text-center text-primary-light text-2xl">
+          <p className="w-full text-center text-primary-light text-2xl font-content">
             <span className="text-5xl">{totalScore}</span> points
           </p>
           {totalYahtzeeBonus > 0 && (
-            <p className="w-full text-center text-white text-xl">
+            <p className="w-full text-center text-white text-xl  font-content">
               ({calculateTotalScore(scoreBoard.getAllScores())} + {totalYahtzeeBonus} bonus {tGames('game.yams')})
             </p>
           )}
@@ -183,12 +183,13 @@ export const YamsGameContainer = () => {
         </div>
 
         <div className="flex flex-col gap-3 mb-6 mt-0">
-          <div className="flex flex-col">
+          <div className="flex flex-col font-content">
             <div id='cursor' className="max-w-60 w-full mx-auto relative">
               <span className={isCursorVisible ? 'anim text-white text-3xl right-5 absolute' : 'hidden' }>|</span>
             </div>
             <input
               type="text"
+              className="underline-0 outline-0"
               value={playerName}
               onChange={(e) => {
                 setPlayerName(e.target.value)
@@ -224,7 +225,7 @@ export const YamsGameContainer = () => {
       </div>
       <div className="flex flex-col flex-1 justify-center pb-20">
       <CategoriesScoredTop scoreBoard={scoreBoard}  />
-      <div className="flex flex-col justify-center">
+      <div className="flex flex-col justify-center z-1">
         
         <DiceDisplay
           dice={diceRoll?.getDice()}

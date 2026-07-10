@@ -21,7 +21,7 @@ export const MessageModal = ({ message, onClose }: MessageModalProps) => {
         : t('ui.messageModal.successTitle')}
     >
       <div className={`message-${message.type} p-4 rounded text-center`}>
-        <p className="mb-4">{message.text}</p>
+        <p className="mb-4 font-content">{message.text}</p>
         <button
           onClick={onClose}
           className="action md"

@@ -32,4 +32,38 @@ describe('Application unit tests (GetPlayerBestScoreUseCase)', () => {
       expect(result.isNewPlayer).toBe(true)
     })
   })
+
+  describe('3) Multiple scores for same player', () => {
+    it('3.1) should return only the highest score', async () => {
+      vi.mocked(mockRepository.getPlayerBestScore).mockResolvedValue(300)
+
+      const result = await useCase.execute({ playerName: 'Charlie' })
+
+      expect(result.bestScore).toBe(300)
+      expect(typeof result.bestScore).toBe('number') 
+    })
+
+    it('3.2) should return best score when player has multiple attempts', async () => {
+      
+      vi.mocked(mockRepository.getPlayerBestScore).mockResolvedValue(300)
+
+      const result = await useCase.execute({ playerName: 'Diana' })
+
+      expect(result.bestScore).toBe(300) 
+    })
+  })
+
+  describe('4) Duplicate scores (same value)', () => {
+    it('4.1) should return single value, not array', async () => {
+      
+      vi.mocked(mockRepository.getPlayerBestScore).mockResolvedValue(250)
+
+      const result = await useCase.execute({ playerName: 'Eve' })
+
+      expect(result.bestScore).toBe(250)
+      expect(Array.isArray(result.bestScore)).toBe(false)
+      
+    })
+  })
+
 })

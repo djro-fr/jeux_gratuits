@@ -41,11 +41,25 @@ export const ScoreBoard = ({
     return explainScore(selectedCategory, dice)
   }
 
+  const SCORE_ANIMATION_DURATION = 1000
+
+  const [animatingCategory, setAnimatingCategory] = useState<YamsCategory | null>(null)  
+
+  const handleScoreAndAnimate = () => {    
+    if (selectedCategory) {
+      setAnimatingCategory(selectedCategory)           
+      setTimeout(() => {
+        setAnimatingCategory(null)                      
+        onScore(selectedCategory)                       
+      }, SCORE_ANIMATION_DURATION)
+    }
+  }
+
   return (
     <div className="scoreboard">
         <div className="buttons">        
           <button 
-            className="action second icon" 
+            className="action second icon mb-4" 
             onClick={onClose}
           >
             <div>
@@ -70,9 +84,13 @@ export const ScoreBoard = ({
                 <button
                   onClick={() => !isScored && onSelectCategory(category)}
                   disabled={isScored}
-                  className={`category flex-1 ${isSelected ? 'selected' : ''} ${isScored ? 'scored' : ''}`}
+                  className={`category flex-1 
+                    ${isSelected ? 'selected' : ''} 
+                    ${isScored ? 'scored' : ''}
+                    ${animatingCategory === category ? 'animate-score-pop' : ''}
+                  `}
                 >
-                  <span className="name">{t(`categories.${category}`)}</span>
+                  <span className={`name ${isScored ? 'scored' : ''}`}>{t(`categories.${category}`)}</span>
                   <span className={`score 
                     ${!isScored && !isSelected ? 'animate-[blink_1s_linear_infinite]' : ''}`}>
                     {isScored && <strong>{currentScore}</strong>}
@@ -93,7 +111,7 @@ export const ScoreBoard = ({
                 
                 {isSelected && <button 
                   className="icon-green animate-[blink_.6s_linear_infinite]" 
-                  onClick={() => selectedCategory && onScore(selectedCategory)}
+                  onClick={handleScoreAndAnimate}
                 > 
                   <IconsSprite value="check" />                
                 </button>

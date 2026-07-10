@@ -12,6 +12,8 @@ import { useSaveScore } from "../hooks/useSaveScore"
 import { TrophiesSprite } from "@/shared/components/TrophiesSprite"
 import { LeaderboardModal } from "../components/LeaderboardModal"
 import { MessageModal } from "../components/MessageModal"
+import { CategoriesScoredTop } from "../components/CategoriesScoredTop"
+import { CategoriesScoredBottom } from "../components/CategoriesScoredBottom"
 
 export const YamsGameContainer = () => {
   const { t } = useTranslation("yams")
@@ -62,12 +64,14 @@ export const YamsGameContainer = () => {
       <>
         <ErrorModal error={error} onClose={() => setError(null)} />
         <div className="flex flex-1 flex-col justify-center items-center pb-16">
+          <CategoriesScoredTop scoreBoard={scoreBoard} />          
           <button className="action gold icon md" onClick={() => setHasRolled(true)}>
             <div>
               <IconsSprite value="roll" />
               {t("ui.rollDice")}
             </div>
           </button>
+          <CategoriesScoredBottom scoreBoard={scoreBoard}  />  
         </div>
       </>
     )
@@ -215,37 +219,51 @@ export const YamsGameContainer = () => {
   return (
     <>
       <ErrorModal error={error} onClose={() => setError(null)} />
+      <div className="text-center mt-1 text-primary-light font-bold">
+        {!!yamsTurn.getRollNumber() && <p className='text-primary-light text-lg'>{t('ui.rollNumber')} {yamsTurn.getRollNumber()}/3</p>}
+      </div>
+      <div className="flex flex-col flex-1 justify-center pb-20">
+      <CategoriesScoredTop scoreBoard={scoreBoard}  />
+      <div className="flex flex-col justify-center">
+        
+        <DiceDisplay
+          dice={diceRoll?.getDice()}
+          selectedIndices={selectedIndices}
+          onSelectDice={setSelectedIndices}
+          rollNumber={yamsTurn.getRollNumber()}
+        />
 
-      <DiceDisplay
-        dice={diceRoll?.getDice()}
-        selectedIndices={selectedIndices}
-        onSelectDice={setSelectedIndices}
-        rollNumber={yamsTurn.getRollNumber()}
-      />
-
-      <div className={yamsTurn.getRollNumber() < 3 ? "flex justify-center gap-x-4" : "flex w-[50%] mx-auto justify-center"}>
-        {yamsTurn.getRollNumber() < 3 && (
-          <button className="action flex-1 gold icon md w-full" onClick={() => handleKeepDice(selectedIndices)}>
+        <div className={yamsTurn.getRollNumber() < 3 ? "flex justify-center gap-x-4" : "flex w-[50%] mx-auto justify-center"}>
+          {yamsTurn.getRollNumber() < 3 && (
+            <button className="action flex-1 gold icon md w-full" onClick={() => handleKeepDice(selectedIndices)}>
+              <div>
+                <IconsSprite value="reroll" />
+                {t('ui.reroll')}
+              </div>
+            </button>
+          )}
+          <button className="action gold icon md w-full"   onClick={() => {
+            setShowScoreBoard(!showScoreBoard)
+          }}>
             <div>
-              <IconsSprite value="reroll" />
-              {t('ui.reroll')}
+              <IconsSprite value="score" />
+              {t('ui.toScore')}
             </div>
           </button>
-        )}
-        <button className="action gold icon md w-full"   onClick={() => {
-          setShowScoreBoard(!showScoreBoard)
-        }}>
-          <div>
-            <IconsSprite value="score" />
-            {t('ui.toScore')}
-          </div>
-        </button>
+        </div>
+        
+        {/* <div>
+          <button className="action ml-2" onClick={handleFillTestData}>
+            Fill Test Data (DEV)
+          </button>
+        </div> */}
       </div>
-      {/* <div>
-        <button className="action ml-2" onClick={handleFillTestData}>
-          Fill Test Data (DEV)
-        </button>
-      </div> */}
+
+      <CategoriesScoredBottom scoreBoard={scoreBoard}  />
+        
+      </div>
+
+
 
       {showScoreBoard && (
         <ScoreBoard

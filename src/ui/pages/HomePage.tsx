@@ -5,11 +5,13 @@ export const HomePage = () => {
   const { t } = useTranslation()
   const { t: tYams } = useTranslation('yams')
   return (
-    <div className='w-full flex flex-col justify-center items-center mb-5'>
+    <div className='flex flex-col w-full h-full mb-5 items-center'>
       <h1 className='mb-2 text-5xl'>{t('games')}</h1>
-      <img src="../assets/dicesplash.jpg" className='w-full max-w-150 mt-1 mb-5' alt="" />
-      <div className='flex w-full justify-center mb-10'>
-        <Link to="/game/yams">{tYams('title')}</Link>
+      <div className='flex flex-col justify-center flex-1 h-[10vh] mb-18'>
+        <img src="../assets/dicesplash.jpg" className='max-h-[75vh] mt-1 mb-2' alt="" />
+        <div className='flex w-full justify-center'>
+          <Link to="/game/yams">{tYams('title')}</Link>
+        </div>
       </div>
     </div>
   )

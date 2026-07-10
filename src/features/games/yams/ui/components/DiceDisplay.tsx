@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import type { Die } from '../../domain/valueObjects/Die'
 import { DiceSprite } from '@/shared/components/DiceSprite'
 import { useState } from 'react'
@@ -18,7 +17,7 @@ export const DiceDisplay = ({
   rollNumber
 }: DiceDisplayProps) => {
 
-  const { t } = useTranslation('yams') 
+  
 
   const handleDiceClick = (index: number) => {
     if (selectedIndices.includes(index)) {
@@ -46,8 +45,7 @@ export const DiceDisplay = ({
   }
 
   return (
-    <div className="dice-display">
-      <div className="text-center mt-1">{!!rollNumber && <p className='text-primary-light'>{t('ui.rollNumber')} {rollNumber}/3</p>}</div>
+    <div className="dice-display">     
       
       <div className="dice-container">
         {dice?.map((die, index) => (          

@@ -42,6 +42,11 @@
       75% { opacity: .2; transform: rotate(-90deg) scale(80%);  } 
       100% { opacity: .3; transform: rotate(0deg) scale(100%); }
   }  
+  @keyframes score-pop {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+
 }
 
 @layer base{
@@ -56,12 +61,16 @@
   }
   #root {   
     @apply h-full w-full;
+    div.layout{      
+      @apply h-full w-full;    
+      main{
+        @apply flex h-full w-full p-0;
+        font-family: var(--font-content);
+      }
+      
+    }
   }
-  main{
-    @apply flex h-auto p-0;
-    font-family: var(--font-content);
-  }
-  
+
   h1{
     font-family: var(--font-title);
   }
@@ -109,8 +118,11 @@
 }
 
 @layer components{
-  div.yams-page{
-    @apply relative flex flex-col flex-1 h-auto min-h-screen pb-0;
+  .animate-score-pop {
+    animation: score-pop 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  div#yams-page{
+    @apply relative flex flex-col flex-1 h-full min-h-screen pb-0;
     h1{      
       @apply text-white text-5xl text-center;
     }
@@ -120,14 +132,8 @@
     .game-over h2{
       @apply max-w-65 mx-auto;
     }
-    .dice-display{
-      @apply text-primary-light font-bold ;
-      p{
-        @apply text-lg;
-      }
-    }     
     button.action{
-      @apply bg-primary rounded-4xl text-lg text-white font-bold py-2 px-4 mb-5;    
+      @apply bg-primary rounded-4xl text-lg text-white font-bold py-2 px-4;    
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
       font-family: var(--font-action);
       &:hover { opacity: .8;}
@@ -168,7 +174,7 @@
       }
     }
     .dice-container {
-      @apply max-w-300 grid grid-cols-5 gap-x-[2vw] mb-[4vw] mt-40 mx-auto;
+      @apply max-w-300 grid grid-cols-5 gap-x-[2vw] mb-[4vw] mx-auto;
       
       .die {
         box-shadow: 0 12px 6px rgba(0, 0, 0, 0.15);
@@ -205,13 +211,17 @@
         div.line-score{
          @apply relative flex items-center gap-1 ;       
          button.help{
-           @apply absolute block right-16 top-2 w-6 h-6 m-0 p-0 text-center rounded-4xl border-gray-300 border text-gray-400 font-action font-bold;
+           @apply absolute block right-16 top-1 w-8 h-8 m-0 p-0 text-center rounded-4xl border-gray-300 border text-gray-400 font-action font-normal text-xl;
          }
         }
         button.category{
           @apply grid grid-cols-2 h-10 px-4 items-center border-t border-x border-gray-light bg-white;  
           span.name{
             @apply text-left font-script font-normal text-base;
+            &.scored{
+              @apply underline -underline-offset-5 opacity-45;
+              text-decoration-skip-ink: none;           
+            }
           }     
           span.score{
             @apply text-right pr-0 font-script font-normal text-lg text-tertiary;   
@@ -303,6 +313,10 @@
 @layer utilities {
   .shadow-soft {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+  .strike-through{
+    @apply underline -underline-offset-5;
+    text-decoration-skip-ink: none;
   }
   .glow {
     filter: drop-shadow(0 0 8px var(--color-primary));

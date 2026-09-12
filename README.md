@@ -3,6 +3,8 @@
 Free mini-games built with modern web technologies.
 Built as a portfolio project to demonstrate Clean Architecture, Testing, and Modern React practices.
 
+https://jeuxgratis-4c9d4.web.app
+
 ## Games
 
 - **Yam's (Yahtzee)**, dice game:
@@ -27,6 +29,30 @@ Built as a portfolio project to demonstrate Clean Architecture, Testing, and Mod
 - **Backend/Database:** Firebase Firestore with composite indexes
 - **Mobile:** Capacitor (Android via Android Studio)
 - **Code Quality:** ESLint, SonarLint
+
+## Deployment
+
+The app is deployed via **Firebase Hosting**, using the same Firebase project as the Firestore leaderboard backend.
+
+### Manual deployment
+
+```bash
+npm run build
+firebase deploy --only hosting
+```
+
+This builds the Vite production bundle (`dist/`) and pushes it to Firebase Hosting.
+
+### Configuration
+
+- **Public directory:** `dist` (Vite build output)
+- **SPA rewrites:** enabled (all routes redirect to `index.html`)
+- **Hosting config:** `firebase.json`
+
+### Live URL
+
+- Web: `https://jeuxgratis-4c9d4.web.app`
+- Android: distributed via Google Play internal/closed testing tracks
 
 ## Security
 
@@ -280,4 +306,4 @@ service cloud.firestore {
 - Full test coverage across all layers (Domain → Infrastructure → UI)
 - Production-ready Firestore configuration with indexes
 
-**Last Updated:** July 10, 2026
+**Last Updated:** September 12, 2026

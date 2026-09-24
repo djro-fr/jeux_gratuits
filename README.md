@@ -103,17 +103,25 @@ npm run build
 #### Step 3: Build Android
 
 ```bash
-# Via Capacitor (recommended)
-npx cap build android
+# Via Gradle (recommended)
+cd android
+./gradlew clean && ./gradlew build -DskipSigning
 
-# Or direct Gradle
-cd android && gradle build
+# Or sync first if web assets changed
+cd ..
+npx cap sync android
+cd android
+./gradlew build -DskipSigning
 ```
 
 **What happens:**
 
 - Gradle reads `package.json` at top-level evaluation (before `android {}` block)
 - Injects version into APK/AAB `versionName`
+
+**Requirements:**
+
+- `JAVA_HOME` must point to JDK 17+ (currently Temurin 25.0.4)
 
 **Result:**
 
@@ -122,8 +130,8 @@ cd android && gradle build
 ### Complete Build (All Platforms)
 
 ```bash
-npm run build && npx cap build android
-```
+npm run build && cd android && ./gradlew build -DskipSigning
+``````
 
 All platforms sync in one command.
 

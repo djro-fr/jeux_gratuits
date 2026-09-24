@@ -1,4 +1,19 @@
+import groovy.json.JsonSlurper
 apply plugin: 'com.android.application'
+def packageJson = file('../../package.json')
+if (packageJson.exists()) {
+    try {
+        def parsed = new JsonSlurper().parse(packageJson)
+        rootProject.ext.appVersion = parsed.version
+        println "✓ App version from package.json: ${rootProject.ext.appVersion}"
+    } catch (Exception e) {
+        logger.warn("Failed to parse package.json: ${e.message}")
+        rootProject.ext.appVersion = "0.0.0"
+    }
+} else {
+    logger.warn("package.json not found at ${packageJson.absolutePath}")
+    rootProject.ext.appVersion = "0.0.0"
+}
 
 android {
     namespace = "com.jeuxgratis.game"
@@ -8,7 +23,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 8
-        versionName "1.1.4"
+        versionName rootProject.ext.appVersion 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

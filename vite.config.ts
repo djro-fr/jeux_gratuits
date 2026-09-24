@@ -2,9 +2,15 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
+import { readFileSync } from 'node:fs';
+
+const pkg = JSON.parse(readFileSync('./package.json', 'utf-8'));
 
 
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
   plugins: [
     react(),
     tailwindcss(),{
@@ -31,11 +37,12 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@/core': path.resolve(__dirname, './src/core'),
-      '@/features': path.resolve(__dirname, './src/features'),
-      '@/shared': path.resolve(__dirname, './src/shared'),
-      '@/ui': path.resolve(__dirname, './src/ui'),
-      '@/di': path.resolve(__dirname, './src/di'),
+      '@': path.resolve(import.meta.dirname, './src'),  
+      '@/core': path.resolve(import.meta.dirname, './src/core'),
+      '@/features': path.resolve(import.meta.dirname, './src/features'),
+      '@/shared': path.resolve(import.meta.dirname, './src/shared'),
+      '@/ui': path.resolve(import.meta.dirname, './src/ui'),
+      '@/di': path.resolve(import.meta.dirname, './src/di'),
     },
   }
 })

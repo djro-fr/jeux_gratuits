@@ -3,7 +3,7 @@
 Free mini-games built with modern web technologies.
 Built as a portfolio project to demonstrate Clean Architecture, Testing, and Modern React practices.
 
-https://jeuxgratis-4c9d4.web.app
+Demo : [https://jeuxgratis-4c9d4.web.app](https://jeuxgratis-4c9d4.web.app)
 
 ## Games
 
@@ -21,20 +21,137 @@ https://jeuxgratis-4c9d4.web.app
 ## Tech Stack
 
 - **Frontend:** React 19 + TypeScript + Vite
+- **Backend/Database:** Firebase Firestore with composite indexes
 - **Styling:** Tailwind CSS v4
 - **Testing:** Vitest + React Testing Library - Unit & Integration Tests
 - **Internationalization:** react-i18next (FR/EN) with namespaces
 - **Architecture:** Clean Architecture with Domain-Driven Design
 - **State Management:** React Hooks + Custom Hooks
-- **Backend/Database:** Firebase Firestore with composite indexes
 - **Mobile:** Capacitor (Android via Android Studio)
 - **Code Quality:** ESLint, SonarLint
+
+## Development
+
+### Setup
+
+```bash
+npm install
+npm run dev
+```
+
+Vite dev server starts at `http://localhost:5173`
+
+### Scripts
+
+```bash
+# Testing
+npm run test          # Run tests with Vitest
+npm test -- --ui     # Interactive test UI
+
+# Building
+npm run prebuild      # Update version in README and generate config.json
+npm run build         # TypeScript check + Vite bundle
+npm run lint          # ESLint validation
+
+# Preview
+npm run preview       # Preview production build locally
+```
+
+## Build & Versioning
+
+### Single Source of Truth
+
+All versions (React frontend, Android app, documentation) are managed from one place: `package.json`
+
+```json
+{
+  "version": "2.0.0"
+}
+```
+
+### Version Sync Workflow
+
+#### Step 1: Update the Version
+
+Edit `package.json`:
+
+```bash
+# Example: bump from 2.0.0 to 2.1.0
+"version": "2.1.0"
+```
+
+#### Step 2: Build Frontend (React + Vite)
+
+```bash
+npm run build
+```
+
+**Automatic steps:**
+
+1. **Pre-build hook** runs: `tsx scripts/inject-version.ts`
+   - Updates `README.md` — replaces `MVP vX.X.X` with current version
+
+2. **Build** compiles:
+   - TypeScript validation & type checking (`tsc -b`)
+   - Vite bundling with `__APP_VERSION__` injected via `define` in `vite.config.ts`
+
+**Results:**
+
+- ✅ React components access version via `config.version` (`src/config.ts`)
+- ✅ README.md MVP version is up-to-date
+
+#### Step 3: Build Android
+
+```bash
+# Via Capacitor (recommended)
+npx cap build android
+
+# Or direct Gradle
+cd android && gradle build
+```
+
+**What happens:**
+
+- Gradle reads `package.json` at top-level evaluation (before `android {}` block)
+- Injects version into APK/AAB `versionName`
+
+**Result:**
+
+- ✅ Android app has the correct version
+
+### Complete Build (All Platforms)
+
+```bash
+npm run build && npx cap build android
+```
+
+All platforms sync in one command.
+
+### Access Version in Code
+
+**React:**
+
+```typescript
+// Via injected constant
+declare const __APP_VERSION__: string;
+console.log(__APP_VERSION__); // "2.1.0"
+
+// Or from config.json
+import config from '@/config.json';
+console.log(config.version); // "2.1.0"
+```
+
+**Android (Kotlin):**
+
+```kotlin
+val version = BuildConfig.VERSION_NAME // "2.1.0"
+```
 
 ## Deployment
 
 The app is deployed via **Firebase Hosting**, using the same Firebase project as the Firestore leaderboard backend.
 
-### Manual deployment
+### Manual Deployment
 
 ```bash
 npm run build
@@ -285,7 +402,7 @@ service cloud.firestore {
 
 ## Status
 
-**Complete - MVP v1.1.4** :
+**Complete - MVP v2.0.0** :
 
 - ✅ Yams game with full rule implementation (13 categories)
 - ✅ Firebase Leaderboard (Firestore with upsert + duplicate prevention)
@@ -295,8 +412,9 @@ service cloud.firestore {
 - ✅ Mobile responsive UI (Web + Android via Capacitor)
 - ✅ Score marking animation (scale pop with interaction blocking)
 - ✅ Best-score-only leaderboard
-- ✅ Android app v1.1.4 with native launcher icons
+- ✅ Android app with native launcher icons
 - ✅ Firestore composite indexes & security rules
+- ✅ Version management from single source (package.json)
 
 **Key Achievements:**
 
@@ -305,5 +423,6 @@ service cloud.firestore {
 - Scale animation with timeout-based interaction blocking
 - Full test coverage across all layers (Domain → Infrastructure → UI)
 - Production-ready Firestore configuration with indexes
+- Automated version sync (React/Android/Docs)
 
-**Last Updated:** September 12, 2026
+**Last Updated:** September 24, 2026

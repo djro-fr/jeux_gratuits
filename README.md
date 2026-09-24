@@ -49,7 +49,7 @@ npm run test          # Run tests with Vitest
 npm test -- --ui     # Interactive test UI
 
 # Building
-npm run prebuild      # Update version in README and generate config.json
+npm run prebuild      # Update MVP version in README.md
 npm run build         # TypeScript check + Vite bundle
 npm run lint          # ESLint validation
 
@@ -103,16 +103,16 @@ npm run build
 #### Step 3: Build Android
 
 ```bash
-# Via Gradle (recommended)
-cd android
-./gradlew clean && ./gradlew build -DskipSigning
-
-# Or sync first if web assets changed
-cd ..
+# 1. Sync web assets to Android
 npx cap sync android
-cd android
-./gradlew build -DskipSigning
+
+# 2. Open Android Studio
+npx cap open android
 ```
+
+Then in Android Studio:
+
+- **Build → Build Bundle(s) / APK(s) → Build APK(s)**
 
 **What happens:**
 
@@ -121,7 +121,7 @@ cd android
 
 **Requirements:**
 
-- `JAVA_HOME` must point to JDK 17+ (currently Temurin 25.0.4)
+- Android Studio with its embedded JDK (no manual JDK configuration needed)
 
 **Result:**
 
@@ -130,22 +130,29 @@ cd android
 ### Complete Build (All Platforms)
 
 ```bash
-npm run build && cd android && ./gradlew build -DskipSigning
-``````
+# Frontend
+npm run build
 
-All platforms sync in one command.
+# Android
+npx cap sync android
+npx cap open android
+# Then build from Android Studio
+```
 
 ### Access Version in Code
 
 **React:**
 
 ```typescript
-// Via injected constant
+// src/config.ts
 declare const __APP_VERSION__: string;
-console.log(__APP_VERSION__); // "2.1.0"
 
-// Or from config.json
-import config from '@/config.json';
+export const config = {
+  version: __APP_VERSION__,
+};
+
+// In a component
+import { config } from '../../config';
 console.log(config.version); // "2.1.0"
 ```
 

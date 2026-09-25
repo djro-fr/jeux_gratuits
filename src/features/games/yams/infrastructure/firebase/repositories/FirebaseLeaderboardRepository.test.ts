@@ -30,8 +30,10 @@ describe('Infrastructure unit tests (FirebaseLeaderboardRepository)', () => {
   let repository: FirebaseLeaderboardRepository
 
   beforeEach(() => {
-    repository = new FirebaseLeaderboardRepository()
     vi.clearAllMocks()
+    vi.spyOn(console, 'log').mockImplementation(() => {})
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    repository = new FirebaseLeaderboardRepository()
   })
 
   describe('1) getTopScores', () => {
@@ -205,4 +207,10 @@ describe('Infrastructure unit tests (FirebaseLeaderboardRepository)', () => {
       expect(where).toHaveBeenCalledWith('score', '>', 250)
     })
   })
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+
 })

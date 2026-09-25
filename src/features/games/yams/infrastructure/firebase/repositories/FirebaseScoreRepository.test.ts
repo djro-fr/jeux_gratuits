@@ -29,8 +29,10 @@ describe('Infrastructure unit tests (FirebaseScoreRepository)', () => {
   let repository: FirebaseScoreRepository
 
   beforeEach(() => {
-    repository = new FirebaseScoreRepository()
     vi.clearAllMocks()
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.spyOn(console, 'log').mockImplementation(() => {})
+    repository = new FirebaseScoreRepository()
   })
 
   describe('1) New player', () => {
@@ -180,4 +182,9 @@ describe('Infrastructure unit tests (FirebaseScoreRepository)', () => {
       await expect(repository.save(scoreData)).rejects.toThrow(SaveScoreError)
     })
   })
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
 })

@@ -1,6 +1,5 @@
 import { collection, query, orderBy, limit, getDocs, onSnapshot, where } from "firebase/firestore"
 import { db } from "../config"
-import i18n from "@/shared/i18n/i18n"
 
 import type { ILeaderboardRepository, LeaderboardScore } from "@/features/games/yams/domain/repositories/ILeaderboardRepository"
 import { LeaderboardMapper, type FirestoreLeaderboardEntry } from "../../mappers/LeaderboardMapper"
@@ -21,8 +20,7 @@ export class FirebaseLeaderboardRepository implements ILeaderboardRepository {
       
       const snapshot = await getDocs(q)
       
-      if (snapshot.empty) {        
-        console.info(i18n.t('ui.noScores', { ns: 'yams' }))        
+      if (snapshot.empty) {                       
         return []
       }
       
@@ -31,14 +29,10 @@ export class FirebaseLeaderboardRepository implements ILeaderboardRepository {
         id: doc.id
       }))
       const leaderboard = LeaderboardMapper.toDomainArray(entries)
-            
-      console.log(i18n.t('ui.leaderboardLoaded', { ns: 'yams', count: leaderboard.length }))
       
       return leaderboard
     } catch (error) {
-      const errorName = error instanceof Error ? error.name : 'unknownError'      
-      const errorMessage = i18n.t(`errors.${errorName}`, { ns: 'yams' })
-      console.error(errorMessage, error)
+            
       throw new LeaderboardFetchError({
         reason: 'Failed to fetch leaderboard from Firestore',
         limit: limitCount,
@@ -82,10 +76,8 @@ export class FirebaseLeaderboardRepository implements ILeaderboardRepository {
       )
       
       return unsubscribe
-    } catch (error) {
-      const errorName = error instanceof Error ? error.name : 'unknownError'
-      const errorMessage = i18n.t(`errors.${errorName}`, { ns: 'yams' })
-      console.error(errorMessage, error)      
+    } catch {
+    
       callback([])
       return () => {}
     }
@@ -102,13 +94,9 @@ export class FirebaseLeaderboardRepository implements ILeaderboardRepository {
       const snapshot = await getDocs(q)
       const scoresAbove = snapshot.size
       
-      console.log(i18n.t('ui.playerRankCalculated', { ns: 'yams', rank: scoresAbove + 1 }))
       
       return scoresAbove + 1
     } catch (error) {
-      const errorName = error instanceof Error ? error.name : 'unknownError'
-      const errorMessage = i18n.t(`errors.${errorName}`, { ns: 'yams' })
-      console.error(errorMessage, error)
       throw new LeaderboardFetchError({
         reason: 'Failed to calculate player rank',
         originalError: error instanceof Error ? error.message : String(error)
@@ -129,18 +117,14 @@ export class FirebaseLeaderboardRepository implements ILeaderboardRepository {
       const snapshot = await getDocs(q)
       
       if (snapshot.empty) {
-        console.log(i18n.t('ui.noScoresForPlayer', { ns: 'yams' }))
         return null
       }
       
       const bestScore = snapshot.docs[0].data().score
-      console.log(i18n.t('ui.playerBestScore', { ns: 'yams', score: bestScore }))
       
       return bestScore
     } catch (error) {
-      const errorName = error instanceof Error ? error.name : 'unknownError'
-      const errorMessage = i18n.t(`errors.${errorName}`, { ns: 'yams' })
-      console.error(errorMessage, error)
+
       throw new LeaderboardFetchError({
         reason: 'Failed to fetch player best score',
         playerName,

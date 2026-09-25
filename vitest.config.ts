@@ -6,11 +6,11 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@/core': path.resolve(__dirname, './src/core'),
-      '@/features': path.resolve(__dirname, './src/features'),
-      '@/shared': path.resolve(__dirname, './src/shared'),
-      '@/ui': path.resolve(__dirname, './src/ui'),
-      '@/di': path.resolve(__dirname, './src/di'),
+      '@/core': path.resolve(import.meta.dirname, './src/core'),
+      '@/features': path.resolve(import.meta.dirname, './src/features'),
+      '@/shared': path.resolve(import.meta.dirname, './src/shared'),
+      '@/ui': path.resolve(import.meta.dirname, './src/ui'),
+      '@/di': path.resolve(import.meta.dirname, './src/di'),
     },
   },
   test: {

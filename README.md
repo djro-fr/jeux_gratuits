@@ -46,7 +46,6 @@ Vite dev server starts at `http://localhost:5173`
 ```bash
 # Testing
 npm run test          # Run tests with Vitest
-npm test -- --ui     # Interactive test UI
 
 # Building
 npm run prebuild      # Update MVP version in README.md

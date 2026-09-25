@@ -18,12 +18,18 @@
 
   @keyframes slideInRotate {
     0% { 
-      transform: translateX(-100%) rotate(-180deg);
+      transform: translateX(-100%) translateY(0px) rotate(-180deg);
+      opacity: 0;
+    }
+    50% {
+      transform: translateX(-20%) translateY(-80px) rotate(-90deg);
+      opacity: .4;
     }
     100% {         
-      transform: translateX(0) rotate(0deg); 
+      transform: translateX(0) translateY(0) rotate(0deg);
+      opacity: 1;
     }
-  }  
+  }
   @keyframes blink {
       0% { opacity: 1; }      
       100% { opacity: 0.2; }

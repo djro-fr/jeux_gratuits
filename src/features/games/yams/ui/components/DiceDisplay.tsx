@@ -61,6 +61,7 @@ export const DiceDisplay = ({
         >
         <DiceSprite 
           value={die.getValue() as 1 | 2 | 3 | 4 | 5 | 6}
+          isAnimating={isAnimating(index)} 
         />
         </button>
         ))}
